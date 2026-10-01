@@ -1,0 +1,32 @@
+prep 9
+raw P    rel 0.0751 tke 0.4679 mvpe 0.0605
+raw Em   rel 0.1410 tke 1.0000 mvpe 0.1166
+raw El   rel 0.1703 tke 1.0000 mvpe 0.1622
+raw dmd  rel 0.1433 tke 0.7529 mvpe 0.1171
+v17
+   AT[rel +0.000 tke +0.000 mvpe +0.000 sps +0.000 T +0.0000 comp +0.000]  abs sps 39.39 T 0.5409 rel 0.1065 tke 0.5628
+   A [rel +0.000 tke +0.000 mvpe +0.000 sps +0.000 T +0.0000 comp +0.000]  abs sps 36.06 T 0.5102 rel 0.1221 tke 0.6238
+v8
+   AT[rel -0.070 tke -1.749 mvpe -0.060 sps -4.006 T -0.0494 comp -1.326]  abs sps 35.39 T 0.4915 rel 0.1081 tke 0.6216
+   A [rel -0.081 tke -1.553 mvpe -0.065 sps -4.311 T -0.0563 comp -1.401]  abs sps 31.75 T 0.4540 rel 0.1240 tke 0.6784
+pred[PEl] +v17 centre/width
+   AT[rel -0.030 tke +0.908 mvpe +0.038 sps +0.213 T +0.0000 comp +0.129]  abs sps 39.61 T 0.5409 rel 0.1072 tke 0.5333
+   A [rel -0.017 tke +0.952 mvpe +0.049 sps +0.218 T +0.0000 comp +0.141]  abs sps 36.28 T 0.5102 rel 0.1225 tke 0.5914
+    lead0/lead19 u weights (sextile 0,5): [[-0.451, 1.397], [0.457, 0.612]] [[-0.131, 0.135], [1.457, -0.063]]
+pred[PEl+dmd] +v17 centre/width
+   AT[rel -0.029 tke +0.921 mvpe +0.039 sps +0.217 T +0.0000 comp +0.131]  abs sps 39.61 T 0.5409 rel 0.1072 tke 0.5329
+   A [rel -0.015 tke +0.965 mvpe +0.049 sps +0.221 T +0.0000 comp +0.144]  abs sps 36.28 T 0.5102 rel 0.1225 tke 0.5910
+    lead0/lead19 u weights (sextile 0,5): [[-0.452, 1.314, 0.103], [0.396, 0.482, 0.226]] [[-0.132, 0.133, -0.105], [1.465, -0.077, 0.217]]
+pred[PEl+lin] +v17 centre/width
+   AT[rel -0.027 tke +0.922 mvpe +0.039 sps +0.219 T +0.0000 comp +0.133]  abs sps 39.61 T 0.5409 rel 0.1071 tke 0.5329
+   A [rel -0.013 tke +0.962 mvpe +0.050 sps +0.223 T +0.0000 comp +0.145]  abs sps 36.28 T 0.5102 rel 0.1224 tke 0.5911
+    lead0/lead19 u weights (sextile 0,5): [[-0.454, 1.48, -0.282, -0.03], [0.391, 0.718, -0.143, -0.015]] [[-0.132, 0.18, -0.154, -0.015], [1.463, -0.082, 0.049, 0.005]]
+pred[PEl+dmd+lin] +v17 centre/width
+   AT[rel -0.027 tke +0.927 mvpe +0.039 sps +0.220 T +0.0000 comp +0.134]  abs sps 39.61 T 0.5409 rel 0.1071 tke 0.5327
+   A [rel -0.013 tke +0.969 mvpe +0.049 sps +0.224 T +0.0000 comp +0.146]  abs sps 36.28 T 0.5102 rel 0.1224 tke 0.5909
+    lead0/lead19 u weights (sextile 0,5): [[-0.454, 1.457, 0.026, -0.275, -0.03], [0.367, 0.613, 0.142, -0.111, -0.012]] [[-0.132, 0.185, 0.053, -0.168, -0.016], [1.465, -0.076, 0.22, -0.003, -0.0]]
+pred[all] +v17 centre/width
+   AT[rel -0.021 tke +0.984 mvpe +0.043 sps +0.241 T +0.0000 comp +0.148]  abs sps 39.63 T 0.5409 rel 0.1070 tke 0.5309
+   A [rel -0.005 tke +1.016 mvpe +0.054 sps +0.242 T +0.0000 comp +0.159]  abs sps 36.30 T 0.5102 rel 0.1223 tke 0.5893
+    lead0/lead19 u weights (sextile 0,5): [[-0.452, 1.596, -0.522, -0.029, 0.048, 0.004], [0.253, 1.104, -0.561, -0.07, 0.119, 0.013]] [[-0.132, 0.182, 0.013, 0.045, -0.175, -0.016], [1.47, -0.119, 0.109, 0.133, -0.04, -0.004]]
+done 340

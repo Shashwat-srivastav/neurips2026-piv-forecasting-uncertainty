@@ -1,0 +1,14 @@
+lead  1: rel P~Y[t] 0.0583  last~Y[t] 0.0522  P[t]~Y[t+1] 0.0749 | incr corr 0.536 amp(std pred/true) 1.236 LS slope true-on-pred 0.434 | ch0 r 0.478 amp 1.267 | ch1 r 0.832 amp 1.090
+lead  2: rel P~Y[t] 0.0598  last~Y[t] 0.0913  P[t]~Y[t+1] 0.0755  P[t]~Y[t-1] 0.0657 | incr corr 0.785 amp(std pred/true) 0.959 LS slope true-on-pred 0.818 | ch0 r 0.742 amp 0.955 | ch1 r 0.939 amp 0.973
+lead  3: rel P~Y[t] 0.0635  last~Y[t] 0.1238  P[t]~Y[t+1] 0.0764  P[t]~Y[t-1] 0.0696 | incr corr 0.865 amp(std pred/true) 0.923 LS slope true-on-pred 0.937 | ch0 r 0.834 amp 0.907 | ch1 r 0.963 amp 0.974
+lead  5: rel P~Y[t] 0.0675  last~Y[t] 0.1644  P[t]~Y[t+1] 0.0784  P[t]~Y[t-1] 0.0749 | incr corr 0.914 amp(std pred/true) 0.926 LS slope true-on-pred 0.987 | ch0 r 0.892 amp 0.906 | ch1 r 0.976 amp 0.980
+lead 10: rel P~Y[t] 0.0739  last~Y[t] 0.1901  P[t]~Y[t+1] 0.0830  P[t]~Y[t-1] 0.0801 | incr corr 0.923 amp(std pred/true) 0.920 LS slope true-on-pred 1.002 | ch0 r 0.900 amp 0.896 | ch1 r 0.977 amp 0.979
+lead 20: rel P~Y[t] 0.0946  last~Y[t] 0.1721  P[t]~Y[t-1] 0.0954 | incr corr 0.837 amp(std pred/true) 0.812 LS slope true-on-pred 1.031 | ch0 r 0.813 amp 0.781 | ch1 r 0.926 amp 0.924
+lead 1 u by sextile: s1: mse P/last 14.12 P/mean 6.54 r 0.10 | s2: mse P/last 6.64 P/mean 2.51 r 0.17 | s3: mse P/last 4.08 P/mean 1.27 r 0.25 | s4: mse P/last 2.17 P/mean 0.62 r 0.35 | s5: mse P/last 1.39 P/mean 0.30 r 0.44 | s6: mse P/last 0.96 P/mean 0.14 r 0.59
+lead 2 u by sextile: s1: mse P/last 5.51 P/mean 3.96 r 0.18 | s2: mse P/last 2.52 P/mean 1.68 r 0.32 | s3: mse P/last 1.45 P/mean 0.90 r 0.46 | s4: mse P/last 0.81 P/mean 0.47 r 0.60 | s5: mse P/last 0.55 P/mean 0.28 r 0.70 | s6: mse P/last 0.34 P/mean 0.15 r 0.82
+ch 0 mean incr pred -0.00058 true 0.00002 | rms pred 0.01567 true 0.01236 | rms of pred-true incr 0.01460
+   highpass rms pred incr 0.00885 true incr 0.00591; X[-1]-X[-2] 0.00593
+ch 1 mean incr pred -0.00009 true -0.00002 | rms pred 0.00653 true 0.00599 | rms of pred-true incr 0.00367
+   highpass rms pred incr 0.00267 true incr 0.00191; X[-1]-X[-2] 0.00191
+ch 0 highpass rms: P0 0.01238 P1 0.01218 Y0 0.01447 Y1 0.01447 X[-1] 0.01446; corr hp(P0),hp(Y0) 0.790 hp(X-1),hp(Y0) 0.916
+ch 1 highpass rms: P0 0.00266 P1 0.00256 Y0 0.00348 Y1 0.00347 X[-1] 0.00348; corr hp(P0),hp(Y0) 0.670 hp(X-1),hp(Y0) 0.850

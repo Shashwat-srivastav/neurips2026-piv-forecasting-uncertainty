@@ -1,0 +1,137 @@
+prep 9
+band fit sl6 A  g=0.8: SELECT T 0.4677
+band fit sl6 A  g=0.9: SELECT T 0.4824
+band fit sl6 A  g=1.0: SELECT T 0.4913
+band fit sl6 A  g=1.1: SELECT T 0.4955
+band fit sl6 A  g=1.2: SELECT T 0.4960
+  best g 1.2 tab t0 u [[0.  1. ]
+ [0.  1. ]
+ [0.  1. ]
+ [0.  1. ]
+ [0.1 0.9]
+ [0.5 0.5]] t19 u [[0.  0.2]
+ [0.  0.1]
+ [0.  0.1]
+ [0.4 0.1]
+ [1.  0. ]
+ [1.  0. ]]
+band fit sl6 B  g=0.8: SELECT T 0.5132
+band fit sl6 B  g=0.9: SELECT T 0.5226
+band fit sl6 B  g=1.0: SELECT T 0.5266
+band fit sl6 B  g=1.1: SELECT T 0.5262
+band fit sl6 B  g=1.2: SELECT T 0.5224
+  best g 1.0 tab t0 u [[0.  0.9]
+ [0.  0.9]
+ [0.  0.9]
+ [0.  0.9]
+ [0.1 0.9]
+ [0.4 0.6]] t19 u [[0.  0.2]
+ [0.  0.1]
+ [0.  0. ]
+ [0.  0.1]
+ [0.  0.1]
+ [1.  0. ]]
+band fit sl6 AB g=0.8: SELECT T 0.4884
+band fit sl6 AB g=0.9: SELECT T 0.5006
+band fit sl6 AB g=1.0: SELECT T 0.5071
+band fit sl6 AB g=1.1: SELECT T 0.5092
+band fit sl6 AB g=1.2: SELECT T 0.5077
+  best g 1.1 tab t0 u [[0.  1. ]
+ [0.  1. ]
+ [0.  1. ]
+ [0.  1. ]
+ [0.1 0.9]
+ [0.4 0.6]] t19 u [[0.  0.2]
+ [0.  0.1]
+ [0.  0.1]
+ [0.  0.1]
+ [0.7 0. ]
+ [1.  0. ]]
+band fit d26 A  g=0.8: SELECT T 0.4642
+band fit d26 A  g=0.9: SELECT T 0.4792
+band fit d26 A  g=1.0: SELECT T 0.4886
+band fit d26 A  g=1.1: SELECT T 0.4932
+band fit d26 A  g=1.2: SELECT T 0.4941
+  best g 1.2 tab t0 u [[0.  1. ]
+ [0.  1. ]
+ [0.  1. ]
+ [0.  1. ]
+ [0.3 0.7]
+ [0.3 0.7]] t19 u [[0.  0.2]
+ [0.  0.1]
+ [0.  0. ]
+ [0.7 0.1]
+ [1.  0. ]
+ [1.  0. ]]
+band fit d26 B  g=0.8: SELECT T 0.5038
+band fit d26 B  g=0.9: SELECT T 0.5142
+band fit d26 B  g=1.0: SELECT T 0.5192
+band fit d26 B  g=1.1: SELECT T 0.5198
+band fit d26 B  g=1.2: SELECT T 0.5170
+  best g 1.1 tab t0 u [[0.  1. ]
+ [0.  0.9]
+ [0.  0.9]
+ [0.1 0.8]
+ [0.2 0.8]
+ [0.2 0.8]] t19 u [[0.  0.1]
+ [0.  0.1]
+ [0.  0.1]
+ [0.  0.1]
+ [0.1 0.3]
+ [0.  0.3]]
+band fit d26 AB g=0.8: SELECT T 0.4819
+band fit d26 AB g=0.9: SELECT T 0.4948
+band fit d26 AB g=1.0: SELECT T 0.5021
+band fit d26 AB g=1.1: SELECT T 0.5049
+band fit d26 AB g=1.2: SELECT T 0.5041
+  best g 1.1 tab t0 u [[0.  1. ]
+ [0.  1. ]
+ [0.  1. ]
+ [0.  1. ]
+ [0.2 0.8]
+ [0.2 0.8]] t19 u [[0.  0.1]
+ [0.  0.1]
+ [0.  0.1]
+ [0.  0.1]
+ [0.9 0.1]
+ [1.  0. ]]
+v8                                 A[rel +0.000 tke +0.000 mvpe +0.000 sps +0.000 T +0.000 comp +0.000]  B[rel +0.000 tke +0.000 mvpe +0.000 sps +0.000 T +0.000 comp +0.000]  (A sps 31.75 T 0.4540 | B sps 32.86 T 0.4565)
+ v8 A {'rel': 0.124, 'tke': 0.6784, 'mvpe': 0.1, 'sps': 31.7502, 'T': 0.454, 'cov': 0.6212}
+ v8 B {'rel': 0.1239, 'tke': 0.5285, 'mvpe': 0.0998, 'sps': 32.8555, 'T': 0.4565, 'cov': 0.6248}
+v16 (boost)                        A[rel -0.033 tke +1.430 mvpe +0.000 sps +0.235 T +0.000 comp +0.176]  B[rel -0.121 tke +0.366 mvpe +0.000 sps -0.012 T +0.000 comp -0.027]  (A sps 31.99 T 0.4540 | B sps 32.84 T 0.4565)
+pred('sl', 6, 'A')                 A[rel +0.102 tke +0.038 mvpe +0.065 sps +0.092 T +0.000 comp +0.081]  B[rel +0.203 tke +0.133 mvpe +0.150 sps +0.205 T +0.000 comp +0.174]  (A sps 31.84 T 0.4540 | B sps 33.06 T 0.4565)
+pred('sl', 6, 'A')+boost           A[rel +0.081 tke +1.553 mvpe +0.065 sps +0.351 T +0.000 comp +0.277]  B[rel +0.073 tke +0.570 mvpe +0.150 sps +0.201 T +0.000 comp +0.152]  (A sps 32.10 T 0.4540 | B sps 33.06 T 0.4565)
+pred('sl', 6, 'A')+centre=pred+boost A[rel +0.081 tke +1.553 mvpe +0.065 sps +2.357 T +0.029 comp +0.846]  B[rel +0.073 tke +0.570 mvpe +0.150 sps +3.978 T +0.053 comp +1.225]  (A sps 34.11 T 0.4825 | B sps 36.83 T 0.5091)
+pred('sl', 6, 'AB')                A[rel +0.108 tke -0.268 mvpe +0.039 sps +0.027 T +0.000 comp +0.036]  B[rel +0.371 tke -0.110 mvpe +0.263 sps +0.288 T +0.000 comp +0.261]  (A sps 31.78 T 0.4540 | B sps 33.14 T 0.4565)
+pred('sl', 6, 'AB')+boost          A[rel +0.097 tke +1.399 mvpe +0.039 sps +0.320 T +0.000 comp +0.260]  B[rel +0.228 tke +0.518 mvpe +0.263 sps +0.316 T +0.000 comp +0.259]  (A sps 32.07 T 0.4540 | B sps 33.17 T 0.4565)
+pred('sl', 6, 'AB')+centre=pred+boost A[rel +0.097 tke +1.399 mvpe +0.039 sps +2.705 T +0.034 comp +0.937]  B[rel +0.228 tke +0.518 mvpe +0.263 sps +5.602 T +0.073 comp +1.761]  (A sps 34.46 T 0.4879 | B sps 38.46 T 0.5298)
+pred('d2', 6, 'AB')                A[rel +0.086 tke -0.261 mvpe +0.042 sps +0.014 T +0.000 comp +0.024]  B[rel +0.296 tke -0.081 mvpe +0.193 sps +0.223 T +0.000 comp +0.206]  (A sps 31.76 T 0.4540 | B sps 33.08 T 0.4565)
+pred('d2', 6, 'AB')+boost          A[rel +0.071 tke +1.411 mvpe +0.042 sps +0.307 T +0.000 comp +0.246]  B[rel +0.155 tke +0.592 mvpe +0.193 sps +0.262 T +0.000 comp +0.211]  (A sps 32.06 T 0.4540 | B sps 33.12 T 0.4565)
+pred('d2', 6, 'AB')+centre=pred+boost A[rel +0.071 tke +1.411 mvpe +0.042 sps +2.120 T +0.026 comp +0.761]  B[rel +0.155 tke +0.592 mvpe +0.193 sps +4.212 T +0.055 comp +1.333]  (A sps 33.87 T 0.4798 | B sps 37.07 T 0.5113)
+pred('sl', 3, 'AB')                A[rel +0.104 tke -0.219 mvpe +0.035 sps +0.032 T +0.000 comp +0.040]  B[rel +0.342 tke -0.072 mvpe +0.240 sps +0.271 T +0.000 comp +0.245]  (A sps 31.78 T 0.4540 | B sps 33.13 T 0.4565)
+pred('sl', 3, 'AB')+boost          A[rel +0.090 tke +1.426 mvpe +0.035 sps +0.320 T +0.000 comp +0.259]  B[rel +0.201 tke +0.518 mvpe +0.240 sps +0.292 T +0.000 comp +0.239]  (A sps 32.07 T 0.4540 | B sps 33.15 T 0.4565)
+pred('sl', 3, 'AB')+centre=pred+boost A[rel +0.090 tke +1.426 mvpe +0.035 sps +2.531 T +0.031 comp +0.887]  B[rel +0.201 tke +0.518 mvpe +0.240 sps +5.346 T +0.070 comp +1.674]  (A sps 34.28 T 0.4854 | B sps 38.20 T 0.5266)
+band('sl', 6, 'A')                 A[rel +0.000 tke +0.000 mvpe +0.000 sps +3.451 T +0.050 comp +0.980]  B[rel +0.000 tke +0.000 mvpe +0.000 sps +5.519 T +0.077 comp +1.568]  (A sps 35.20 T 0.5037 | B sps 38.37 T 0.5339)
+band('sl', 6, 'A')+boost           A[rel -0.033 tke +1.430 mvpe +0.000 sps +3.712 T +0.050 comp +1.164]  B[rel -0.121 tke +0.366 mvpe +0.000 sps +5.504 T +0.077 comp +1.540]  (A sps 35.46 T 0.5037 | B sps 38.36 T 0.5339)
+band('sl', 6, 'B')                 A[rel +0.000 tke +0.000 mvpe +0.000 sps +2.336 T +0.034 comp +0.663]  B[rel +0.000 tke +0.000 mvpe +0.000 sps +6.421 T +0.090 comp +1.823]  (A sps 34.09 T 0.4877 | B sps 39.28 T 0.5466)
+band('sl', 6, 'B')+boost           A[rel -0.033 tke +1.430 mvpe +0.000 sps +2.589 T +0.034 comp +0.845]  B[rel -0.121 tke +0.366 mvpe +0.000 sps +6.404 T +0.090 comp +1.796]  (A sps 34.34 T 0.4877 | B sps 39.26 T 0.5466)
+band('sl', 6, 'AB')                A[rel +0.000 tke +0.000 mvpe +0.000 sps +3.161 T +0.046 comp +0.898]  B[rel +0.000 tke +0.000 mvpe +0.000 sps +6.316 T +0.089 comp +1.794]  (A sps 34.91 T 0.4995 | B sps 39.17 T 0.5451)
+band('sl', 6, 'AB')+boost          A[rel -0.033 tke +1.430 mvpe +0.000 sps +3.420 T +0.046 comp +1.081]  B[rel -0.121 tke +0.366 mvpe +0.000 sps +6.300 T +0.089 comp +1.766]  (A sps 35.17 T 0.4995 | B sps 39.16 T 0.5451)
+band('d2', 6, 'A')                 A[rel +0.000 tke +0.000 mvpe +0.000 sps +3.163 T +0.046 comp +0.898]  B[rel +0.000 tke +0.000 mvpe +0.000 sps +4.895 T +0.069 comp +1.390]  (A sps 34.91 T 0.4995 | B sps 37.75 T 0.5252)
+band('d2', 6, 'A')+boost           A[rel -0.033 tke +1.430 mvpe +0.000 sps +3.421 T +0.046 comp +1.081]  B[rel -0.121 tke +0.366 mvpe +0.000 sps +4.880 T +0.069 comp +1.363]  (A sps 35.17 T 0.4995 | B sps 37.74 T 0.5252)
+band('d2', 6, 'B')                 A[rel +0.000 tke +0.000 mvpe +0.000 sps +2.684 T +0.039 comp +0.762]  B[rel +0.000 tke +0.000 mvpe +0.000 sps +5.940 T +0.083 comp +1.687]  (A sps 34.43 T 0.4927 | B sps 38.80 T 0.5399)
+band('d2', 6, 'B')+boost           A[rel -0.033 tke +1.430 mvpe +0.000 sps +2.939 T +0.039 comp +0.944]  B[rel -0.121 tke +0.366 mvpe +0.000 sps +5.925 T +0.083 comp +1.660]  (A sps 34.69 T 0.4927 | B sps 38.78 T 0.5399)
+band('d2', 6, 'AB')                A[rel +0.000 tke +0.000 mvpe +0.000 sps +2.896 T +0.042 comp +0.823]  B[rel +0.000 tke +0.000 mvpe +0.000 sps +5.589 T +0.078 comp +1.587]  (A sps 34.65 T 0.4957 | B sps 38.44 T 0.5349)
+band('d2', 6, 'AB')+boost          A[rel -0.033 tke +1.430 mvpe +0.000 sps +3.153 T +0.042 comp +1.005]  B[rel -0.121 tke +0.366 mvpe +0.000 sps +5.574 T +0.078 comp +1.560]  (A sps 34.90 T 0.4957 | B sps 38.43 T 0.5349)
+pred('sl', 6, 'A')+band('sl', 6, 'A')+boost A[rel +0.081 tke +1.553 mvpe +0.065 sps +3.840 T +0.050 comp +1.268]  B[rel +0.073 tke +0.570 mvpe +0.150 sps +5.754 T +0.077 comp +1.729]  (A sps 35.59 T 0.5037 | B sps 38.61 T 0.5339)
+pred('sl', 6, 'A')+band('sl', 6, 'A') A[rel +0.102 tke +0.038 mvpe +0.065 sps +3.553 T +0.050 comp +1.064]  B[rel +0.203 tke +0.133 mvpe +0.150 sps +5.760 T +0.077 comp +1.752]  (A sps 35.30 T 0.5037 | B sps 38.62 T 0.5339)
+pred('sl', 6, 'A')+band('sl', 6, 'AB')+boost A[rel +0.081 tke +1.553 mvpe +0.065 sps +3.548 T +0.046 comp +1.185]  B[rel +0.073 tke +0.570 mvpe +0.150 sps +6.555 T +0.089 comp +1.956]  (A sps 35.30 T 0.4995 | B sps 39.41 T 0.5451)
+pred('sl', 6, 'A')+band('sl', 6, 'AB') A[rel +0.102 tke +0.038 mvpe +0.065 sps +3.263 T +0.046 comp +0.982]  B[rel +0.203 tke +0.133 mvpe +0.150 sps +6.562 T +0.089 comp +1.980]  (A sps 35.01 T 0.4995 | B sps 39.42 T 0.5451)
+pred('sl', 6, 'A')+band('sl', 6, 'B')+boost A[rel +0.081 tke +1.553 mvpe +0.065 sps +2.714 T +0.034 comp +0.948]  B[rel +0.073 tke +0.570 mvpe +0.150 sps +6.660 T +0.090 comp +1.986]  (A sps 34.46 T 0.4877 | B sps 39.52 T 0.5466)
+pred('sl', 6, 'A')+band('sl', 6, 'B') A[rel +0.102 tke +0.038 mvpe +0.065 sps +2.435 T +0.034 comp +0.747]  B[rel +0.203 tke +0.133 mvpe +0.150 sps +6.668 T +0.090 comp +2.009]  (A sps 34.19 T 0.4877 | B sps 39.52 T 0.5466)
+pred('sl', 6, 'AB')+band('sl', 6, 'A')+boost A[rel +0.097 tke +1.399 mvpe +0.039 sps +3.807 T +0.050 comp +1.250]  B[rel +0.228 tke +0.518 mvpe +0.263 sps +5.890 T +0.077 comp +1.842]  (A sps 35.56 T 0.5037 | B sps 38.75 T 0.5339)
+pred('sl', 6, 'AB')+band('sl', 6, 'A') A[rel +0.108 tke -0.268 mvpe +0.039 sps +3.482 T +0.050 comp +1.018]  B[rel +0.371 tke -0.110 mvpe +0.263 sps +5.859 T +0.077 comp +1.844]  (A sps 35.23 T 0.5037 | B sps 38.71 T 0.5339)
+pred('sl', 6, 'AB')+band('sl', 6, 'AB')+boost A[rel +0.097 tke +1.399 mvpe +0.039 sps +3.515 T +0.046 comp +1.167]  B[rel +0.228 tke +0.518 mvpe +0.263 sps +6.695 T +0.089 comp +2.071]  (A sps 35.27 T 0.4995 | B sps 39.55 T 0.5451)
+pred('sl', 6, 'AB')+band('sl', 6, 'AB') A[rel +0.108 tke -0.268 mvpe +0.039 sps +3.192 T +0.046 comp +0.935]  B[rel +0.371 tke -0.110 mvpe +0.263 sps +6.663 T +0.089 comp +2.072]  (A sps 34.94 T 0.4995 | B sps 39.52 T 0.5451)
+pred('sl', 6, 'AB')+band('sl', 6, 'B')+boost A[rel +0.097 tke +1.399 mvpe +0.039 sps +2.682 T +0.034 comp +0.930]  B[rel +0.228 tke +0.518 mvpe +0.263 sps +6.801 T +0.090 comp +2.101]  (A sps 34.43 T 0.4877 | B sps 39.66 T 0.5466)
+pred('sl', 6, 'AB')+band('sl', 6, 'B') A[rel +0.108 tke -0.268 mvpe +0.039 sps +2.367 T +0.034 comp +0.701]  B[rel +0.371 tke -0.110 mvpe +0.263 sps +6.770 T +0.090 comp +2.102]  (A sps 34.12 T 0.4877 | B sps 39.63 T 0.5466)

@@ -1,0 +1,19 @@
+{
+  "question": "It is 25 Sep 07:40 UTC; three daily leaderboard slots remain (25, 26, 27 Sep, each closing 23:59 UTC); the board keeps each team's best. How should the team use TODAY's slot?",
+  "options": {
+    "submit_v16_now": "Submit v16 (v8 + tke boost) immediately; it is built and preflight-passed",
+    "wait_for_v17_today": "Wait ~3h for the v17 blend candidate (FNO blended with window-mean/last-frame estimators in easy regions, for prediction and band centre, stacked on the tke boost); submit v17 today if positive under both live proxies, otherwise submit v16 before 23:59 UTC",
+    "finetune_live_test_today": "Package the existing fine-tuned FNO checkpoint (fno_finetuned_best.pth) and submit it today to test live whether fine-tunes rejected on the memorized local holdout actually generalize better"
+  },
+  "evidence": {
+    "goal": "Reach top 10 (>=81.77) from 78.14, needs ~+3.6; SPS gap worth ~3.1 of it by weights fitted across 176 teams",
+    "v16": "Built, preflight passed. Local same-pool deltas vs v8: rel -0.012, tke +2.07, mvpe 0, sps +0.55, about +0.33 composite. Low risk.",
+    "v17": "In progress, ETA ~3h. Mechanism: FNO is worse than trivial window estimators in freestream (0.0056 vs 0.0041 median error; last frame beats FNO at lead 0), and local tests understate this because the FNO memorized the local holdout. Potentially several SPS points; unproven.",
+    "finetuned_ckpt": "Unfrozen fine-tune from sim_real_fno (23 Aug). Local FINAL vs memorized stock: rel -0.48, tke +2.10, mvpe -0.40 (~-0.1 composite locally), local comparison biased toward stock. Historically live rel costs were ~3x local for amplitude changes. Needs fp16 packing, not built.",
+    "time_left_today": "~16 hours"
+  },
+  "checks": {
+    "v17_fits_today": "Is waiting ~3h for v17 still safely within today's deadline, leaving v16 as a fallback?",
+    "finetune_better_later": "Is the fine-tuned-checkpoint live test better done on 26 or 27 Sep, combined with the best band/blend post-processing, rather than today alone?"
+  }
+}

@@ -1,0 +1,72 @@
+{
+ "rel/rel": {
+  "v8": 0.4540401484929329,
+  "v8 x s_c (global rescale/ch)": 0.4753110126547306,
+  "flat h_c": 0.4762116933515832,
+  "1D lookup sl (abs,40)": 0.48782366024406243,
+  "1D lookup p1 (abs,40)": 0.4887566470562971,
+  "ridge-logfeat lookup (abs,40)": 0.49294246970040795,
+  "p1 lookup x lead4": 0.4887843295575057,
+  "ridge lookup x lead4": 0.4925779188101087,
+  "rank-in-call p1 10bin x lead4 (abs h)": 0.48802546290262233,
+  "rank-in-call sl 6bin x lead4 (abs h)": 0.48640682725809986,
+  "v8 x mult[lead20 x slrank6] (lit#2)": 0.47644618530772226,
+  "ridge b + Laplace h=b ln(1+s/2b)": 0.4913866931331114
+ },
+ "T/T": {
+  "v8": 0.4914000249151783,
+  "v8 x s_c (global rescale/ch)": 0.5051033825983378,
+  "flat h_c": 0.5032987116035607,
+  "1D lookup sl (abs,40)": 0.5164677184230112,
+  "1D lookup p1 (abs,40)": 0.517773886030694,
+  "ridge-logfeat lookup (abs,40)": 0.5222120444497136,
+  "p1 lookup x lead4": 0.5179657142543916,
+  "ridge lookup x lead4": 0.5218940456070139,
+  "rank-in-call p1 10bin x lead4 (abs h)": 0.516172936026012,
+  "rank-in-call sl 6bin x lead4 (abs h)": 0.5145239969046993,
+  "v8 x mult[lead20 x slrank6] (lit#2)": 0.5056584104053039,
+  "ridge b + Laplace h=b ln(1+s/2b)": 0.5202621743996175
+ },
+ "fit rel, eval T": {
+  "v8": 0.4914000249151783,
+  "v8 x s_c (global rescale/ch)": 0.5063352288347908,
+  "flat h_c": 0.5016466708391676,
+  "1D lookup sl (abs,40)": 0.5158065529154885,
+  "1D lookup p1 (abs,40)": 0.5176696589622836,
+  "ridge-logfeat lookup (abs,40)": 0.5219076512099042,
+  "p1 lookup x lead4": 0.5179928666359471,
+  "ridge lookup x lead4": 0.5216125149278344,
+  "rank-in-call p1 10bin x lead4 (abs h)": 0.51475161837868,
+  "rank-in-call sl 6bin x lead4 (abs h)": 0.5132199834586997,
+  "v8 x mult[lead20 x slrank6] (lit#2)": 0.5068977198632201,
+  "ridge b + Laplace h=b ln(1+s/2b)": 0.5193854330086832
+ },
+ "fit T, eval rel": {
+  "v8": 0.4540401484929329,
+  "v8 x s_c (global rescale/ch)": 0.4728678980058516,
+  "flat h_c": 0.4760522209134335,
+  "1D lookup sl (abs,40)": 0.48614992039130855,
+  "1D lookup p1 (abs,40)": 0.4864818957853109,
+  "ridge-logfeat lookup (abs,40)": 0.4906254505806071,
+  "p1 lookup x lead4": 0.4866554171247967,
+  "ridge lookup x lead4": 0.4902970231524724,
+  "rank-in-call p1 10bin x lead4 (abs h)": 0.4871345010469192,
+  "rank-in-call sl 6bin x lead4 (abs h)": 0.48561658949452546,
+  "v8 x mult[lead20 x slrank6] (lit#2)": 0.47338538898014915,
+  "ridge b + Laplace h=b ln(1+s/2b)": 0.4895959927324086
+ },
+ "fit T, eval 2.0": {
+  "v8": 0.40374397082482977,
+  "v8 x s_c (global rescale/ch)": 0.42765441075911137,
+  "flat h_c": 0.4368042182308292,
+  "1D lookup sl (abs,40)": 0.4421028612679754,
+  "1D lookup p1 (abs,40)": 0.44110544469337126,
+  "ridge-logfeat lookup (abs,40)": 0.4443718425107775,
+  "p1 lookup x lead4": 0.4412223759971927,
+  "ridge lookup x lead4": 0.4441350744298725,
+  "rank-in-call p1 10bin x lead4 (abs h)": 0.44407471448911623,
+  "rank-in-call sl 6bin x lead4 (abs h)": 0.4430578205535566,
+  "v8 x mult[lead20 x slrank6] (lit#2)": 0.4281699259446739,
+  "ridge b + Laplace h=b ln(1+s/2b)": 0.444942588816881
+ }
+}

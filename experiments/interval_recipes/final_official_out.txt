@@ -1,0 +1,12 @@
+### proxy rel/rel (k_eval 1.665)
+  v8                                 sps  31.76  T 0.4540  cov 0.621
+  1D lookup p1 (frame-diff rms)      sps  34.18  T 0.4888  cov 0.742
+  ridge b + Laplace formula          sps  34.36  T 0.4914  cov 0.744
+  ridge log-feature lookup           sps  34.47  T 0.4929  cov 0.749
+  ridge lookup + L1 centre shift     sps  34.59  T 0.4947  cov 0.750
+### proxy T/T (k_eval 1.447)
+  v8                                 sps  35.38  T 0.4914  cov 0.674
+  1D lookup p1 (frame-diff rms)      sps  37.27  T 0.5178  cov 0.772
+  ridge b + Laplace formula          sps  37.45  T 0.5203  cov 0.773
+  ridge log-feature lookup           sps  37.59  T 0.5222  cov 0.780
+  ridge lookup + L1 centre shift     sps  37.72  T 0.5240  cov 0.781

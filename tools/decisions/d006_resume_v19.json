@@ -1,0 +1,17 @@
+{
+  "question": "The v19 build (learned ridge linear forecaster blended into v17) was interrupted. Its partial results: constrained blend L_con improves on v17 under all four local proxies (+0.16, +0.19, +0.29, +0.33 composite); unconstrained L_uncon_pred is +0.33/+0.34 under the validated proxy A but negative (-0.07, -0.22) under proxy B. The original build bar was +0.3 under proxy A. Should the work resume to build a v19 submission?",
+  "options": {
+    "build_L_con": "Resume and build v19 from L_con (positive under all four proxies, ~+0.2 composite)",
+    "build_L_uncon": "Resume and build v19 from L_uncon_pred (higher under validated proxy A, negative under B)",
+    "stop": "Do not build v19; keep v18ft/v18 plan"
+  },
+  "evidence": {
+    "validated_proxy": "Proxy A (k=1.447) predicted v17's live SPS to within 0.06 and composite within 0.2; rel/mvpe predictions off by ~0.15",
+    "honesty": "The ridge model never saw the local holdout, so its standalone scores are unbiased: rel-L2 error 0.126 on FINAL, calm-pixel MAE 0.00283 vs window mean 0.00295",
+    "slots": "Slots left: 26 Sep and 27 Sep. Plan: 26 Sep v18ft (high variance), 27 Sep v18 (+0.1) or a refinement. A robust +0.2 candidate could replace v18 on 27 Sep.",
+    "cost": "Building v19 takes ~1-2 hours of CPU time; no slot is consumed until chosen."
+  },
+  "checks": {
+    "robust_over_v18": "Is a candidate positive under all four proxies (~+0.2) a better 27 Sep fallback than v18 (+0.13 proxy, -0.055 on real local data)?"
+  }
+}

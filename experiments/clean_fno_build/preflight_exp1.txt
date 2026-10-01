@@ -1,0 +1,35 @@
+
+PREFLIGHT  submission_exp1.zip
+==========================================================================
+
+TEST 1  artifact
+  [PASS] zip exists  --  186.3 MB
+  [PASS] under 256 MB limit  --  186.3 MB
+  [PASS] submission.py at archive root
+  [PASS] submission.py compiles
+
+TEST 2  fresh-subprocess import and API contract
+        (this is the test that submission 884075 would have failed)
+  [PASS] module imports in a clean interpreter
+  [PASS] survives synthetic warmup + real call
+  [PASS] dtypes  --  float32 / float32 / float32
+  [WARN] stderr fits the 10240 B harness cap  --  703 B x 17 = 11951 B
+
+TEST 4  import guard  (break the optimised path on purpose)
+  [PASS] survives a failure in the optimised load path  --  falls back and still serves predictions
+
+TEST 5  score on the held-out FINAL pool
+  [PASS] scorer accepts the bounds  --  coverage 0.7406
+        rel 93.133  tke 78.659  mvpe 94.791  sps 34.305
+  [WARN] rel within 0.05 of the known field baseline  --  93.1330 vs 95.8382
+  [WARN] tke within 0.05 of the known field baseline  --  78.6588 vs 82.9980
+  [WARN] mvpe within 0.05 of the known field baseline  --  94.7914 vs 97.0126
+
+==========================================================================
+RESULT: SAFE TO SUBMIT, with 4 warning(s)
+   WARN  stderr fits the 10240 B harness cap
+   WARN  rel within 0.05 of the known field baseline
+   WARN  tke within 0.05 of the known field baseline
+   WARN  mvpe within 0.05 of the known field baseline
+
+   Warnings do not risk a zero. Check that any score change is intended.

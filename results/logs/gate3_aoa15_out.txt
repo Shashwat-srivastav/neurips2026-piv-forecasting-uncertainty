@@ -1,0 +1,10 @@
+TRAIN (AoA-15, live-similarity top-500, holdout excluded): 500 windows, 12 trajectories
+HOLDOUT (live-similarity top-60 within held-out trajectories): 60 windows, dist range 1.19-1.43
+
+streaming TRAIN accumulation ...
+C:\Users\Shashwat\Downloads\realpde_t1_starting_kit_v5\realpde_t1_starting_kit_v5\linear_micro_gate_aoa15.py:84: DeprecationWarning: __array_wrap__ must accept context and return_scalar arguments (positionally) in the future. (Deprecated NumPy 2.0)
+  yb = model((xb - MI) / SI) * ST + MT
+  [train] 16/500 windows
+  [train] 96/500 windows
+  [train] 176/500 windows
+  [train] 256/500 windows

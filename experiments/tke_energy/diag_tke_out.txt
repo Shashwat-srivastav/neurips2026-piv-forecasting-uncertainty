@@ -1,0 +1,50 @@
+
+===== select: 168 windows, trajs [np.str_('21600_15'), np.str_('22875_15'), np.str_('24150_15'), np.str_('25425_15')]
+official rel/tke/mvpe: 96.088 79.915 97.379
+target zero pixels: partial-in-window 3.82%  all-frames 7.96%
+tke err mean 0.5027 (score 79.91); excluding partially-masked pixels 0.5025; share of sq-err on partial-mask px 0.1%
+energy ratio sum(Kp)/sum(Kt): median 0.569 mean 0.571 [p10 0.465, p90 0.677]
+per-window optimal scalar on Kp: median 1.454; tke err at oracle scalar 0.4137 (score 82.86) vs 0.5027
+spatial corr(Kp,Kt) median 0.889; corr(Kx,Kt) median 0.713
+persistence-of-input-variance tke err 0.6924 (score 74.28); sum(Kx)/sum(Kt) median 0.993
+fluct energy ratio pred/target by lead (about own window mean):
+  0.71 0.68 0.63 0.61 0.59 0.60 0.60 0.59 0.59 0.59 0.59 0.58 0.57 0.55 0.54 0.53 0.53 0.50 0.45 0.38
+increment |dP|^2/|dY|^2 by lead:
+  0.61 0.57 0.53 0.51 0.51 0.48 0.46 0.44 0.44 0.43 0.44 0.44 0.44 0.42 0.43 0.43 0.42 0.39 0.39
+rel-optimal fluct gain per lead <fp,fy>/<fp,fp>:
+  1.01 1.03 1.05 1.05 1.06 1.05 1.06 1.06 1.07 1.07 1.07 1.07 1.08 1.08 1.09 1.08 1.08 1.10 1.13 1.14
+region energy ratio sum(Kp)/sum(Kt) (rows=y bands top/mid/bot, cols=x thirds):
+  0.23 0.40 0.59
+  0.37 0.68 0.71
+  0.15 0.32 0.63
+share of target KE per region:
+  0.03 0.04 0.06
+  0.01 0.15 0.41
+  0.07 0.12 0.10
+||fluct_Y||/||Y|| = 0.122; ||fluct_P||/||Y|| = 0.092; ||P-Y||/||Y|| = 0.0819
+rel sq-error split: temporal-mean part 21.9%, fluctuation part 78.1%
+
+===== final: 420 windows, trajs [np.str_('17775_15'), np.str_('19050_15'), np.str_('19050_20'), np.str_('20325_15'), np.str_('20325_20'), np.str_('21600_10'), np.str_('21600_20'), np.str_('22875_10'), np.str_('24150_10'), np.str_('25425_10')]
+official rel/tke/mvpe: 96.379 81.039 97.064
+target zero pixels: partial-in-window 2.74%  all-frames 7.06%
+tke err mean 0.4679 (score 81.04); excluding partially-masked pixels 0.4679; share of sq-err on partial-mask px 0.0%
+energy ratio sum(Kp)/sum(Kt): median 0.622 mean 0.646 [p10 0.482, p90 0.845]
+per-window optimal scalar on Kp: median 1.379; tke err at oracle scalar 0.3855 (score 83.84) vs 0.4679
+spatial corr(Kp,Kt) median 0.903; corr(Kx,Kt) median 0.706
+persistence-of-input-variance tke err 0.7560 (score 72.57); sum(Kx)/sum(Kt) median 0.997
+fluct energy ratio pred/target by lead (about own window mean):
+  0.83 0.79 0.75 0.74 0.71 0.69 0.68 0.67 0.66 0.65 0.65 0.65 0.65 0.64 0.63 0.63 0.63 0.61 0.57 0.50
+increment |dP|^2/|dY|^2 by lead:
+  0.77 0.69 0.66 0.64 0.63 0.60 0.58 0.55 0.55 0.54 0.54 0.54 0.53 0.52 0.52 0.53 0.53 0.52 0.56
+rel-optimal fluct gain per lead <fp,fy>/<fp,fp>:
+  0.95 0.98 0.98 0.98 0.98 0.98 0.98 0.98 0.99 0.99 0.98 0.98 0.98 0.99 0.99 0.99 0.99 1.00 1.02 1.02
+region energy ratio sum(Kp)/sum(Kt) (rows=y bands top/mid/bot, cols=x thirds):
+  0.65 0.64 0.82
+  0.35 0.63 0.76
+  0.20 0.50 0.73
+share of target KE per region:
+  0.01 0.03 0.06
+  0.02 0.22 0.43
+  0.05 0.09 0.10
+||fluct_Y||/||Y|| = 0.111; ||fluct_P||/||Y|| = 0.091; ||P-Y||/||Y|| = 0.0760
+rel sq-error split: temporal-mean part 24.5%, fluctuation part 75.5%

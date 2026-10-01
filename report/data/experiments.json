@@ -1,0 +1,1337 @@
+{
+ "notes": "# Cross-cutting analysis (80 records; ids refer to `records`)\n\n## 1. The memorized holdout decided most of the campaign\nThe shipped `sim_real_ft` was fine-tuned by the organizers on all of `train_real`, so every local \"held-out\" score is a training score (EM04). This explains the transfer record: local +3.25 / +8.05 / +2.73 / +6.96 became −1.02 / +0.561 / +0.03 / +0.152 live (EM03, TK01, BS02, MA02). The 14-trajectory live-nearest holdout is no exception. `sim_real_fno` scores 96.38/81.04/97.06 on it against 94.17/74.03/92.84 live; the sim-only `sim_fno` and `sim_cno` score ~79/67/75 (EM05, EM06). So:\n- the anomaly hunts found nothing (EA02, EA07);\n- the ~81.2 ceiling was invalid (EM05);\n- fine-tunes of the organizer checkpoint could only look worse locally (FT01, FT02, FT08, FT09, SUB-v18ft).\n\nWhat finally worked was a proxy: inflate holdout residuals until v8's live T is matched (k_T 1.447). It predicted v17's sps +4.01 and composite +1.33; live gave +3.95 and +1.12 (EM08, SUB-v17). It models only the stock FNO's error scale (SUB-v18ft).\n\n## 2. Where SPS comes from\nSPS = 100·W̄·T (BS01). Live W̄ stays within 0.678–0.683, so SPS moves with T.\n- **Explicit bands.** The largest single gain: T 0.2076 → 0.4752. That submission also added the η=0.4 corrector (SUB02).\n- **Scale and rank modifier.** The band scale is bracketed live on both sides (SUB01, SUB-v6). The rank modifier transfers weakly: +0.152 sps live, and v12 without it scored 77.899 vs 78.141 (BS02, SUB-v12).\n- **Band-shape closures.** The 13 Aug closure (BS03) and the \"analytic optimum ≤ +0.15\" claim (BS04) both assumed bands centred on the prediction with σ_local-type widths.\n- **The v17 gain.** v17 did two things:\n  - re-centred the band on window-mean / last-frame blends in calm regions (BL03, BL04);\n  - sized widths by frame-difference rank, which predicts |e| better than σ_local (BS05, BS06).\n  Together: +3.95 sps live.\n- **Remaining gap.** Our T is 0.545 against 0.617 for the top 10. SPS is ~2.0 of the composite gap, tke ~0.37 (EM09).\n\n## 3. tke ceiling and the tke-for-rel trade\n- **Ceiling.** The target is a 20-sample variance, so even a perfect converged-field predictor scores 79–81 (TK01).\n- **Stock FNO deficit.** It has the right shape (ρ≈0.90) but only ~60% of the energy, and phase skill fades with lead. An oracle scalar is worth +2.8 locally (TK03).\n- **The recurring trade.** Every unfrozen update rescaled variance, buying tke and selling rel/mvpe (FT01, FT02, FT03). Freezing the backbone removes the trade but cannot improve an already calibrated head (FT10, FT11).\n- **What shipped.** An input-anchored gain that keeps the time mean and leaves the bands fixed (TK04, part of v17's +1.34 tke). The corrector lost live mainly through SPS because its bands followed the corrected field (FT03, PP01).\n\n## 4. Runtime and harness\n- **Timing.** Import is untimed, call 0 is an uncharged synthetic warm-up, and 2.9–3.6 ms/sample is charged outside `predict()` (HR01).\n- **Compilation and precision.** JIT and AOT compilation are blocked; TF32 fails the accuracy gate; fp16 FFT is impossible at dims (26,38,70) (HR02).\n- **Contention.** Host syncs cost 7.78× under 17 processes (HR03).\n- **Determinism.** Accuracy subscores are deterministic; composite noise is about ±0.017 (EM02).\n- **Crash and preflight.**\n  - The one zero came from an unguarded import (SUB-v5).\n  - Later builds all pass preflight (HR05).\n  - v11–v19 exceed the stderr cap (HR01).\n- **v19.** GPU cost unmeasured (SUB-v19).\n\n## 5. Data audit\n- **Duplicate.** 6300_0 is byte-identical to 7575_0; the organizers confirmed it (DA01).\n- **Re labels.** 78 of 82 `re` attributes disagree with their filenames (DA02).\n- **Eval set.** A single AoA-15 condition at Re ≈ 20.6–25.2k (DA03).\n- **No regime gap.** Local and live match on spectrum, autocorrelation and mask structure within the regime, so augmentation had nothing to close (EA06, FT12).\n- **train_sim.** Anisotropic, not usable as-is (DA04).\n\n## 6. Contradictions to resolve\n1. **v6 is a confounded change.** v6 also sets `_BAND_SHAPE=False`, which the ledger, C06 and check_scale.py omit. Its −0.990 sps mixes ×0.85 with removal of the modifier (SUB-v6).\n2. **v6 corrector η.** The CNO placeholder docstring says \"v6 eta=0.4\"; v6's corrector.pth has η=1.4. η=0.4 was ledger #6 (MA03, SUB-v6).\n3. **Modifier gain.** +6.96 in CAMPAIGN_REPORT and the v6 source vs +6.69 in the comment shipped in v4–v17 (BS02).\n4. **Band headroom.** §14.1's \"≤ +0.15\" is contradicted by v17 and the leaderboard T values (BS04).\n5. **Spectral-augmentation gate.** The report says PASS on 473 windows; `data/splits/live_pool.json` shows a different pool with gate_pass=false (FT12).\n6. **Shedding period.** 21.9 frames (report, ELITE) vs ~14 frames implied by the experiments/tke_energy autocorrelation (TK03).\n7. **requests.** \"Confirmed missing\" in the stub docstring, but present (2.31.0) in the v15 live probe (MA03, SUB-v15).\n8. **Standalone L.** rel-L2 0.123 (STATE) vs 0.126 (standalone_out, d006) (MA08).\n9. **Minor.**\n   - \"live 78.166\" (§14.3) and \"91.433 at v8\" (§13.1) do not match 78.140964 / 91.408779.\n   - \"net −1.86\" cannot be reproduced from finetuned_scores.json (FT01).\n   - §13.5 is missing, and the Gate-3 rerun log is truncated (FT05).\n10. **Unexplained entries.** lb_snapshot.json has two \"Slash\" entries on task 34673 (4 Aug: 81.925159, 93.740114). No source explains them.\n\n## 7. Builds with no recorded live score\n- **Not submitted, or no result:** v7, v11, v13, v14 (never built), v15 (probe only), v16, CNO placeholder.\n- **Partial:** v10 (time 83.088 only), v12 (final 77.899, no subscores), ledger #2 (sps only).\n- **Pending:** v18, v18ft, v19.\n",
+ "records": [
+  {
+   "id": "DA01",
+   "date": "2026-08-07",
+   "category": "data_audit",
+   "title": "Byte-identical duplicate trajectory 6300_0 / 7575_0",
+   "hypothesis": "The released train_real set may contain duplicated recordings.",
+   "method": "Content hash of every trajectory file; duplicates reported to organizers and excluded from all pools.",
+   "scripts": [
+    "src/splits/make_matched_splits.py"
+   ],
+   "data_split": "all 82 train_real files",
+   "results": "1 duplicate pair (hash c2a5a440...): 6300_0 == 7575_0. Organizers issued a data notice on 2026-08-12 confirming it. 7575_0 is excluded from train_pool_v12_3 and holdout_v12_3.",
+   "verdict": "adopted",
+   "why": "A duplicated trajectory leaks into both train and validation if not removed.",
+   "source": "eda_profile.json['duplicates']; CAMPAIGN_REPORT.md §5 'Defects' (L264-266); docs/notes/STATE.md L6"
+  },
+  {
+   "id": "DA02",
+   "date": "2026-08-07",
+   "category": "data_audit",
+   "title": "Reynolds attribute vs filename mismatch",
+   "hypothesis": "The Re encoded in filenames is the true Reynolds number.",
+   "method": "Compared each file's re attribute with its filename and reconstructed the true Re ladder.",
+   "scripts": [],
+   "data_split": "all 82 train_real files",
+   "results": "78 of 82 files have an re attribute that disagrees with the filename. True step is 1278-1279 (not 1275); true sequence 3750..26761 (18 values). The often-quoted eval 'Re 15225' is wrong.",
+   "verdict": "adopted",
+   "why": "Filenames use a rounded nominal step; the attribute gives the true value.",
+   "source": "eda_profile.json['re_sequence_true']; CAMPAIGN_REPORT.md §5 (L267-270)"
+  },
+  {
+   "id": "DA03",
+   "date": "2026-08-07",
+   "category": "data_audit",
+   "title": "Evaluation-set fingerprint from our own ingestion logs",
+   "hypothesis": "Target-free per-process statistics printed by the submission identify the eval regime.",
+   "method": "Logged u_mean, u_std, v_std, sigma_local, framediff, tau, n_eff, zerofrac per worker process (call 2 only) and compared with train_real.",
+   "scripts": [],
+   "data_split": "live eval (4 processes in eda_profile.json); local reference pool",
+   "results": "Single flow condition, AoA 15, Re ~20,600-25,200. Live u_mean 0.2181, u_std 0.1504, v_std 0.0232, sigma_local u 0.01626 (1.94x local), framediff 0.01449, tau 2.11, n_eff 4.95, zerofrac 0.090. Live rel-L2 error 1.5x local; no uniform error/band scaling reproduces live T=0.4752.",
+   "verdict": "adopted",
+   "why": "Only u_std is monotone in Re, which pins the Reynolds range; v_std/tau vary with AoA.",
+   "source": "eda_profile.json['live'] (4 live_procs); CAMPAIGN_REPORT.md §5 table (L237-260)"
+  },
+  {
+   "id": "DA04",
+   "date": "2026-08-13",
+   "category": "data_audit",
+   "title": "train_sim alignment with train_real",
+   "hypothesis": "train_sim could be used as extra training data after a simple rescale.",
+   "method": "Compared grid geometry, amplitude ratios, KE-map correlation and dropout fraction between train_sim and train_real.",
+   "scripts": [],
+   "data_split": "train_sim vs train_real",
+   "results": "Grid matches exactly, but u_std ratio 3.59x vs v_std 10.81x (anisotropic, not a scalar), KE-map correlation 0.69, zerofrac 0.20% (sim) vs 9.91% (real). Never used for training.",
+   "verdict": "inconclusive",
+   "why": "The amplitude mismatch differs per component and sim has no PIV dropout, so no single rescale aligns it.",
+   "source": "CAMPAIGN_REPORT.md §9 'Augmented fine-tune' (L616-622), §12.7 (L869), §15.5 (L1341-1343)"
+  },
+  {
+   "id": "EA01",
+   "date": "2026-08-06",
+   "category": "eda_analysis",
+   "title": "Regime-matched validation splits",
+   "hypothesis": "The v9 Re/AoA-stratified splits average over flows much less energetic than the eval set, explaining transfer failures.",
+   "method": "Ranked all trajectories by mean abs log-distance to the live 6-stat fingerprint; dealt the 24 closest into MTRAIN/MSELECT/MFINAL.",
+   "scripts": [
+    "src/splits/make_matched_splits.py"
+   ],
+   "data_split": "82 trajectories -> 66 train / 8 select / 8 final",
+   "results": "Split counts 66/8/8 (verified). v9_splits.json overstates SPS by +8.458 vs the board. Later found (EM04) to still be memorized data for sim_real_ft.",
+   "verdict": "adopted",
+   "why": "Matching the regime makes local levels comparable, but it does not make deltas transfer.",
+   "source": "data/splits/matched_splits.json; src/splits/make_matched_splits.py docstring; CAMPAIGN_REPORT.md §8 (L507-508)"
+  },
+  {
+   "id": "EA02",
+   "date": "2026-08-08",
+   "category": "eda_analysis",
+   "title": "Generalisation map of the frozen FNO over 81 trajectories",
+   "hypothesis": "If live sits inside the per-trajectory spread the gap is ordinary generalisation; if below all, the eval flow is anomalous.",
+   "method": "Scored frozen sim_real_ft on all 81 training trajectories (10 windows each) and placed the live scores in that distribution.",
+   "scripts": [
+    "experiments/early_diagnostics/generalisation_map.py"
+   ],
+   "data_split": "81 train_real trajectories (all memorized)",
+   "results": "local: rel min/p5/median/max 93.46/94.17/95.97/97.91; tke 68.62/70.01/76.82/88.21; mvpe 93.34/94.41/96.45/98.74. live: rel 94.17 (p5), tke 74.03 (inside), mvpe 92.84 (below all 81). No decay with distance to live fingerprint.",
+   "verdict": "closed",
+   "why": "Every trajectory was in the checkpoint's training set, so the map measures memorization, not generalisation (see EM04).",
+   "source": "generalisation_map.json (percentiles recomputed, match); CAMPAIGN_REPORT.md §6.5 (L432-442)"
+  },
+  {
+   "id": "EA03",
+   "date": "2026-08-15",
+   "category": "eda_analysis",
+   "title": "Model-side vs data-side anomaly test (pre-registered, via v9 diagnostics)",
+   "hypothesis": "If the input decorrelation rate is normal but the model's continuity/energy are off, the live deficit is model-side and fixable.",
+   "method": "v9 logged target-free stats dec, cont, vr live; compared with the 10 nearest training trajectories; read stated before submitting.",
+   "scripts": [
+    "submission_fno_diag_v9.zip"
+   ],
+   "data_split": "live (11 visible processes) vs 10 NN train trajectories",
+   "results": "live dec 0.1956 (inside NN range 0.1564-0.2024); cont 0.0793 (above max 0.0760); vr 0.697 (below min 0.6975).",
+   "verdict": "adopted",
+   "why": "The flow decorrelates normally while the model continues it worse and keeps less energy, so the deficit is in the model.",
+   "source": "CAMPAIGN_REPORT.md §12.2 (L774-790); v10 source comment (TARGET-FREE DIAGNOSTICS)"
+  },
+  {
+   "id": "EA04",
+   "date": "2026-08-15",
+   "category": "eda_analysis",
+   "title": "k-means regime clustering of the flow fingerprint",
+   "hypothesis": "The live flow sits in a coherent regime cluster where the FNO is weakest.",
+   "method": "k-means (k=2,3,4) on the 6-D standardized fingerprint; per-cluster frozen-FNO scores.",
+   "scripts": [
+    "src/training/cluster_specialist_kaggle.py"
+   ],
+   "data_split": "81 trajectories; centroids in cluster_centroids.npy",
+   "results": "Live lands in the same cluster at k=2,3,4 (distance 0.687 vs 3.105/3.377/5.180). Cluster c1 (n=19, AoA 10/15/20): rel 95.00+/-0.59, tke 77.39, mvpe 95.92 (local, memorized) vs c0 97.41/70.92/98.20.",
+   "verdict": "adopted",
+   "why": "Used to define live-similar pools for later specialists and gates.",
+   "source": "CAMPAIGN_REPORT.md §12.5 (L820-836); src/training/cluster_specialist_kaggle.py docstring"
+  },
+  {
+   "id": "EA05",
+   "date": "2026-08-15",
+   "category": "eda_analysis",
+   "title": "Spectral decomposition of the FNO residual and per-mode linear gain",
+   "hypothesis": "The FNO error is either a resolution (truncated-mode) problem or a linearly correctable fit problem.",
+   "method": "Split holdout residual energy into representable vs truncated Fourier modes; fitted a convex per-mode complex gain (4,224 params, exact LS).",
+   "scripts": [],
+   "data_split": "5-trajectory holdout (memorized)",
+   "results": "local: 86.9% of error in representable modes, 13.1% truncated (worth +0.190 rel if fixed); W modes 0-4 hold 52.4%, H modes 0-4 60.0%. Per-mode gain: +0.007 rel holdout, +0.026 in-sample; fitted |gain| median 0.838.",
+   "verdict": "closed",
+   "why": "The error is large-scale and not a linear function of the prediction; LS wants to shrink amplitude further.",
+   "source": "CAMPAIGN_REPORT.md §12.4 (L804-818)"
+  },
+  {
+   "id": "EA06",
+   "date": "2026-08-18",
+   "category": "eda_analysis",
+   "title": "Live input diagnostics (v10) vs local reference: spectrum, sigma histogram, mask, autocorrelation",
+   "hypothesis": "Live data differs from train_real in spectrum, noise correlation or mask structure, which augmentation could close.",
+   "method": "v10 logged radial spectrum, sigma_local histogram, mask connected components and AC lags 1-3 per process; the same stats computed on 788 local cluster-1 windows and on all AoA-15 windows.",
+   "scripts": [
+    "submission_fno_step1_v10.zip",
+    "experiments/early_diagnostics/local_ref_diag.py",
+    "experiments/early_diagnostics/local_ref_aoa15.py"
+   ],
+   "data_split": "live 17 processes; local cluster-1 pool (19 traj, 788 windows); AoA-15 pool",
+   "results": "live: SPEC_u [1477.5,129.3,30.0,14.7], AC [0.686,0.417,0.146], 100% of processes have one 16+ px mask blob, 47% have extra fragments; 53.2% of sigma_local mass < 0.008. local vs live: SPEC_u gain [1.00,1.08,0.98,0.95]; AC 0.697/0.426/0.147 (near identical); local more fragmented (87.3% vs 47%). Excess live white noise bounded at 1.5%.",
+   "verdict": "closed",
+   "why": "Within the correct regime local and live match on every low-order statistic, so there is no first-order gap for augmentation to close.",
+   "source": "v10_live.txt (per-process lines); CAMPAIGN_REPORT.md §13.2 (L931-967), §13.3 (L970-997), §14.3 (L1195-1199)"
+  },
+  {
+   "id": "EA07",
+   "date": "2026-08-14",
+   "category": "eda_analysis",
+   "title": "Candidate causes of the live anomaly, tested and refuted",
+   "hypothesis": "The live deficit comes from data prep, cropping, covariate scale, stale normaliser, masking, stall, or a temporal gap.",
+   "method": "One targeted offline test per hypothesis (block-mean vs ::2, every 32x64 crop, TTA rescale, per-window normalisation, mask correlation, AoA-15 residual, input-target gap).",
+   "scripts": [
+    "test_blockmean.py (not in tree)",
+    "find_preprocessing.py (not in tree)",
+    "test_tta_norm.py (not in tree)"
+   ],
+   "data_split": "local trajectories vs live fingerprint",
+   "results": "All refuted: block-mean no closer; crops no match; TTA rescale explains 3%; per-window normalisation hurts by 12.5; masked-cell zeroing +0.014; stall/AoA-15 residual +0.058; temporal gap gives the opposite signature; probe masking correlation has the wrong sign (live zerofrac 48th pct).",
+   "verdict": "closed",
+   "why": "Later explained by EM04/EM06: there was no live-specific anomaly, only memorized local baselines.",
+   "source": "CAMPAIGN_REPORT.md §6.5 table (L444-451), §12.7 (L858-869)"
+  },
+  {
+   "id": "HR01",
+   "date": "2026-08-10",
+   "category": "harness_runtime",
+   "title": "What the harness times and how it runs + Stderr log budget vs 10,240 B cap",
+   "hypothesis": "Model load and first-call warm-up are charged to the time subscore.",
+   "method": "Read per-process ingestion logs and atexit per-call timers across builds (v1, v4, v6). Also: Measured bytes/process of our logging; preflight TEST 2 checks the budget.",
+   "scripts": [
+    "src/evaluation/preflight.py"
+   ],
+   "data_split": "live ingestion logs",
+   "results": "17 processes, 2 calls of n=5 each, ~90 scored samples; import untimed (numpy import 190 ms/process would be a 38 ms/sample floor, board charged 7.7); call 0 is a synthetic Gaussian warm-up and is not charged (v4 call0 138.6 ms, v6 cut it to 16.5 ms and board charged more). 2.9-3.6 ms/sample is charged outside predict() (v4 2.922, v6 3.607). Container: A800-80GB, torch 2.2.2, numpy 1.26.4, 256 MB zip cap, 10,240 B stderr shown. | v8 printed ~1,180-1,370 B/process, so 9-12 of 17 processes were invisible; v10 compacted to 194 B/process (3,298 B total, 17/17 visible). v11-v19 preflights warn: ~701 B x 17 = 11,917 B (over cap). v17 live stderr truncated at 20,088 B (harmless).",
+   "verdict": "adopted",
+   "why": "Loading at import moves checkpoint and CUDA init out of the timed region; the harness pays to widen fp16 bounds to float32. The harness shows only the first 10,240 B of participant stderr.",
+   "source": "CAMPAIGN_REPORT.md §4 (L167-207); preflight_v10_out.txt, preflight_v11_out.txt, experiments/estimator_blend/preflight_v17_out.txt, results/live_logs/live_v17_25sep.txt; CAMPAIGN_REPORT.md §7 (L488), §13 (L893-896)"
+  },
+  {
+   "id": "HR02",
+   "date": "2026-08-10",
+   "category": "harness_runtime",
+   "title": "Compilation and reduced precision in the container",
+   "hypothesis": "torch.compile, AOT compile, TF32 or fp16 could cut inference time.",
+   "method": "Guarded self-verifying compile/TF32 paths in the builds; v15 probed torch._export.aot_compile / torch._inductor.aot_compile live.",
+   "scripts": [
+    "submission_fno_boosted_v6.zip",
+    "submission_fno_probe_aot_v15.zip"
+   ],
+   "data_split": "live container",
+   "results": "live: torch.compile PermissionError [Errno 13] in all 17 processes even with verified-writable cache dirs; AOT FAIL with the same PermissionError (v15; only 2 of 3 AOT APIs exist in torch 2.2.2). TF32 deviation 3.09e-3 to 6.09e-3 vs 2e-4 gate, auto-reverted every time (v10 log: REV 3e-3 to 5e-3). fp16 FFT blocked: cuFFT half needs power-of-two dims, ours are (26,38,70).",
+   "verdict": "closed",
+   "why": "The container blocks compiler-toolchain execution, and the spectral weights are numerically brittle under reduced precision.",
+   "source": "CAMPAIGN_REPORT.md §4 (L209-221), §15.3 (L1296-1309); v10_live.txt 'tf32=REV'"
+  },
+  {
+   "id": "HR03",
+   "date": "2026-08-18",
+   "category": "harness_runtime",
+   "title": "Host-sync contention under 17 concurrent processes",
+   "hypothesis": "GPU contention between processes does not affect timing (earlier measurement 1.00-1.07x).",
+   "method": "v10 added ~15-20 .cpu()/.item() sync points for diagnostics; compared scored-call time with the single-process import benchmark.",
+   "scripts": [
+    "submission_fno_step1_v10.zip"
+   ],
+   "data_split": "live, 17 processes",
+   "results": "live: fno forward 3.221 ms/sample, import bench 3.340, scored 26.010 (7.78x); ingestion 30.2 ms/sample; time_score 83.088 (v8 91.409). Earlier no-sync code: ratio 1.00-1.07x.",
+   "verdict": "adopted",
+   "why": "Each host sync is a full device sync; with ~17 processes syncing at similar moments the cost multiplies, so hot paths must do one final transfer.",
+   "source": "CAMPAIGN_REPORT.md §13.1 (L898-929); v10_live.txt (scored=19.6-31.2 per process)"
+  },
+  {
+   "id": "HR05",
+   "date": "2026-08-10",
+   "category": "harness_runtime",
+   "title": "Pre-submission gate and bug register",
+   "hypothesis": "A fresh-subprocess import test and API/scorer checks catch crashes that local warm-interpreter scoring misses.",
+   "method": "src/evaluation/preflight.py: fresh-subprocess import, synthetic warm-up + real call, dtypes, log budget, import-guard injection, official scorer on a 2-trajectory FINAL pair.",
+   "scripts": [
+    "src/evaluation/preflight.py",
+    "src/evaluation/build_fno_zip.py",
+    "src/evaluation/build_cno_zip.py"
+   ],
+   "data_split": "preflight FINAL pair 21600_15 / 25425_15 (memorized)",
+   "results": "Every build v10-v19 with a preflight output PASSES ('SAFE TO SUBMIT', 3-4 warnings). Bugs fixed per §7 include: no bands (~-18.3 sps), lazy POD decode in predict (-0.552 time), unguarded import (scored 0.000000), _BATCH=16 vs 5, host-side broadcasts (2.088 ms/call), mvpe without time-averaging (0.783 vs true 0.202).",
+   "verdict": "adopted",
+   "why": "The v5 zero came from an exception at import that only a clean interpreter reproduces.",
+   "source": "src/evaluation/preflight.py docstring; preflight_v1{0,1,2,3}_out.txt; experiments/*/preflight_v1{7,8,8ft,9}_out.txt; CAMPAIGN_REPORT.md §7 (L467-488)"
+  },
+  {
+   "id": "BS01",
+   "date": "2026-08-08",
+   "category": "bands_sps",
+   "title": "Exact SPS factorisation and the reversed-hazard optimum",
+   "hypothesis": "SPS can be split into an accuracy part and a band part that can be optimized separately.",
+   "method": "Derived from scoring.py: all three SPS branches share the inside mask and exp(-width) term.",
+   "scripts": [],
+   "data_split": "analytic (scoring.py v9)",
+   "results": "sps = 100 * Wbar * T; Wbar = 0.5(1-pm_dm)+0.3(1-pm_tke)+0.2(1-pm_mvpe); T = mean exp(-2h/sigma)*1{|e|<=h}, sigma 0.0563870. Optimum f(h)/F(h) = 2/sigma = 35.469; measured optimal coverage 0.70-0.80. Live Wbar 0.6784 (v8), live T 0.4914.",
+   "verdict": "adopted",
+   "why": "Over-coverage is punished exponentially and under-coverage only linearly.",
+   "source": "CAMPAIGN_REPORT.md §2 (L91-107); docs/literature/interval_methods.md §0"
+  },
+  {
+   "id": "BS02",
+   "date": "2026-08-08",
+   "category": "bands_sps",
+   "title": "Rank-based per-element band modifier (sigma_local sextile, within-call rank)",
+   "hypothesis": "Narrowing bands on high-sigma elements and widening on calm ones raises T; ranks survive the 1.95x live scale shift.",
+   "method": "Multiplier table per within-call sigma_local sextile (u 1.5..0.25, v 0.9..0.25) fitted on SELECT, shipped in v4 and kept through v17.",
+   "scripts": [
+    "submission_fno_boosted_v4.zip",
+    "submission_fno_heteronomod_v12.zip"
+   ],
+   "data_split": "SELECT fit / FINAL eval (memorized); live",
+   "results": "local: +6.96 sps on FINAL (CAMPAIGN_REPORT §6.1; v6 source L155), but the comment shipped in v4-v17 sources says +6.69 sps. live: #6->#7 sps 32.397 -> 32.549 (+0.152, 2.2% transfer; confounded with eta 0.4->1.4). v12 (modifier off, else v8) live final 77.899 vs v8 78.141.",
+   "verdict": "adopted",
+   "why": "A one-feature shape effect; the direction transferred but only a few percent of the local size.",
+   "source": "CAMPAIGN_REPORT.md §3 (L121), §6.1 (L282, L297-305), §9 (L586-590); submission_fno_boosted_v4.zip submission.py L80-105 (L91 '+6.69'); submission_fno_flatbandmod_v13.zip submission.py L118-120 (v12 live 77.899)"
+  },
+  {
+   "id": "BS03",
+   "date": "2026-08-13",
+   "category": "bands_sps",
+   "title": "Band frontier, feature ceilings and band-shape closure (13 Aug)",
+   "hypothesis": "Extra features (|prediction|, spectral energy ratio, temporal disagreement) or learned predictors add band-shape T beyond sigma_local.",
+   "method": "On 84 held-out windows (6,144,971 elements) measured T for flat, 1-D and joint lookups; nested TRAIN/SELECT/FINAL over 8 AoA-15 trajectories with within-call ranks; synthetic payoff curve; plus variants (fixed width, bias shift, per-group, per-lead, James-Stein, per-AoA, ACI, disagreement probe, learned predictor).",
+   "scripts": [],
+   "data_split": "84 held-out windows; 8 AoA-15 trajectories (memorized)",
+   "results": "local T: shipped 0.4653, best flat h=0.009 0.5217, joint 3-feature ceiling 0.5663, oracle 0.7851. Nested FINAL: sigma_local rank alone 0.5552 (+19.50%), 3-feature 0.5576 (+0.43% more). Fixed width -2.76; per-group +0.18; per-lead +0.13; disagreement probe +0.0101 T vs -1.47 time; learned predictor Spearman 0.6534 vs floor 0.75 (fail). Payoff: Spearman 0.52->0.90 buys T 0.5596->0.6421 (synthetic upper bound).",
+   "verdict": "closed",
+   "why": "The gain is one feature already shipped; real features deliver 0.53-0.93x of the synthetic payoff.",
+   "source": "CAMPAIGN_REPORT.md §6.1 (L276-352), §9 'Band shape, closed 13 Aug' (L573-599), §12.7 (L868)"
+  },
+  {
+   "id": "BS04",
+   "date": "2026-08-22",
+   "category": "bands_sps",
+   "title": "Claim that bands sit at their analytic optimum (max +0.15 composite)",
+   "hypothesis": "Live T=0.4914 is already at the reversed-hazard optimum for any plausible error scale, so SPS has no headroom.",
+   "method": "Analytic reversed-hazard argument (true_gradients.py).",
+   "scripts": [
+    "true_gradients.py (not in tree)"
+   ],
+   "data_split": "analytic",
+   "results": "Stated: absolute maximum any band scheme can add is +0.15 composite; masterplan v11 SPS band track CLOSED. Contradicted later by our own v17, which gained live SPS +3.949 (band factor 0.491 -> 0.545) from band centre/width changes.",
+   "verdict": "closed",
+   "why": "The argument assumed bands centred on the prediction with a sigma_local-type width; moving the band centre and using other width features was outside it.",
+   "source": "CAMPAIGN_REPORT.md §14.1 (L1153-1158), §14.4 (L1216-1217); report/data/lb_analysis.json buckets; results/live_logs/live_v17_25sep.txt"
+  },
+  {
+   "id": "BS05",
+   "date": "2026-09-25",
+   "category": "bands_sps",
+   "title": "Band recipe search under a live-calibrated proxy (experiments/interval_recipes)",
+   "hypothesis": "Band SHAPE is the largest remaining lever (top-12 T 0.61-0.62 vs ours 0.491) and needs no retraining.",
+   "method": "Dumped per-element |e| for the 14-trajectory holdout under proxy targets Y'=P+k(Y-P); fitted width recipes (flat, 1-D lookups, ridge log-feature score, Laplace formula, GBM, L1 centre shift) on SELECT and scored once on FINAL with the official scorer. Also experiments/piv_noise residual-feature ranking.",
+   "scripts": [
+    "experiments/interval_recipes/recipes.py",
+    "experiments/interval_recipes/gbm.py",
+    "experiments/interval_recipes/centre.py",
+    "experiments/interval_recipes/final_official.py",
+    "experiments/interval_recipes/export_recipe.py",
+    "experiments/interval_recipes/explore.py",
+    "experiments/interval_recipes/check_scale.py",
+    "experiments/piv_noise/resid.py",
+    "experiments/piv_noise/tgain.py",
+    "experiments/piv_noise/recenter.py",
+    "experiments/piv_noise/group_cal.py"
+   ],
+   "data_split": "holdout_v12_3 SELECT (fit) / FINAL (eval), stride 20, proxy targets",
+   "results": "proxy T/T (k 1.394/1.447) FINAL T: v8 0.4914, flat 0.5033, 1-D p1 (frame-diff RMS) lookup 0.5178, ridge log-feature 0.5222, + L1 centre shift 0.5240; official sps 35.38 -> 37.72. GBM: u lookup T 0.3521 vs Laplace 0.3480; top gain p1 (0.556 u, 0.524 v). experiments/piv_noise SELECT Spearman with |e|: hf_d2 0.615, sigma_max5 0.571, sigma_local 0.526.",
+   "verdict": "adopted",
+   "why": "One-step frame-difference RMS ranks element error better than sigma_local, and the width curve is concave, so a lookup beats A+K*sigma.",
+   "source": "experiments/interval_recipes/recipes_out.txt, gbm_rel_out.txt, centre_out.txt, final_official_out.txt; experiments/piv_noise/resid_select.txt; docs/notes/STATE.md '25 Sep leaderboard finding'"
+  },
+  {
+   "id": "BS06",
+   "date": "2026-09-25",
+   "category": "bands_sps",
+   "title": "Literature scan of interval methods for the T objective",
+   "hypothesis": "Established interval-prediction methods map onto the gaps in the v8 band.",
+   "method": "Desk review of heteroscedastic heads, RQR/QD/Tube losses, ACI, Mondrian/Kandinsky conformal, CQR, UQ neural operators; derived Laplace/Gaussian optimal h*(s).",
+   "scripts": [
+    "docs/literature/interval_methods.md"
+   ],
+   "data_split": "analytic/literature",
+   "results": "h*(s) is concave and saturates at sigma/2 ~0.028 (Gaussian s=0.005 -> h* 0.0089, T* 0.68; s=0.05 -> 0.0258, 0.16); linear A+K*s is structurally wrong; T* is convex in s so error-predictor resolution matters most. Coverage-targeted conformal and cross-window methods rejected.",
+   "verdict": "adopted",
+   "why": "The optimal interval per element is a highest-density interval around the residual mode, not a fixed-coverage band.",
+   "source": "docs/literature/interval_methods.md §0 and §1-6"
+  },
+  {
+   "id": "TK01",
+   "date": "2026-08-07",
+   "category": "tke",
+   "title": "TKE denoising family (14 variants) including log-POD + TKE target ceiling from split-half disagreement",
+   "hypothesis": "Denoising the variance field of the DMD forecast raises the tke subscore.",
+   "method": "log-POD rank-4 variance denoise, reliability-weighted POD, vash priors, SPOD thresholding, velocity truncation, per-pixel n_eff shrinkage, tensor invariants, ensemble-Kalman inversion; best shipped live as submission #4. Also: Compared split-half variance estimates and a long-window estimate of the same field.",
+   "scripts": [],
+   "data_split": "regime-matched pool (memorized), nested TRAIN/SELECT/FINAL",
+   "results": "local: log-POD +2.31 (best), reliability-POD +2.1, vash +0.72, tensor invariants -6.62, others negative. live (#4): final 76.4927 vs 77.0117 incumbent; tke gain +0.03 of +2.73 local (1% transfer); lazy decode in predict cost -0.552 time. | Split-half rel-L2 0.84-0.89; vs long-window estimate ~0.50; a predictor knowing the converged field exactly scores 79-81.",
+   "verdict": "closed",
+   "why": "Local gain was measured on memorized data; the 2-D PIV slice is not divergence-free (RMS div 1.49x terms), which also sinks invariant-based priors. The target is itself a 20-sample variance estimate, so it carries irreducible sampling noise.",
+   "source": "CAMPAIGN_REPORT.md §3 (L118, L139-143), §6.2 (L354-374), §6.5 transfer table (L459); closed_directions.json C09; CAMPAIGN_REPORT.md §6.2 (L367-370)"
+  },
+  {
+   "id": "TK03",
+   "date": "2026-09-25",
+   "category": "tke",
+   "title": "Diagnosis of the stock FNO tke deficit (amplitude vs phase)",
+   "hypothesis": "The tke error comes mostly from missing amplitude, not wrong position or phase.",
+   "method": "Energy ratios, spatial KE correlation, oracle per-window scalar, lead-wise fluctuation ratios, regional ratios, masked-pixel share, and input autocorrelation/periodic persistence on the holdout caches.",
+   "scripts": [
+    "experiments/tke_energy/diag_tke.py",
+    "experiments/tke_energy/phase_skill.py"
+   ],
+   "data_split": "holdout_v12_3 SELECT 168 / FINAL 420 windows (memorized)",
+   "results": "local FINAL: energy ratio pred/target median 0.622 (SELECT 0.569); spatial corr 0.903; oracle scalar tke 83.84 vs 81.04 (+2.8); input energy/target 0.997; masked-pixel share of tke sq-error 0.0%; lead fluct ratio 0.83 -> 0.50. Input autocorrelation min at lag 7 (-0.59), ~0 from lag 13; periodic persistence has no skill beyond lead 0-2.",
+   "verdict": "adopted",
+   "why": "MSE training damps fluctuation amplitude while roughly keeping phase; the stationary input window gives a target-free amplitude reference.",
+   "source": "experiments/tke_energy/diag_tke_out.txt; experiments/tke_energy/phase_skill_out.txt; experiments/tke_energy/tke_analysis.md §1-2"
+  },
+  {
+   "id": "TK04",
+   "date": "2026-09-25",
+   "category": "tke",
+   "title": "Mean-preserving fluctuation gain with bands kept on the stock centre (pre-registered)",
+   "hypothesis": "Scaling each window's fluctuation about its own mean buys tke without moving mvpe, and leaving the bands on the stock prediction avoids the corrector's SPS loss.",
+   "method": "Global a (G), input-anchored a_w=clip((KE_X/KE_P)^(gamma/2),1,1.6) (I), lead/regional variants; selected on SELECT, FINAL touched once; primary G a=1.15 pre-registered.",
+   "scripts": [
+    "experiments/tke_energy/eval_rescale.py",
+    "experiments/tke_energy/per_traj.py",
+    "experiments/tke_energy/PREREG.txt"
+   ],
+   "data_split": "holdout_v12_3 SELECT/FINAL (memorized)",
+   "results": "local FINAL: G a=1.15 band on stock P rel -0.069 tke +1.376 mvpe 0 sps +0.275 comp +0.152; I gamma=0.5 rel -0.053 tke +1.619 sps +0.391 comp +0.209; same G with band recentred sps -0.687 comp -0.082. Per trajectory: helps 8/10 (vr 0.76-0.81), hurts AoA-20 pair (vr 0.92, G dtke -1.6/-1.8). Shipped as v16 (not submitted) and inside v17.",
+   "verdict": "live-shipped",
+   "why": "mvpe uses time means so it is invariant; live vr 0.697 is below every local trajectory, the regime where the boost helps most.",
+   "source": "experiments/tke_energy/eval_rescale_final_out.txt, eval_rescale_select_out.txt, per_traj_out.txt, PREREG.txt; experiments/tke_energy/tke_analysis.md §3-5"
+  },
+  {
+   "id": "MA01",
+   "date": null,
+   "category": "model_architecture",
+   "title": "numpy DMD rank-6 forecaster with variance top-up",
+   "hypothesis": "A small, fully specified linear dynamics model is competitive without learned weights.",
+   "method": "Rank-6 DMD extrapolation of the input window plus variance top-up; 13 KB; later swept RANK/RHO/TKE_GAIN in combo_symbolic.",
+   "scripts": [
+    "submission.py (DMD rollback source)",
+    "experiments/early_diagnostics/combo_symbolic.py"
+   ],
+   "data_split": "live; cluster-1 FIT pool",
+   "results": "live #3: rel 92.501 tke 75.129 mvpe 92.629 time 90.866 sps 31.879 final 77.0117 (7.37 ms/sample). Local sweep: best (rank 4, rho 0.95, gain 0) worth +0.515 standalone w over shipped (6, 0.95, 0.8). Superseded by the FNO.",
+   "verdict": "closed",
+   "why": "DMD errors are much larger than the FNO's even though they are only +0.53-0.56 correlated.",
+   "source": "CAMPAIGN_REPORT.md §3 row 3 (L117), §6.3 (L380); combo_symbolic_out.txt STAGE 1"
+  },
+  {
+   "id": "MA02",
+   "date": "2026-08-07",
+   "category": "model_architecture",
+   "title": "Adopt the organizers' sim_real_ft FNO checkpoint",
+   "hypothesis": "The organizer FNO beats the DMD incumbent.",
+   "method": "Loaded sim_real_fno_fp16.pth at import (untimed), scored locally and live.",
+   "scripts": [
+    "src/evaluation/build_fno_zip.py",
+    "src/evaluation/score_holdout_v12_3.py"
+   ],
+   "data_split": "matched pool (memorized); live",
+   "results": "local FINAL: rel 96.06 tke 80.29 mvpe 97.20 (boosted_scores stock 96.064/80.287/97.202). live (v8): rel 94.168 tke 74.026 mvpe 92.836. Model swap local +8.05 vs live +0.561 (7% transfer).",
+   "verdict": "adopted",
+   "why": "It is the strongest available model, but local numbers were training scores (see EM04).",
+   "source": "boosted_scores.json FINAL.stock; CAMPAIGN_REPORT.md §6.3 (L381), §6.5 transfer table (L458)"
+  },
+  {
+   "id": "MA03",
+   "date": "2026-08-27",
+   "category": "model_architecture",
+   "title": "Organizer CNO and Transolver checkpoints (and a CNO placeholder build) + Own models: from-scratch invariant model and PCA+ridge CNO distillation",
+   "hypothesis": "A different organizer architecture beats the FNO on this regime.",
+   "method": "Scored stock CNO/Transolver; built a CNO submission with a vendored requests stub (never shipped). Also: Trained a 9.45M-parameter invariant model from scratch; distilled CNO into PCA+ridge.",
+   "scripts": [
+    "src/evaluation/_vendor_requests_stub.py",
+    "src/evaluation/build_cno_zip.py",
+    "src/evaluation/score_cno_ckpt.py",
+    "submission_cno_placeholder.zip"
+   ],
+   "data_split": "local SELECT/FINAL (memorized); holdout_v12_3",
+   "results": "local: CNO rel 95.95 tke 78.77 mvpe 96.50 (loses all three to FNO); Transolver tke 70.69. Earlier '+3.60 rel / +1.73 mvpe' was measured against the DMD, not the FNO. Frozen sim_cno on holdout final-10: 78.145/67.145/74.743. live: NOT RECORDED (placeholder never submitted). | local: from-scratch 266.0 vs FNO 273.6 (sum of rel+tke+mvpe); distillation R^2 0.42, 11% of the MVPE gain.",
+   "verdict": "closed",
+   "why": "The CNO loses on every metric to the FNO; its apparent win was against the wrong baseline. Both are well below the organizer FNO locally.",
+   "source": "CAMPAIGN_REPORT.md §6.3 (L383-393); holdout_v12_3_simcno_frozen_scores.json; submission_cno_placeholder.zip submission.py docstring; CAMPAIGN_REPORT.md §6.3 (L385-386)"
+  },
+  {
+   "id": "MA05",
+   "date": "2026-08-08",
+   "category": "model_architecture",
+   "title": "FFT padding retune to 7-smooth sizes",
+   "hypothesis": "Changing domain padding to FFT-friendly sizes speeds up inference at no accuracy cost.",
+   "method": "Rescored the FNO at padding 4, 7, 8, 10, 12 on SELECT (84 windows).",
+   "scripts": [],
+   "data_split": "SELECT 84 windows",
+   "results": "local delta sum3: pad 4 -7.453, 7 -3.965, 8 (7-smooth) -9.780, 10 -18.167, 12 -22.638.",
+   "verdict": "closed",
+   "why": "Padded length changes which physical frequency each retained mode represents; the weights are tied to padding 6.",
+   "source": "CAMPAIGN_REPORT.md §6.4 (L416, L419-428)"
+  },
+  {
+   "id": "MA06",
+   "date": "2026-08-10",
+   "category": "model_architecture",
+   "title": "FNO architecture and storage budget",
+   "hypothesis": "A second ensemble member could fit in the submission.",
+   "method": "Counted parameters from the checkpoint.",
+   "scripts": [],
+   "data_split": "checkpoint",
+   "results": "50,357,955 params, 99.9% spectral convs; modes (4,12,16), width 64, 4 layers, padding 6 (FFT 26,38,70); no dropout. fp16 pack 201,396,349 bytes vs 256 MB cap.",
+   "verdict": "closed",
+   "why": "Storage, not time, rules out deep ensembles.",
+   "source": "CAMPAIGN_REPORT.md §6.3 (L394-409), §4 (L176)"
+  },
+  {
+   "id": "MA07",
+   "date": "2026-08-29",
+   "category": "model_architecture",
+   "title": "Off-the-shelf RealPDEBench UNet and DPOT-S (pilot)",
+   "hypothesis": "Upstream foil checkpoints (UNet reported ~30% better than FNO in the paper) transfer to this regime.",
+   "method": "Loaded vendored UNet and DPOT-S foil fine-tune checkpoints, normalised with kit statistics, scored on SELECT.",
+   "scripts": [
+    "experiments/early_diagnostics/pilot_unet_select.py",
+    "experiments/early_diagnostics/pilot_dpot_test.py",
+    "src/evaluation/score_unet_ckpt.py",
+    "src/evaluation/rpdebench_unet.py"
+   ],
+   "data_split": "holdout_v12_3 SELECT (4 traj)",
+   "results": "local SELECT: FNO 96.088/79.915/97.379; UNet 89.019/70.818/86.112; DPOT-S 88.818/70.072/84.364; frozen sim_cno 77.531/67.077/73.807. A DPOT run without normalisation gave rel 64.0 (bug).",
+   "verdict": "inconclusive",
+   "why": "Both were trained at 128x64 and fed 32x64; no resolution-matched fine-tune was run.",
+   "source": "CAMPAIGN_REPORT.md §15.4 (L1311-1330); experiments/early_diagnostics/pilot_dpot_test.py header"
+  },
+  {
+   "id": "MA08",
+   "date": "2026-09-25",
+   "category": "model_architecture",
+   "title": "Honest ridge linear forecaster L (v19 component)",
+   "hypothesis": "A local linear operator trained only on the 67 non-holdout trajectories forecasts calm regions better than window estimators, with unbiased local scores.",
+   "method": "Ridge on 10 input frames x 5x5 neighbourhood per sigma sextile x 4x4 spatial block; sweeps over m, k, lambda.",
+   "scripts": [
+    "experiments/v19_ridge_partner/accum.py",
+    "experiments/v19_ridge_partner/accum2.py",
+    "experiments/v19_ridge_partner/ridge.py",
+    "experiments/v19_ridge_partner/gen_L.py",
+    "experiments/v19_ridge_partner/standalone.py"
+   ],
+   "data_split": "trained on train_pool_v12_3 (67 traj); scored on holdout SELECT/FINAL",
+   "results": "local FINAL (honest, never saw holdout): best rel-L2 0.1260 (m10 k5 lam1e-4), calm-pixel MAE 0.00283 vs window mean 0.00295 and last frame 0.00328; stock FNO P rel 0.0751 (memorized). CPU cost 9.6 ms/sample; GPU cost unmeasured.",
+   "verdict": "adopted",
+   "why": "Used only as a constrained blend partner, since standalone it is far worse than the FNO.",
+   "source": "experiments/v19_ridge_partner/standalone_out.txt; tools/decisions/d006_resume_v19.json; docs/notes/STATE.md v19 entry"
+  },
+  {
+   "id": "FT01",
+   "date": "2026-08-07",
+   "category": "finetuning",
+   "title": "First FNO fine-tunes on train_real (stride 20, sensitivity weights)",
+   "hypothesis": "Fine-tuning the organizer FNO on the eval-like regime improves all subscores.",
+   "method": "Full-model fine-tune on 3,362 windows (stride 20), loss weighted by metric sensitivity; second run with w_rel 0.70.",
+   "scripts": [
+    "src/training/finetune_fno_kaggle.py",
+    "src/evaluation/score_finetuned_ckpt.py"
+   ],
+   "data_split": "SELECT/FINAL quad (memorized)",
+   "results": "local FINAL (tuned vs stock): rel 95.175 vs 96.064 (-0.889), tke 82.946 vs 80.287 (+2.66), mvpe 96.584 vs 97.202 (-0.618), sps 33.420 vs 35.432 (-2.01). Run 2 (w_rel 0.70): rel -0.269 tke +2.245 mvpe -0.242. finetuned_scores.json also holds an unlabelled 'ours' entry (FINAL 91.949/76.172/94.485). CAMPAIGN_REPORT.md quotes 'net -1.86', which is not reproducible from the JSON.",
+   "verdict": "closed",
+   "why": "The only productive direction from the converged checkpoint is an output-variance rescale that buys tke and sells rel/mvpe.",
+   "source": "finetuned_scores.json FINAL; src/training/boost_operator_kaggle.py docstring; CAMPAIGN_REPORT.md §6.3 (L387), §9 (L524-537)"
+  },
+  {
+   "id": "FT02",
+   "date": "2026-08-13",
+   "category": "finetuning",
+   "title": "Re-fine-tunes with 9.3x more windows, tke-suppressed loss and amplitude/noise augmentation",
+   "hypothesis": "The first fine-tune was under-determined (3,362 windows); stride 2 plus augmentation fixes it.",
+   "method": "Stride-2 (31,343 windows) runs A (sensitivity weights) and B (0.8/0.0/0.2), 7575_0 excluded, noise_std 0.02; then amp_jitter 0.70 + noise 0.02 with w_tke=0, 12 epochs.",
+   "scripts": [
+    "src/training/finetune_fno_kaggle.py"
+   ],
+   "data_split": "SELECT/FINAL quad (memorized)",
+   "results": "local FINAL: run B rel -0.063 tke -0.934 mvpe -0.352 (sum -1.350); best SELECT epoch still -1.255 vs no training. amp_jitter: rel -0.111 tke -0.464 mvpe -0.403 (sum -0.979). Run A flat after epoch 0.",
+   "verdict": "closed",
+   "why": "The checkpoint was already organizer-fine-tuned on this data; with the variance-rescale route removed only overfitting remains (train loss -15% while held-out fell).",
+   "source": "CAMPAIGN_REPORT.md §9 'Augmented fine-tune' (L601-614), 'decisive next test' (L629-665); closed_directions.json C01, C10"
+  },
+  {
+   "id": "FT03",
+   "date": "2026-08-08",
+   "category": "finetuning",
+   "title": "Operator-boosting corrector (TinyOperator) on the frozen FNO + Regime-specialist corrector on the live cluster",
+   "hypothesis": "A zero-initialised residual corrector with eta selected on the subscore sum cannot make the base worse.",
+   "method": "668,316-param 2-D spectral corrector fitted to FNO residual; eta grid to 3.0; shipped live at eta 0.4 (#6) and 1.4 (v4, v6); v8 removed it. Also: Corrector trained on 11 of the 19 cluster-1 trajectories, evaluated on 5 untouched holdout trajectories.",
+   "scripts": [
+    "src/training/boost_operator_kaggle.py",
+    "src/training/cluster_specialist_kaggle.py",
+    "src/evaluation/score_boosted_ckpt.py"
+   ],
+   "data_split": "SELECT/FINAL quad (memorized); live",
+   "results": "local FINAL eta1.4 vs stock: rel -0.226 tke +2.711 mvpe -0.190 sps -0.318; eta0.4: rel +0.019 tke +0.852 mvpe +0.006 sps +0.172. live v8 (no corrector) vs v4 (eta1.4): rel +0.148, tke -1.699, mvpe +0.029, sps +0.789, final +0.108. Gate-1 transfer: rel 65.5%, tke 62.7%, mvpe 15.3% (mean 47.8%). | local: +0.178 weighted on holdout, but rel -0.110 (tke weight 0.131 vs rel 0.725 in the loss).",
+   "verdict": "closed",
+   "why": "The corrector moved the time mean and the bands were centred on the corrected field, so SPS lost more than tke gained. Sixth instance of buy-tke/sell-rel.",
+   "source": "boosted_scores.json; CAMPAIGN_REPORT.md §3 (L150-152), §9 (L557-559), §13.4 Gate 1 (L1002-1014); closed_directions.json C02; experiments/tke_energy/tke_analysis.md §4; CAMPAIGN_REPORT.md §12.5 (L832-836)"
+  },
+  {
+   "id": "FT05",
+   "date": "2026-08-18",
+   "category": "finetuning",
+   "title": "Linear corrector micro-gate (Gate 3)",
+   "hypothesis": "A closed-form ridge from FNO prediction plus sigma_local, framediff and mask features reduces the residual.",
+   "method": "Streaming ridge (8 features -> residual u,v) on the multivariate live-similarity top-2000 pool, holdout excluded; rerun AoA-15-only with a live-similarity-ranked holdout.",
+   "scripts": [
+    "experiments/early_diagnostics/linear_micro_gate.py",
+    "experiments/early_diagnostics/linear_micro_gate_aoa15.py",
+    "src/splits/window_similarity_select.py",
+    "src/splits/window_similarity_aoa15.py"
+   ],
+   "data_split": "1,903 windows / 46 traj train; 35 holdout windows",
+   "results": "local: residual 0.01285 -> 0.01281 (+0.325%) on 77,946,880 elements; 'NO SIGNAL'. An AoA-15 rerun was stopped at 256/500 training windows (no result). Gate 2 selection: top-500 windows span 20 trajectories (max share 8.4%).",
+   "verdict": "inconclusive",
+   "why": "First pass showed no linear signal; the rerun that would close the gate has no recorded result, and §13.5 is missing from the report.",
+   "source": "linear_gate_out.txt; gate3_aoa15_out.txt (truncated); CAMPAIGN_REPORT.md §13.4 Gates 2-3 (L1016-1051)"
+  },
+  {
+   "id": "FT06",
+   "date": "2026-08-22",
+   "category": "finetuning",
+   "title": "AdaBN test-time BatchNorm statistics",
+   "hypothesis": "BN running statistics pooled over 81 trajectories mis-centre the single live condition.",
+   "method": "Set running_mean/var to None so BN uses batch statistics in eval, batches of 5 as in the harness.",
+   "scripts": [
+    "experiments/early_diagnostics/adabn_test.py"
+   ],
+   "data_split": "held-out trajectories (batches of 5)",
+   "results": "local: -0.81 composite, negative on 5/5.",
+   "verdict": "closed",
+   "why": "Live sits inside the training range, so there is no BN-statistic shift to correct.",
+   "source": "CAMPAIGN_REPORT.md §14.4 (L1220-1222); closed_directions.json C05"
+  },
+  {
+   "id": "FT07",
+   "date": "2026-08-22",
+   "category": "finetuning",
+   "title": "WiSE-FT weight interpolation sim_fno <-> sim_real_fno",
+   "hypothesis": "Interpolating back toward the sim-pretrained weights recovers robustness under shift.",
+   "method": "theta(alpha) = (1-alpha) theta_sim + alpha theta_sim_real_ft, alpha swept; alpha 1 reproduces the incumbent.",
+   "scripts": [
+    "experiments/early_diagnostics/wiseft_test.py"
+   ],
+   "data_split": "held-out trajectories",
+   "results": "local: monotonically catastrophic, -7.5 at alpha 0.95; ||theta_ft - theta_sim|| / ||theta_sim|| = 1.094.",
+   "verdict": "closed",
+   "why": "The two checkpoints are not in one basin, so interpolation crosses a high-loss region.",
+   "source": "CAMPAIGN_REPORT.md §14.4 (L1222-1228); closed_directions.json C04"
+  },
+  {
+   "id": "FT08",
+   "date": "2026-08-23",
+   "category": "finetuning",
+   "title": "Experiment 1: clean-start fine-tune from sim_fno on the 67-trajectory pool",
+   "hypothesis": "Training from the sim-only checkpoint on non-holdout data generalises to the honest holdout.",
+   "method": "sim_fno.pth, lr 1e-4, 80 epochs, unfrozen, TRUE_W loss, train_pool_v12_3.",
+   "scripts": [
+    "src/training/finetune_fno_kaggle.py",
+    "src/splits/build_holdout_v12_3.py"
+   ],
+   "data_split": "train_pool_v12_3 (67) / holdout SELECT 4 / FINAL 10",
+   "results": "local FINAL(10): rel 94.266 tke 78.782 mvpe 95.505 (sum 268.554), -5.928 sum vs frozen sim_real_fno holdout (274.482); plateaued at epoch 10.",
+   "verdict": "closed",
+   "why": "Compared against a memorized baseline (EM06), and full unfreezing again traded rel for tke.",
+   "source": "CAMPAIGN_REPORT.md §15.1 (L1242-1245)"
+  },
+  {
+   "id": "FT09",
+   "date": "2026-08-23",
+   "category": "finetuning",
+   "title": "Experiments 2-3: unfrozen fine-tune from sim_real_fno (lr 2e-5) -- the v18ft checkpoint (never submitted)",
+   "hypothesis": "A gentle fine-tune of the organizer checkpoint on non-holdout data improves the holdout.",
+   "method": "sim_real_fno.pth, lr 2e-5, 30 epochs, unfrozen; Exp 3 = seed 1, restarts 2. Scored at official stride 20.",
+   "scripts": [
+    "src/training/finetune_fno_kaggle.py",
+    "src/evaluation/score_finetuned_ckpt.py",
+    "src/evaluation/score_boosted_ckpt.py",
+    "experiments/v18_refits/cache_ft.py"
+   ],
+   "data_split": "holdout FINAL 10 (memorized by the stock baseline)",
+   "results": "local FINAL raw: ft rel 95.899 tke 83.137 mvpe 96.668 vs stock 96.379/81.039/97.064 (rel -0.480, tke +2.099, mvpe -0.396), TRUE-composite -0.10. Internal stride-2 FINAL said +2.374 sum vs stride-20 +1.223 sum. Packed to fp16 and shipped in v18ft (never submitted).",
+   "verdict": "open",
+   "why": "Locally a wash with the familiar tke-for-rel trade, but the stock baseline memorized this holdout, so only a live test can judge it.",
+   "source": "CAMPAIGN_REPORT.md §15.1 (L1247-1259); experiments/v18_refits/study_ft_out.txt RAW FINAL lines; src/evaluation/score_boosted_ckpt.py docstring; tools/decisions/d005_final_two_slots.json"
+  },
+  {
+   "id": "FT10",
+   "date": "2026-09-06",
+   "category": "finetuning",
+   "title": "--freeze-bn-fc + spectral augmentation from sim_fno (clean start)",
+   "hypothesis": "Freezing the spectral weights removes the variance-rescale route and leaves a real gradient direction.",
+   "method": "Train only fc0/fc1/fc2/bns.* (spectral convs frozen), spectral input augmentation, 30 epochs, best epoch 21 by SELECT.",
+   "scripts": [
+    "src/training/finetune_fno_kaggle.py"
+   ],
+   "data_split": "train_pool_v12_3 / holdout FINAL 10",
+   "results": "local FINAL vs frozen sim_fno: rel 79.709 -> 92.462 (+12.753), tke 66.872 -> 71.939 (+5.067), mvpe 75.199 -> 93.527 (+18.327); sum +36.147. Still below live stock (rel -1.706, tke -2.087, mvpe +0.691; ~-1.27 TRUE_W units).",
+   "verdict": "closed",
+   "why": "The first fine-tune to win all three subscores, but it starts too far below the organizer checkpoint to be worth shipping.",
+   "source": "CAMPAIGN_REPORT.md §15.6 (L1345-1385)"
+  },
+  {
+   "id": "FT11",
+   "date": "2026-09-06",
+   "category": "finetuning",
+   "title": "--freeze-bn-fc + spectral augmentation from sim_real_fno",
+   "hypothesis": "The freeze-bn-fc win carries over to the organizer checkpoint.",
+   "method": "Same recipe from sim_real_fno.pth, lr 2e-5, 30 epochs; best epoch 3 by SELECT; FINAL touched once.",
+   "scripts": [
+    "src/training/finetune_fno_kaggle.py"
+   ],
+   "data_split": "train_pool_v12_3 / holdout FINAL 10",
+   "results": "local FINAL: stock 95.398/77.491/96.184 (sum 269.072) vs ft 95.366/76.568/96.156 (268.090): rel -0.032 tke -0.923 mvpe -0.028. SELECT below stock (267.382) on all 30 epochs.",
+   "verdict": "closed",
+   "why": "fc/bn is the output calibration layer, which the organizers already tuned; with the backbone frozen it can only drift away.",
+   "source": "CAMPAIGN_REPORT.md §15.8 (L1387-1414); closed_directions.json C03"
+  },
+  {
+   "id": "FT12",
+   "date": "2026-08-18",
+   "category": "finetuning",
+   "title": "Spectral input augmentation matched to the live spectrum (masterplan v11 §3)",
+   "hypothesis": "Boosting input fluctuation spectra toward the live spectrum closes a distribution gap.",
+   "method": "Per radial bin amplitude gain sqrt(power ratio) on inpainted fluctuation fields; verification gate within +/-15% of live; pool of 11 live-similar AoA-15 trajectories; BN/fc-only dry run.",
+   "scripts": [
+    "src/training/spectral_augment.py",
+    "src/training/spectral_gain.py",
+    "src/splits/build_live_pool.py",
+    "src/training/finetune_bnfc_kaggle.py"
+   ],
+   "data_split": "live-similar AoA-15 pool (11 traj)",
+   "results": "Report: power-vs-amplitude bug caught before training; axes bug fixed; pool-specific gains u [1.295,1.203,1.132,1.114]; GATE PASS on 473 windows (0.1-1.5% of target). data/splits/live_pool.json (a different 11-trajectory pool excluding 6 holdout trajectories): spec ratio u 0.32-0.48, gate_pass false. BN/fc dry run: 9,667 of 50,357,955 params trainable, 4,565 train windows.",
+   "verdict": "closed",
+   "why": "EA06 later showed no first-order spectral gap between local and live, so the augmentation had no gap to close.",
+   "source": "CAMPAIGN_REPORT.md §13.6 (L1075-1117); data/splits/live_pool.json; bnfc_dryrun_out.txt; src/training/spectral_augment.py docstring"
+  },
+  {
+   "id": "FT13",
+   "date": "2026-08-29",
+   "category": "finetuning",
+   "title": "CNO-1: clean-start CNO fine-tune on the 67-trajectory pool",
+   "hypothesis": "CNO may not hit the FNO's buy-tke/sell-rel wall.",
+   "method": "finetune_cno_kaggle.run_cno1 (sim_cno.pth, 40 epochs, lr 1e-4, stride 2, AMP, batch 16 x accum 8, eval batch 64); five Kaggle upload bundles iterated on OOM fixes.",
+   "scripts": [
+    "src/training/finetune_cno_kaggle.py",
+    "src/training/check_kaggle_uploads.py",
+    "src/evaluation/score_cno_ckpt.py",
+    "kaggle_upload_cno.zip",
+    "kaggle_upload_cno_amp_v2.zip",
+    "kaggle_upload_cno_amp_v3_clean.zip",
+    "kaggle_upload_cno_amp_v4_batch16.zip",
+    "kaggle_upload_cno_amp_v5_batch16_eval64.zip"
+   ],
+   "data_split": "train_pool_v12_3 / holdout (fair baseline: frozen sim_cno final-10 78.145/67.145/74.743)",
+   "results": "No training result recorded anywhere in the sources. FP32 batch 64 and AMP batch 32 OOM on a 14.56 GiB T4 (29 Aug).",
+   "verdict": "open",
+   "why": "Run never completed or its log was never recorded.",
+   "source": "src/training/finetune_cno_kaggle.py run_cno1 comments; holdout_v12_3_simcno_frozen_scores.json"
+  },
+  {
+   "id": "FT14",
+   "date": "2026-09-25",
+   "category": "finetuning",
+   "title": "Untried or queued training directions",
+   "hypothesis": "Intermediate freeze ratios, SWA, and untried architectures may beat the organizer checkpoint.",
+   "method": "Queued K1 (fc/bn + convs.) and K2 (+ spectral_convs.3.) from sim_real_fno; SWA over freeze-bn-fc snapshots; DPOT-L, WDNO, MWT, Galerkin, DeepONet.",
+   "scripts": [
+    "src/training/swa_average.py",
+    "src/training/finetune_fno_kaggle.py"
+   ],
+   "data_split": "none run",
+   "results": "No results. MWT/Galerkin/DeepONet are equal-or-worse than FNO in the organizer's foil benchmark (0.0210/0.0237/0.0375 vs 0.0206 rel L2).",
+   "verdict": "open",
+   "why": "Never executed before the dev-phase deadline.",
+   "source": "docs/notes/STATE.md 'Active hypotheses'/'Queued Kaggle runs'; CAMPAIGN_REPORT.md §15.5 (L1332-1343), §15.8 (L1416-1428); closed_directions.json C11"
+  },
+  {
+   "id": "PP01",
+   "date": "2026-08-13",
+   "category": "post_processing",
+   "title": "Amplitude and mean post-processing of the FNO output (eta, lambda, mean anchoring, masked zeroing)",
+   "hypothesis": "Rescaling the FNO amplitude, anchoring its time-mean to the input, or zeroing masked cells improves scores.",
+   "method": "eta (corrector amplitude) bracketed live; lambda < 1 shrink swept; time-mean anchor alpha swept; masked-cell zeroing tested.",
+   "scripts": [],
+   "data_split": "SELECT/FINAL (memorized); live",
+   "results": "live: eta 0 beat eta 1.4 by +0.108 final (v8 vs v4). local: lambda shrink monotone worse (lambda=1 optimal); time-mean anchor -0.1 to -4.2 monotone (FNO mean 2.1x more accurate than input's: 0.00409 vs 0.00912; tke exactly invariant); masked-cell zeroing +0.014.",
+   "verdict": "closed",
+   "why": "The FNO already emits the rel-optimal conditional mean; only lambda > 1 with bands fixed was untested, and TK04 later exploited that.",
+   "source": "CAMPAIGN_REPORT.md §6.4 (L415), §9 headroom table (L568), §12.7 (L862-863); experiments/tke_energy/tke_analysis.md §4"
+  },
+  {
+   "id": "BL01",
+   "date": "2026-08-15",
+   "category": "blending",
+   "title": "Output blends of FNO with DMD, CNO, Transolver, persistence",
+   "hypothesis": "A blend with a model of different inductive bias reduces error.",
+   "method": "Measured |error| correlation with the FNO on holdout; FNO+DMD weight sweep; 3,624-combination search.",
+   "scripts": [],
+   "data_split": "holdout (memorized)",
+   "results": "local: correlation with FNO: CNO +0.746, tmean +0.632, DMD +0.560, persistence +0.525. FNO+DMD -1.98 at 10% DMD weight, monotone. 3,624-combination search returned pure FNO (its objective omitted sps).",
+   "verdict": "closed",
+   "why": "Every available predictor makes largely the same errors and all are much worse than the FNO.",
+   "source": "CAMPAIGN_REPORT.md §6.3 (L388), §6.4 (L417), §12.6 (L838-856)"
+  },
+  {
+   "id": "BL02",
+   "date": "2026-08-18",
+   "category": "blending",
+   "title": "Proportion search with sps in the objective (FNO/CNO/DMD/corrector)",
+   "hypothesis": "With sps included and time charged, a regime-fitted proportion of models beats the frozen FNO.",
+   "method": "experiments/early_diagnostics/combo_symbolic.py: DMD variable sweep, then proportions on cluster-1 FIT pool, HOLDOUT touched once; experiments/early_diagnostics/combo_forms.py adds mean/fluctuation and spectral/lead/channel splices.",
+   "scripts": [
+    "experiments/early_diagnostics/combo_symbolic.py",
+    "experiments/early_diagnostics/combo_forms.py"
+   ],
+   "data_split": "cluster-1 FIT 154 windows / HOLDOUT 70 windows (memorized)",
+   "results": "local HOLDOUT: frozen rel 96.301 tke 79.886 mvpe 97.430 sps 44.573 w 72.7967; best (fno 0.95, cno 0.05, eta 0.8) 96.282/81.718/97.468/44.951 w 73.0405, delta +0.2438, 'PASS' vs +0.10 floor. No combo_forms output file. Not shipped.",
+   "verdict": "inconclusive",
+   "why": "The pass was on a memorized holdout and the corrector component had already lost live.",
+   "source": "combo_symbolic_out.txt (HOLDOUT block); experiments/early_diagnostics/combo_symbolic.py docstring"
+  },
+  {
+   "id": "BL03",
+   "date": "2026-09-25",
+   "category": "blending",
+   "title": "Calm-region blend of the FNO toward window mean / last frame (prediction)",
+   "hypothesis": "In calm regions trivial window estimators beat the FNO on unseen data; the memorized holdout hid this.",
+   "method": "pred' = Em + a(P-Em) + b(El-Em) per (lead, channel, sigma_local or d2 bin); LS fit on SELECT under proxy A/B; rel scored on FINAL.",
+   "scripts": [
+    "experiments/estimator_blend/base.py",
+    "experiments/estimator_blend/fit.py",
+    "experiments/estimator_blend/run_pred.py",
+    "experiments/estimator_blend/diag.py"
+   ],
+   "data_split": "holdout SELECT/FINAL under proxies A (k_rel 1.534/1.665) and B",
+   "results": "proxy FINAL d_relscore (both, sl, 6 bins, fitAB): A +0.108, B +0.371; best fitA A +0.102, B +0.203. Fitted weights: lead 0 mostly last frame in calm bins, late leads toward window mean.",
+   "verdict": "live-shipped",
+   "why": "The FNO is worse than trivial estimators in freestream (0.0056 vs 0.0041 median error) and at lead 0.",
+   "source": "experiments/estimator_blend/run_pred_out.txt; tools/decisions/d002_slot_plan.json evidence.v17; CAMPAIGN_REPORT.md §15.9"
+  },
+  {
+   "id": "BL04",
+   "date": "2026-09-25",
+   "category": "blending",
+   "title": "Band-centre blend and frame-difference width table (v17 recipe)",
+   "hypothesis": "Centring the band on a blend of FNO/window estimators (not on the prediction) and sizing widths by frame-difference rank raises T.",
+   "method": "Centre per (lead, channel, sextile) chosen on a grid to maximise T under proxies A+B; width table per (lead group, channel, p1 decile) fitted under k_T proxies; controls separate centre from pure widening.",
+   "scripts": [
+    "experiments/estimator_blend/fit_band.py",
+    "experiments/estimator_blend/run_band.py",
+    "experiments/estimator_blend/controls.py",
+    "experiments/estimator_blend/controls2.py",
+    "experiments/estimator_blend/gsweep.py",
+    "experiments/estimator_blend/make_tables.py",
+    "experiments/estimator_blend/verify_torch.py"
+   ],
+   "data_split": "holdout SELECT fit / FINAL eval under proxies A, B, AT, BT",
+   "results": "proxy FINAL, full v17 recipe (predA+bandAB+boost+p1width AT,BT) vs v8: A comp +1.401 (sps +4.311), B +2.078, AT +1.326 (sps +4.006), BT +1.696. Controls (AT): centre only (bandAB) sps +2.530; width-only g=1.2 sps +1.010; v16 boost alone comp +0.207. live v17 vs v8: sps +3.949, final +1.120.",
+   "verdict": "live-shipped",
+   "why": "Bands need not contain the prediction, so moving their centre toward the lower-error estimator raises coverage at the same width.",
+   "source": "experiments/estimator_blend/controls2_out.txt, run_band_out.txt, controls_out.txt (ends in MemoryError), gsweep_out.txt; results/live_logs/live_v17_25sep.txt"
+  },
+  {
+   "id": "BL05",
+   "date": "2026-09-25",
+   "category": "blending",
+   "title": "v18 studies: extra estimators, unconstrained tables, ridge widths, boost refits",
+   "hypothesis": "More blend partners (DMD, linear extrapolation), an unconstrained LS table, a ridge width score or a refitted boost add to v17.",
+   "method": "Four studies on the v17 tables: stage 1 estimators in pred/centre; stage 2 ridge-rank widths and boost variants; stage 3 centre refits; stage 4 boost/gain grid.",
+   "scripts": [
+    "experiments/v18_refits/study1.py",
+    "experiments/v18_refits/study2.py",
+    "experiments/v18_refits/study3.py",
+    "experiments/v18_refits/study4.py",
+    "experiments/v18_refits/lib18.py",
+    "experiments/v18_refits/ridge18.py",
+    "experiments/v18_refits/make_tables18.py",
+    "experiments/v18_refits/patch_ridge.py",
+    "experiments/v18_refits/verify18.py"
+   ],
+   "data_split": "holdout SELECT/FINAL under proxies AT, A; real memorized pool R",
+   "results": "proxy FINAL vs v17: unconstrained PEl pred AT +0.129 / A +0.141 (adding dmd/lin/all: +0.131 to +0.148); ridge-rank width nb10-40 AT +0.001 to +0.007; centre refits AT +0.020 to +0.024; best boost refits AT +0.087 to +0.124. Real memorized pool: v18 (PEl_A) comp -0.055.",
+   "verdict": "inconclusive",
+   "why": "The v17 recipe is near what this proxy can distinguish; the only material gain is the unconstrained table, which is negative on the memorized pool.",
+   "source": "experiments/v18_refits/study1_out.txt, study2_out.txt, study3_out.txt, study4_out.txt, study_ft_out.txt ('stock v18 (PEl_A)' R row)"
+  },
+  {
+   "id": "BL06",
+   "date": "2026-09-25",
+   "category": "blending",
+   "title": "v19: ridge forecaster L as a third blend partner",
+   "hypothesis": "An honest learned forecaster adds information the FNO and window estimators lack.",
+   "method": "pred/centre = Em + a(P-Em) + b(El-Em) + c(L-Em) per (lead, channel, sextile); constrained a,b,c>=0, a+b+c<=1 (L_con) vs unconstrained pred (L_uncon); widths refit.",
+   "scripts": [
+    "experiments/v19_ridge_partner/blend19.py",
+    "experiments/v19_ridge_partner/lib19.py",
+    "experiments/v19_ridge_partner/verify19.py"
+   ],
+   "data_split": "holdout SELECT/FINAL under proxies AT, BT, A, B",
+   "results": "proxy FINAL vs v17: L_con AT +0.186, BT +0.294, A +0.161, B +0.329 (sps +0.42 to +0.91); L_uncon_pred AT +0.340, A +0.331 but BT -0.071, B -0.217.",
+   "verdict": "adopted",
+   "why": "L_con is positive under all four proxies, so it was built into v19 (Jev d006 p=0.81).",
+   "source": "experiments/v19_ridge_partner/blend_sxb3_out.txt; tools/decisions/d006_resume_v19.json"
+  },
+  {
+   "id": "EM01",
+   "date": "2026-08-13",
+   "category": "evaluation_methodology",
+   "title": "Composite score weights",
+   "hypothesis": "The final score is the mean of the five subscores.",
+   "method": "Least squares on 5 complete live points; single-variable measurement from v8 vs v9; later a 176-team fit on the public leaderboard.",
+   "scripts": [],
+   "data_split": "live ledger; leaderboard snapshot 2026-09-25T14:33Z",
+   "results": "5-point fit: rel .476, tke .086, mvpe .095, time .110, sps .243 (residual max 0.0088, cond 1107, LOO -3.74 on the DMD point). Measured w_time = 0.016508/0.173384 = 0.0952. 176-team fit: rel .453, tke .0869, mvpe .0805, time .0927, sps .2838, const 3.53 (RMSE 0.117, max resid 0.60). v8 lost 1.699 tke and final rose +0.108.",
+   "verdict": "adopted",
+   "why": "Not the mean: rel is worth ~5x tke and sps ~3x tke per point.",
+   "source": "CAMPAIGN_REPORT.md §2 (L78-89), §9 (L544-559), §12.1 (L770-772); report/data/lb_analysis.json['weights']"
+  },
+  {
+   "id": "EM02",
+   "date": "2026-08-15",
+   "category": "evaluation_methodology",
+   "title": "Run-to-run determinism of the board (v8 vs bit-identical v9)",
+   "hypothesis": "Live scores are noisy enough to hide small deltas.",
+   "method": "Resubmitted a bit-identical prediction path with added diagnostics (v9).",
+   "scripts": [
+    "submission_fno_diag_v9.zip"
+   ],
+   "data_split": "live",
+   "results": "live: rel/tke/mvpe/sps identical to 6 decimals; time 91.408779 -> 91.235395 (-0.173384); final 78.140964 -> 78.124456 (-0.016508).",
+   "verdict": "adopted",
+   "why": "Four subscores are deterministic; only time varies (~5%), so composite noise is about +/-0.017.",
+   "source": "CAMPAIGN_REPORT.md §12.1 (L752-768)"
+  },
+  {
+   "id": "EM03",
+   "date": "2026-08-15",
+   "category": "evaluation_methodology",
+   "title": "Local-to-live transfer record",
+   "hypothesis": "Validated local gains transfer to the board.",
+   "method": "Compared the local delta with the live delta for every change validated offline then shipped.",
+   "scripts": [],
+   "data_split": "matched/SELECT-FINAL pools (memorized); live",
+   "results": "conditional-TKE map +3.25 local -> -1.02 live (-31%); FNO swap +8.05 -> +0.561 (7%); log-POD +2.73 -> +0.03 (1%); rank modifier +6.96 -> +0.152 (2%). Incremental changes to the same model ~87% (eta 0.4 -> 1.4 tke +0.955 live).",
+   "verdict": "adopted",
+   "why": "Local deltas were measured on data the checkpoint had memorized (EM04).",
+   "source": "CAMPAIGN_REPORT.md §6.5 transfer table (L453-463), §3 (L150-152)"
+  },
+  {
+   "id": "EM04",
+   "date": "2026-08-15",
+   "category": "evaluation_methodology",
+   "title": "The founding error: every local holdout is memorized by sim_real_ft",
+   "hypothesis": "Local held-out trajectories are unseen by the shipped checkpoint.",
+   "method": "Read the checkpoint meta (iteration, best_iteration, best_val_loss) and the organizers' training setup.",
+   "scripts": [],
+   "data_split": "all train_real",
+   "results": "sim_real_ft was fine-tuned by the organizers on all of train_real; local 96.07/80.14/97.27 are training scores. Live 94.168/74.026/92.836 is the only honest generalisation measurement.",
+   "verdict": "adopted",
+   "why": "Explains the four transfer failures (EM03) and the failed fine-tunes at once.",
+   "source": "CAMPAIGN_REPORT.md §12.3 (L791-802), §9 (L655-662)"
+  },
+  {
+   "id": "EM05",
+   "date": "2026-08-22",
+   "category": "evaluation_methodology",
+   "title": "The 14-trajectory live-nearest holdout (holdout_v12_3)",
+   "hypothesis": "Holding out the 14 trajectories nearest the live fingerprint gives an honest local test.",
+   "method": "Selected 14 nearest in the 6-D space, kept the 3 Re-ceiling (26700) trajectories in training so 14/14 are bracketed; SELECT = original quad, FINAL = 10 new; scored the frozen checkpoint.",
+   "scripts": [
+    "src/splits/build_holdout_v12_3.py",
+    "src/evaluation/score_holdout_v12_3.py",
+    "experiments/early_diagnostics/holdout_hardness_distribution.py",
+    "src/evaluation/score_one_trajectory.py"
+   ],
+   "data_split": "holdout 14 (SELECT 4 / FINAL 10), train pool 67",
+   "results": "local frozen sim_real_fno: holdout-14 (588 win) 96.296/80.715/97.154; select-4 96.088/79.915/97.379; final-10 (420 win) 96.379/81.039/97.064 vs live 94.168/74.026/92.836. Report then projected ~81.2-81.3 composite (later invalidated, EM06). No output file for the per-trajectory hardness script.",
+   "verdict": "adopted",
+   "why": "Split kept as the local pool; its absolute levels are memorized (EM06), so only deltas are usable.",
+   "source": "data/splits/holdout_v12_3.json (n_bracketed 14); holdout_v12_3_stock_scores.json; data/splits/train_pool_v12_3.json; CAMPAIGN_REPORT.md §14.2-14.3 (L1160-1212)"
+  },
+  {
+   "id": "EM06",
+   "date": "2026-08-27",
+   "category": "evaluation_methodology",
+   "title": "Holdout contamination: sim_real_fno scores higher on the 'holdout' than live",
+   "hypothesis": "holdout_v12_3 is unseen by sim_real_fno.",
+   "method": "Scored the never-real-trained sim_fno and sim_cno on the same holdout as a control.",
+   "scripts": [
+    "src/evaluation/score_cno_ckpt.py"
+   ],
+   "data_split": "holdout final-10",
+   "results": "local final-10: sim_fno 79.709/66.872/75.199; sim_cno 78.145/67.145/74.743; sim_real_fno 96.379/81.039/97.064 vs its own live 94.168/74.026/92.836.",
+   "verdict": "adopted",
+   "why": "The holdout was in the organizers' training set, so sim_real_fno memorized it; clean-start candidates must be judged against their own frozen starting point.",
+   "source": "CAMPAIGN_REPORT.md §15.2 (L1261-1294); holdout_v12_3_simcno_frozen_scores.json; closed_directions.json C13"
+  },
+  {
+   "id": "EM07",
+   "date": "2026-08-22",
+   "category": "evaluation_methodology",
+   "title": "True composite derivatives through SPS (TRUE_W)",
+   "hypothesis": "The fitted composite weights are total derivatives.",
+   "method": "Added the dependence of SPS (via pm) on rel/tke/mvpe at the v8 operating point.",
+   "scripts": [],
+   "data_split": "analytic at live v8",
+   "results": "rel 0.476 -> 0.649 (+36%), tke 0.086 -> 0.131 (+53%), mvpe 0.095 -> 0.160 (+68%); rel is 4.9x tke, not 5.5x. Loss weights in src/training/finetune_fno_kaggle.py corrected 22 Aug.",
+   "verdict": "adopted",
+   "why": "SPS uses the same errors as the other subscores, so every accuracy change also moves SPS.",
+   "source": "CAMPAIGN_REPORT.md §14.1 (L1130-1151)"
+  },
+  {
+   "id": "EM08",
+   "date": "2026-09-25",
+   "category": "evaluation_methodology",
+   "title": "Live-calibrated error-inflation proxy (proxy A/B, k_rel vs k_T)",
+   "hypothesis": "Inflating memorized-holdout residuals Y'=P+k(Y-P) until a live statistic is matched gives a local proxy that predicts live band/SPS effects.",
+   "method": "k fitted to live rel error (k_rel SELECT 1.534 / FINAL 1.665) or to v8 live T=0.4914 (k_T 1.394 / 1.447); validated against the live DMD band bracket shape and the v6 x0.85 loss; tested prospectively on v17.",
+   "scripts": [
+    "experiments/interval_recipes/validate_proxy.py",
+    "experiments/interval_recipes/common.py",
+    "experiments/interval_recipes/check_scale.py",
+    "experiments/estimator_blend/gsweep.py"
+   ],
+   "data_split": "holdout SELECT/FINAL",
+   "results": "proxy (AT, k_T) predicted v17 sps +4.006, composite +1.326; live sps +3.949, final +1.120. Under proxy A the no-shape width sweep peaks at g=1.0 (28.81/29.47/28.99 for g .74/1/1.21), same shape as the live DMD bracket (30.83/31.88/30.72). Proxies overstate band effects 1.5-1.9x per d003; rel/mvpe off by ~0.15.",
+   "verdict": "adopted",
+   "why": "The first local proxy validated against a live result; it only models the stock FNO's error scale.",
+   "source": "experiments/interval_recipes/recipes_out.txt (k values); experiments/estimator_blend/gsweep_out.txt; experiments/estimator_blend/controls2_out.txt; results/live_logs/live_v17_25sep.txt; docs/notes/STATE.md 'Validated proxy'"
+  },
+  {
+   "id": "EM09",
+   "date": "2026-09-25",
+   "category": "evaluation_methodology",
+   "title": "Leaderboard subscore analysis (25 Sep)",
+   "hypothesis": "Our gap to the top 10 is mostly accuracy.",
+   "method": "Pulled all 181 task-35362 entries via the Codabench API; computed T = sps/(100 Wbar) by rank bucket; split the gap with fitted weights.",
+   "scripts": [
+    "report/scripts/make_figures.py",
+    "report/scripts/build_report.py"
+   ],
+   "data_split": "public leaderboard snapshot 2026-09-25T14:33Z",
+   "results": "T by rank bucket: 1-10 0.617, 11-30 0.607, 31-60 0.582, 61-120 0.536, 121-178 0.348; ours v8 0.491, v17 0.545. Top-10 cutoff 81.775, leader 82.151; top-10 mean rel 94.781 tke 79.641 mvpe 94.162 time 92.153 sps 44.295. Gap contribution: sps 1.989, tke 0.371, rel 0.307, time 0.095, mvpe 0.087. Us: rank 87 of 178 after v17.",
+   "verdict": "adopted",
+   "why": "Top teams mostly separate on the band factor T, which needs no retraining.",
+   "source": "report/data/lb_analysis.json; report/data/lb_snapshot.json; docs/notes/STATE.md '25 Sep leaderboard finding'"
+  },
+  {
+   "id": "EM10",
+   "date": "2026-09-25",
+   "category": "evaluation_methodology",
+   "title": "Jev decision gates for submission slots",
+   "hypothesis": "Structured probability gates over written evidence give better slot decisions than ad hoc choice.",
+   "method": "Six TypeSafe/Jev calls with options, evidence and checks; logged to tools/decisions.",
+   "scripts": [
+    "tools/jev_gate.py"
+   ],
+   "data_split": "decision records d001-d006",
+   "results": "Decision-model outputs (TypeSafe Jev scores, not calibrated probabilities): d001 tke_boost p=0.65; d002 wait_for_v17_today p=0.59; d003 v17 p=0.83 (P(beats v8)=0.79); d004 proxy_search_v18 p=0.42 (top10_reachable 0.29); d005 ft_then_v18 p=0.87; d006 build_L_con p=0.81. d003's pick (v17) beat v8 live by +1.120.",
+   "verdict": "adopted",
+   "why": "Used as a cheap gate; one outcome (v17) so far checks against live.",
+   "source": "tools/decisions.jsonl; tools/decisions/d001-d006*.json; tools/experiments.jsonl"
+  },
+  {
+   "id": "SUB01",
+   "date": null,
+   "category": "submission",
+   "title": "Submissions #1-#3: numpy DMD with heteroscedastic band scale bracket",
+   "hypothesis": "Band half-width h = A + K*sigma_local has an interior live optimum.",
+   "method": "Same DMD fields, three band settings (A_u/A_v/K 0.006/0.005/1.75, 0.007/0.006/0.85, 0.004/0.003/1.5).",
+   "scripts": [],
+   "data_split": "live",
+   "results": "live sps: 30.721 (mean h_u 0.03446, T 0.4666), 30.831 (0.02082, T 0.4683), 31.879 (0.02840, T 0.4842, incumbent). #1 final 76.6845 (time 90.655, 7.75 ms); #3 final 77.0117 (rel 92.501 tke 75.129 mvpe 92.629 time 90.866). #2 final NOT RECORDED.",
+   "verdict": "closed",
+   "why": "Peak at the middle setting; band scale for the DMD bracketed on both sides.",
+   "source": "CAMPAIGN_REPORT.md §3 rows 1-3 (L115-117), bracket table (L127-137)"
+  },
+  {
+   "id": "SUB02",
+   "date": null,
+   "category": "submission",
+   "title": "Submissions #5-#6: stock FNO without bands, then FNO + corrector eta 0.4 + bands",
+   "hypothesis": "Shipping without lower/upper is harmless; adding heteroscedastic bands lifts SPS.",
+   "method": "#5 stock FNO with the scorer's default +/-5% interval; #6 FNO + TinyOperator eta 0.4 + A+K*sigma bands.",
+   "scripts": [],
+   "data_split": "live",
+   "results": "#5: rel 94.168 tke 74.026 mvpe 92.836 sps 14.080 (T 0.2076) final 72.6542. #6: rel 94.189 tke 74.770 mvpe 92.870 time 90.590 sps 32.397 (T 0.4752) final 77.9045, 7.87 ms. sps +18.3 (fields not identical: #6 also added the eta 0.4 corrector).",
+   "verdict": "adopted",
+   "why": "The default interval is far too tight on v, so T collapses without explicit bands.",
+   "source": "CAMPAIGN_REPORT.md §3 rows 5-6 (L119-120), §3 '#5' (L145-148); closed_directions.json C07"
+  },
+  {
+   "id": "SUB-v4",
+   "date": "2026-08-08",
+   "category": "submission",
+   "title": "v4: FNO + corrector eta 1.4 + rank band modifier",
+   "hypothesis": "Raising eta to 1.4 buys tke; the per-element rank modifier raises T.",
+   "method": "submission_fno_boosted_v4.zip: corrector.pth eta 1.4 (width 24, modes 12), _BAND_SHAPE=True, A 0.004/0.003 K 1.5, import-time load, compile/TF32 self-verified.",
+   "scripts": [
+    "submission_fno_boosted_v4.zip"
+   ],
+   "data_split": "live",
+   "results": "live: rel 94.020 tke 75.725 mvpe 92.807 time 91.405 sps 32.549 final 78.0331 (Wbar 0.6827, T 0.4768, 6.45 ms). No preflight output file.",
+   "verdict": "closed",
+   "why": "tke +0.955 transferred as predicted but rel/mvpe/sps paid for it; later beaten by v8 without the corrector.",
+   "source": "CAMPAIGN_REPORT.md §3 row 7 (L121); zip submission.py + corrector.pth (eta 1.4 read via torch.load)"
+  },
+  {
+   "id": "SUB-v5",
+   "date": null,
+   "category": "submission",
+   "title": "v5: v4 + manual CUDA graphs (plus other changes)",
+   "hypothesis": "Manual CUDA graph capture cuts per-call latency.",
+   "method": "torch.cuda.graph() capture bundled with four other changes; no top-level guard on _load_at_import().",
+   "scripts": [],
+   "data_split": "live",
+   "results": "live: all subscores 0, final 0.0000. Zip not present in the tree.",
+   "verdict": "closed",
+   "why": "torch.randn after the capture left the CUDA RNG in capture mode and raised at import; with no outer guard the process died before serving a batch.",
+   "source": "CAMPAIGN_REPORT.md §3 row 8 (L122), '#8, the zero' (L153-160); closed_directions.json C08"
+  },
+  {
+   "id": "SUB-v6",
+   "date": "2026-08-10",
+   "category": "submission",
+   "title": "v6: v4 with bands x0.85, fp16 bounds, rank modifier retired",
+   "hypothesis": "Bands were ~40% too wide for the FNO, so a x0.85 step gains SPS; fp16 bounds save time.",
+   "method": "submission_fno_boosted_v6.zip: _BAND_SCALE=0.85 on A and K, _BAND_SHAPE=False (modifier 'RETIRED' in source), bounds returned as .half(), corrector eta 1.4, CUDA-graph path removed.",
+   "scripts": [
+    "submission_fno_boosted_v6.zip"
+   ],
+   "data_split": "live",
+   "results": "live: rel 94.020 tke 75.725 mvpe 92.807 time 91.139 sps 31.559 final 77.7459 (T 0.4623, 6.89 ms). vs v4: sps -0.990, time -0.267. No preflight output file.",
+   "verdict": "closed",
+   "why": "The scale was already right, and the harness pays to widen fp16 bounds. Note: the build also turned the rank modifier off, which the ledger does not mention, so the -0.990 sps mixes two changes.",
+   "source": "CAMPAIGN_REPORT.md §3 row 9 (L123), '#9' (L162-163), §6.1 (L297-307); zip submission.py L110-160 (_BAND_SCALE, _BAND_SHAPE=False), L649-650 (.half())"
+  },
+  {
+   "id": "SUB-v7",
+   "date": "2026-08-13",
+   "category": "submission",
+   "title": "v7: v8 code path + eta-1.4 corrector, multi-stage loader and import guard",
+   "hypothesis": "Restoring the import guard and a multi-stage corrector loader makes the corrector build safe.",
+   "method": "submission_fno_boosted_v7.zip: submission.py identical to v8's (after line-ending normalisation), plus corrector.pth eta 1.4; rank modifier on; fp32 bounds.",
+   "scripts": [
+    "submission_fno_boosted_v7.zip"
+   ],
+   "data_split": "none",
+   "results": "live: NOT RECORDED. Not in the ledger (as of 13 Aug the report lists 10 submissions: #1-#9 plus v8). No preflight output file.",
+   "verdict": "inconclusive",
+   "why": "Superseded the same day by v8, which dropped the corrector.",
+   "source": "zip contents (corrector.pth eta 1.4); diff of v7 vs v8 submission.py (none); CAMPAIGN_REPORT.md §1 (L27)"
+  },
+  {
+   "id": "SUB-v8",
+   "date": "2026-08-13",
+   "category": "submission",
+   "title": "v8: stock FNO + heteroscedastic bands + rank modifier, no corrector (eta 0)",
+   "hypothesis": "Removing the corrector recovers rel and SPS worth more than the tke it gave.",
+   "method": "submission_fno_eta0_v8.zip: no corrector.pth, _BAND_SHAPE=True, A 0.004/0.003 K 1.5, import guard.",
+   "scripts": [
+    "submission_fno_eta0_v8.zip"
+   ],
+   "data_split": "live",
+   "results": "live: rel 94.168148 tke 74.025874 mvpe 92.836233 time 91.408779 sps 33.337914 final 78.140964 (Wbar 0.6784, T 0.4914, 6.40 ms). Best live until v17. No preflight output file.",
+   "verdict": "live-shipped",
+   "why": "The corrector cost more SPS and rel than it gave in tke under the true weights.",
+   "source": "CAMPAIGN_REPORT.md §1 (L23-41), §12.1 (L756-763); holdout_v12_3_stock_scores.json['live']"
+  },
+  {
+   "id": "SUB-v9",
+   "date": "2026-08-15",
+   "category": "submission",
+   "title": "v9: bit-identical v8 + target-free anomaly diagnostics",
+   "hypothesis": "Board reproducibility and model-side vs data-side anomaly can be read from one free probe.",
+   "method": "submission_fno_diag_v9.zip: v8 prediction path plus cont/dec/vr/zf diagnostics and a compact summary line.",
+   "scripts": [
+    "submission_fno_diag_v9.zip"
+   ],
+   "data_split": "live",
+   "results": "live: rel 94.168148 tke 74.025874 mvpe 92.836233 time 91.235395 sps 33.337914 final 78.124456. See EM02, EA03. No preflight output file.",
+   "verdict": "adopted",
+   "why": "Pure instrument; its accuracy subscores are identical to v8.",
+   "source": "CAMPAIGN_REPORT.md §12.1-12.2 (L752-790)"
+  },
+  {
+   "id": "SUB-v10",
+   "date": "2026-08-18",
+   "category": "submission",
+   "title": "v10: v8 + Step-1 input diagnostics (spectrum, sigma histogram, mask CC, AC)",
+   "hypothesis": "Live input statistics calibrate augmentation design.",
+   "method": "submission_fno_step1_v10.zip: bit-identical prediction path; diagnostics computed after the returned arrays; logging compacted to 194 B/process.",
+   "scripts": [
+    "submission_fno_step1_v10.zip",
+    "src/evaluation/preflight.py"
+   ],
+   "data_split": "live; preflight FINAL pair (memorized)",
+   "results": "preflight (local): rel 96.064 tke 80.287 mvpe 97.202 sps 42.906 coverage 0.8299, PASS. live: time_score 83.088 (30.2 ms/sample ingestion); final NOT RECORDED (report gives only an estimated -0.7944 composite effect).",
+   "verdict": "adopted",
+   "why": "Host syncs in the diagnostics cost 7.78x under contention (HR03); the diagnostics fed EA06.",
+   "source": "preflight_v10_out.txt; v10_live.txt; CAMPAIGN_REPORT.md §13 (L890-929)"
+  },
+  {
+   "id": "SUB-v11",
+   "date": "2026-08-18",
+   "category": "submission",
+   "title": "v11: flat-constant band (h_u 0.009, h_v 0.0045), modifier off",
+   "hypothesis": "A flat band beats the heteroscedastic scheme live, as the local frontier suggested.",
+   "method": "submission_fno_flatband_v11.zip: _FLAT_BAND=True, _BAND_SHAPE=False, v8 model path.",
+   "scripts": [
+    "submission_fno_flatband_v11.zip",
+    "experiments/early_diagnostics/compare_v11_v12.py"
+   ],
+   "data_split": "preflight FINAL pair; AoA-15 broad pool (17 traj, 238 windows)",
+   "results": "preflight (local): rel 96.064 tke 80.287 mvpe 97.202 sps 39.407 coverage 0.6423, PASS (stderr 11,934 B warning). Broad pool: sps 44.618 vs v12 41.973 (+2.646), coverage 0.7429 vs 0.9273. live: NOT RECORDED.",
+   "verdict": "inconclusive",
+   "why": "No live result is recorded for this probe.",
+   "source": "preflight_v11_out.txt; compare_v11_v12_out.txt; zip submission.py L85-117"
+  },
+  {
+   "id": "SUB-v12",
+   "date": "2026-08-19",
+   "category": "submission",
+   "title": "v12: v8 with the rank modifier off (probe 1)",
+   "hypothesis": "Isolate the rank modifier's own live contribution on the bare eta-0 FNO.",
+   "method": "submission_fno_heteronomod_v12.zip: single change from v8, _BAND_SHAPE=False.",
+   "scripts": [
+    "submission_fno_heteronomod_v12.zip"
+   ],
+   "data_split": "live; preflight FINAL pair",
+   "results": "preflight (local): rel 96.064 tke 80.287 mvpe 97.202 sps 35.432 coverage 0.9254, PASS. live final 77.899 vs v8 78.141 (subscores NOT RECORDED).",
+   "verdict": "closed",
+   "why": "Turning the modifier off costs live score, so the modifier stays on.",
+   "source": "preflight_v12_out.txt; submission_fno_flatbandmod_v13.zip submission.py L118-120 and .dist_flatband_mod/submission.py L119 ('live 77.899')"
+  },
+  {
+   "id": "SUB-v13",
+   "date": "2026-08-21",
+   "category": "submission",
+   "title": "v13: flat band with the rank modifier applied (probe 3)",
+   "hypothesis": "Tests whether the modifier helps on a flat base band, i.e. whether its win came from the modifier or its interaction with sigma_local.",
+   "method": "submission_fno_flatbandmod_v13.zip: hb = FLAT * mult[rank].",
+   "scripts": [
+    "submission_fno_flatbandmod_v13.zip"
+   ],
+   "data_split": "preflight FINAL pair",
+   "results": "preflight (local): rel 96.064 tke 80.287 mvpe 97.202 sps 31.536 coverage 0.5036, PASS. live: NOT RECORDED.",
+   "verdict": "inconclusive",
+   "why": "No live result recorded; locally it has the lowest coverage and SPS of the probes.",
+   "source": "preflight_v13_out.txt; zip submission.py L85-123"
+  },
+  {
+   "id": "SUB-v14",
+   "date": "2026-08-23",
+   "category": "submission",
+   "title": "v14: fine-tuned FNO swapped into the v8 dist (planned)",
+   "hypothesis": "A fine-tuned checkpoint in the unchanged v8 wrapper can be tested live.",
+   "method": "TEST_AND_SUBMIT_FINETUNED.md steps: score, fp16 pack, copy into .dist_finetuned_v14, build, preflight.",
+   "scripts": [
+    "TEST_AND_SUBMIT_FINETUNED.md",
+    "src/evaluation/score_finetuned_ckpt.py"
+   ],
+   "data_split": "holdout_v12_3",
+   "results": "No submission_fno_finetuned_v14.zip in the tree; no preflight output. live: NOT RECORDED.",
+   "verdict": "inconclusive",
+   "why": "The decision rule required beating stock on the holdout, which Experiments 1-3 did not.",
+   "source": "TEST_AND_SUBMIT_FINETUNED.md §4-9; CAMPAIGN_REPORT.md §15.1"
+  },
+  {
+   "id": "SUB-v15",
+   "date": "2026-08-29",
+   "category": "submission",
+   "title": "v15: v8 + guarded AOT-compile and requests probes",
+   "hypothesis": "AOT compilation may work where JIT torch.compile failed, and requests may be present in the container.",
+   "method": "submission_fno_probe_aot_v15.zip: bit-identical prediction path; probes never used for prediction.",
+   "scripts": [
+    "submission_fno_probe_aot_v15.zip"
+   ],
+   "data_split": "live",
+   "results": "live probe: requests=Y:2.31.0; aot=FAIL PermissionError [Errno 13]. live subscores/final: NOT RECORDED. No preflight output file.",
+   "verdict": "closed",
+   "why": "AOT compilation hits the same container restriction as JIT.",
+   "source": "CAMPAIGN_REPORT.md §15.3 (L1296-1309)"
+  },
+  {
+   "id": "SUB-v16",
+   "date": "2026-09-25",
+   "category": "submission",
+   "title": "v16: v8 + mean-preserving tke boost (bands on stock prediction)",
+   "hypothesis": "The TK04 boost adds tke with little rel cost and no SPS loss.",
+   "method": "submission_fno_tkeboost_v16.zip: a = clip((E_in/E_pred)^0.25, 1, 1.6) per window after prediction; lower/upper unchanged.",
+   "scripts": [
+    "submission_fno_tkeboost_v16.zip"
+   ],
+   "data_split": "holdout (memorized); proxies A/B/AT/BT",
+   "results": "local same-pool vs v8: rel -0.012, tke +2.07, mvpe 0, sps +0.55 (STATE); proxies: A +0.176, B -0.027, AT +0.207, BT +0.027 composite. Preflight PASS per STATE (no output file). live: NOT RECORDED (held as fallback; v17 used the 25 Sep slot).",
+   "verdict": "adopted",
+   "why": "Kept as the fallback and folded into v17.",
+   "source": "docs/notes/STATE.md 'Submission slots left'; experiments/estimator_blend/controls2_out.txt 'v16'; tools/decisions/d003_today_v16_or_v17.json"
+  },
+  {
+   "id": "SUB-v17",
+   "date": "2026-09-25",
+   "category": "submission",
+   "title": "v17: v16 + calm-region blend of prediction and band centre + frame-difference width table",
+   "hypothesis": "Blending toward window estimators in calm regions and re-centring the band raises SPS materially.",
+   "method": "submissions/v17/submission_blend_v17.zip: PRED_TAB/BAND_TAB (a,b per lead, channel, sextile) and WIDTH_TAB (lead group, channel, p1 decile) from experiments/estimator_blend; tke boost after the blend; bounds do not move with the boost.",
+   "scripts": [
+    "submissions/v17/submission_blend_v17.zip",
+    "submissions/v17/_blend_tables.py"
+   ],
+   "data_split": "live; preflight FINAL pair",
+   "results": "preflight (local): rel 96.101 tke 82.540 mvpe 97.201 sps 44.084 coverage 0.8435, PASS. live: rel 94.104181 tke 75.367761 mvpe 93.084929 time 91.130409 sps 37.287367 final 79.260788 (+1.120 vs v8; rank 121 -> 87). 6.9 ms/sample.",
+   "verdict": "live-shipped",
+   "why": "The band centre moved to lower-error estimators and the width tracked a better difficulty feature; the proxy predicted it within 0.06 sps.",
+   "source": "results/live_logs/live_v17_25sep.txt; report/data/lb_snapshot.json (task 35362 Slash entry); experiments/estimator_blend/preflight_v17_out.txt; CAMPAIGN_REPORT.md §15.9"
+  },
+  {
+   "id": "SUB-v18",
+   "date": "2026-09-25",
+   "category": "submission",
+   "title": "v18: v17 with an unconstrained prediction blend table",
+   "hypothesis": "Dropping the alpha,beta>=0 / sum<=1 box on the prediction table adds a little.",
+   "method": "submissions/submission_v18.zip: PRED_TAB refit by plain LS; same code otherwise.",
+   "scripts": [
+    "submissions/submission_v18.zip"
+   ],
+   "data_split": "preflight FINAL pair; proxies",
+   "results": "preflight (local): rel 96.082 tke 82.382 mvpe 97.256 sps 44.052 coverage 0.8435, PASS. proxy vs v17 +0.13/+0.14; real memorized pool -0.055. live: NOT RECORDED (planned 27 Sep fallback).",
+   "verdict": "open",
+   "why": "Small proxy gain that is negative on the real (memorized) pool.",
+   "source": "experiments/v18_refits/preflight_v18_out.txt; experiments/v18_refits/study_ft_out.txt; docs/notes/STATE.md; tools/decisions/d005_final_two_slots.json"
+  },
+  {
+   "id": "SUB-v18ft",
+   "date": "2026-09-25",
+   "category": "submission",
+   "title": "v18ft: v17 post-processing on the fine-tuned FNO (Experiment 2 checkpoint)",
+   "hypothesis": "A fine-tune that partly unlearned the memorized holdout generalises better live than the stock checkpoint.",
+   "method": "submissions/submission_v18ft.zip: fno_finetuned_fp16.pth in place of sim_real_fno_fp16.pth, v17 tables unchanged.",
+   "scripts": [
+    "submissions/submission_v18ft.zip",
+    "experiments/v18_refits/study_ft.py",
+    "experiments/v18_refits/cache_ft.py"
+   ],
+   "data_split": "preflight FINAL pair; holdout under proxies and real pool R",
+   "results": "preflight (local): rel 95.462 tke 82.122 mvpe 96.698 sps 41.417 coverage 0.8051, PASS. local whole-build vs v17: real pool R -0.822, proxy AT -1.083, A -1.199; refitting tables on ft residuals does not help (R -0.958 to -1.030). live: NOT RECORDED (planned 26 Sep, high variance).",
+   "verdict": "open",
+   "why": "Every local comparison favours the memorizing stock model, so the local loss does not decide it.",
+   "source": "experiments/v18_refits/preflight_v18ft_out.txt; experiments/v18_refits/study_ft_out.txt; tools/decisions/d005_final_two_slots.json"
+  },
+  {
+   "id": "SUB-v19",
+   "date": "2026-09-25",
+   "category": "submission",
+   "title": "v19: v17 + ridge forecaster L as a constrained third blend partner",
+   "hypothesis": "L_con improves v17 under all four proxies.",
+   "method": "submissions/submission_v19.zip: _ridge19.py + ridge_w.npz; pred/centre = Em + a(P-Em) + b(El-Em) + c(L-Em), a,b,c>=0, a+b+c<=1; widths refit.",
+   "scripts": [
+    "submissions/submission_v19.zip",
+    "experiments/v19_ridge_partner/build_v19/_ridge19.py"
+   ],
+   "data_split": "preflight FINAL pair; proxies",
+   "results": "preflight (local): rel 96.141 tke 82.734 mvpe 97.201 sps 44.535 coverage 0.8440, PASS (194.2 MB). proxy vs v17: AT +0.186, BT +0.294, A +0.161, B +0.329. CPU 9.6 ms/sample; GPU cost unmeasured. live: NOT RECORDED.",
+   "verdict": "open",
+   "why": "Candidate to replace v18 on 27 Sep; its runtime on the A800 is unknown.",
+   "source": "experiments/v19_ridge_partner/preflight_v19_out.txt; experiments/v19_ridge_partner/blend_sxb3_out.txt; docs/notes/STATE.md v19 entry"
+  }
+ ]
+}

@@ -1,0 +1,3 @@
+loaded lab/build_exp1/sim_real_fno_fp16.pth ['format', 'n_complex', 'model_type', 'missing_keys', 'unexpected_keys']
+select done 140.2 s
+final done 307.2 s

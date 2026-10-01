@@ -1,0 +1,31 @@
+RAW FINAL stock rel 0.0751 (96.379)  tke 0.4679 (81.039)  mvpe 0.0605 (97.064)
+RAW FINAL ft    rel 0.0855 (95.899)  tke 0.4057 (83.137)  mvpe 0.0689 (96.668)
+stock v17
+   AT[rel +0.000 tke +0.000 mvpe +0.000 sps +0.000 T +0.0000 comp +0.000]  abs rel 94.944 tke 78.040 mvpe 95.888 sps 39.39 T 0.5409
+   A [rel +0.000 tke +0.000 mvpe +0.000 sps +0.000 T +0.0000 comp +0.000]  abs rel 94.245 tke 76.225 mvpe 95.304 sps 36.06 T 0.5102
+   R [rel +0.000 tke +0.000 mvpe +0.000 sps +0.000 T +0.0000 comp +0.000]  abs rel 96.406 tke 82.813 mvpe 97.107 sps 46.34 T 0.5928
+stock v18 (PEl_A)
+   AT[rel -0.030 tke +0.908 mvpe +0.038 sps +0.213 T +0.0000 comp +0.129]  abs rel 94.913 tke 78.948 mvpe 95.925 sps 39.61 T 0.5409
+   A [rel -0.017 tke +0.952 mvpe +0.049 sps +0.218 T +0.0000 comp +0.141]  abs rel 94.228 tke 77.178 mvpe 95.352 sps 36.28 T 0.5102
+   R [rel -0.078 tke +0.020 mvpe -0.001 sps -0.073 T +0.0000 comp -0.055]  abs rel 96.328 tke 82.833 mvpe 97.106 sps 46.27 T 0.5928
+ft + v17 tables
+   AT[rel -0.707 tke +0.606 mvpe -0.545 sps -2.714 T -0.0286 comp -1.083]  abs rel 94.237 tke 78.646 mvpe 95.343 sps 36.68 T 0.5123
+   A [rel -0.793 tke +0.493 mvpe -0.609 sps -2.935 T -0.0319 comp -1.199]  abs rel 93.452 tke 76.719 mvpe 94.694 sps 33.13 T 0.4783
+   R [rel -0.510 tke +0.185 mvpe -0.399 sps -2.022 T -0.0182 comp -0.822]  abs rel 95.896 tke 82.999 mvpe 96.708 sps 44.32 T 0.5746
+ft + v18 stock tables
+   AT[rel -0.825 tke +1.141 mvpe -0.615 sps -2.701 T -0.0286 comp -1.092]  abs rel 94.119 tke 79.181 mvpe 95.272 sps 36.69 T 0.5123
+   A [rel -0.898 tke +1.329 mvpe -0.668 sps -2.849 T -0.0319 comp -1.155]  abs rel 93.347 tke 77.554 mvpe 94.636 sps 33.21 T 0.4783
+   R [rel -0.670 tke -1.219 mvpe -0.508 sps -2.610 T -0.0182 comp -1.192]  abs rel 95.736 tke 81.594 mvpe 96.599 sps 43.73 T 0.5746
+ft + PEl_A refit
+   AT[rel -0.658 tke -0.210 mvpe -0.575 sps -2.882 T -0.0286 comp -1.181]  abs rel 94.286 tke 77.830 mvpe 95.312 sps 36.51 T 0.5123
+   A [rel -0.730 tke -0.266 mvpe -0.631 sps -3.057 T -0.0319 comp -1.273]  abs rel 93.515 tke 75.959 mvpe 94.673 sps 33.00 T 0.4783
+   R [rel -0.511 tke -0.491 mvpe -0.459 sps -2.277 T -0.0182 comp -0.958]  abs rel 95.895 tke 82.322 mvpe 96.648 sps 44.06 T 0.5746
+ft + PEl_A refit + centre refit
+   AT[rel -0.658 tke -0.210 mvpe -0.575 sps -2.715 T -0.0262 comp -1.134]  abs rel 94.286 tke 77.830 mvpe 95.312 sps 36.68 T 0.5147
+   A [rel -0.730 tke -0.266 mvpe -0.631 sps -2.860 T -0.0290 comp -1.217]  abs rel 93.515 tke 75.959 mvpe 94.673 sps 33.20 T 0.4812
+   R [rel -0.511 tke -0.491 mvpe -0.459 sps -2.350 T -0.0191 comp -0.979]  abs rel 95.895 tke 82.322 mvpe 96.648 sps 43.99 T 0.5737
+ft + PEl_A refit + centre refit + width refit
+   AT[rel -0.658 tke -0.210 mvpe -0.575 sps -2.493 T -0.0231 comp -1.071]  abs rel 94.286 tke 77.830 mvpe 95.312 sps 36.90 T 0.5178
+   A [rel -0.730 tke -0.266 mvpe -0.631 sps -2.518 T -0.0241 comp -1.120]  abs rel 93.515 tke 75.959 mvpe 94.673 sps 33.54 T 0.4862
+   R [rel -0.511 tke -0.491 mvpe -0.459 sps -2.531 T -0.0214 comp -1.030]  abs rel 95.895 tke 82.322 mvpe 96.648 sps 43.81 T 0.5714
+done 199

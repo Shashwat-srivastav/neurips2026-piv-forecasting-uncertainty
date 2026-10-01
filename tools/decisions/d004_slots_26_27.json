@@ -1,0 +1,19 @@
+{
+  "question": "Two leaderboard slots remain (26 Sep and 27 Sep, 23:59 UTC). Live best is 79.26 (rank 87); top-10 cutoff is 81.775 (+2.51). Which plan for the next ~29 hours maximises the chance of the largest live score?",
+  "options": {
+    "proxy_search_v18": "Start now to push the validated proxy further for 26 Sep: add a DMD/linear-autoregressive extrapolation of the input window as another blend estimator, richer width model (ridge lookup), refit the tke boost and blend jointly, trim runtime. Reserve 27 Sep for the best of v18 variants.",
+    "finetuned_live_test": "Submit the existing fine-tuned FNO checkpoint with the v17 post-processing on 26 Sep, to test live whether it beats stock sim_real_fno on rel/tke/mvpe; 27 Sep for the better one plus any improvements.",
+    "both_parallel": "Do both: build v18 on the validated proxy for 26 Sep, while the fine-tuned+post-processing variant is prepared for 27 Sep only if v18 underdelivers."
+  },
+  "evidence": {
+    "v17_live": "+1.12 composite, sps +3.95, tke +1.34; validated proxy A predicted sps +4.01 and composite +1.33",
+    "proxy_levers_known": "Richer ridge width model: about +0.4 SPS (+0.1 composite) over v17's lookup on the proxy. Old numpy DMD (live #3) scored rel 92.50, tke 75.13, mvpe 92.63 by itself (tke better than FNO's 74.03), cost ~7 ms/sample; never blended with the FNO.",
+    "gap_structure": "Composite weights fitted across 176 teams: rel .454, tke .087, mvpe .080, time .093, sps .284 per point. Top-10 averages: rel 94.79, tke 79.60, mvpe 94.13, time 92.27, sps 44.26. v17: rel 94.10, tke 75.37, mvpe 93.08, time 91.13, sps 37.29.",
+    "finetuned_ckpt": "Unfrozen fine-tune from sim_real_fno on the non-holdout pool (23 Aug). Locally vs memorized stock: rel -0.48, tke +2.10, mvpe -0.40. Its live behaviour cannot be predicted by the proxy (the proxy degrades the stock FNO specifically). v17 blend tables were fitted to stock FNO residuals and may be miscalibrated for it.",
+    "reachability": "Even the most optimistic combination of known levers is short of +2.51; the realistic goal is maximising score and rank."
+  },
+  "checks": {
+    "top10_reachable": "Is reaching 81.775 by 27 Sep realistic given the evidence?",
+    "finetune_worth_a_slot": "Is a live test of the fine-tuned checkpoint worth one of the last two slots?"
+  }
+}

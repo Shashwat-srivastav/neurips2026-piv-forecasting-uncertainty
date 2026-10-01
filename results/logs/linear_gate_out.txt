@@ -1,0 +1,47 @@
+training windows: 1903  trajectories: 46
+streaming TRAIN accumulation (ridge sufficient statistics only) ...
+C:\Users\Shashwat\Downloads\realpde_t1_starting_kit_v5\realpde_t1_starting_kit_v5\linear_micro_gate.py:77: DeprecationWarning: __array_wrap__ must accept context and return_scalar arguments (positionally) in the future. (Deprecated NumPy 2.0)
+  yb = model((xb - MI) / SI) * ST + MT
+  16/1903 windows processed
+  96/1903 windows processed
+  176/1903 windows processed
+  256/1903 windows processed
+  336/1903 windows processed
+  416/1903 windows processed
+  496/1903 windows processed
+  576/1903 windows processed
+  656/1903 windows processed
+  736/1903 windows processed
+  816/1903 windows processed
+  896/1903 windows processed
+  976/1903 windows processed
+  1056/1903 windows processed
+  1136/1903 windows processed
+  1216/1903 windows processed
+  1296/1903 windows processed
+  1376/1903 windows processed
+  1456/1903 windows processed
+  1536/1903 windows processed
+  1616/1903 windows processed
+  1696/1903 windows processed
+  1776/1903 windows processed
+  1856/1903 windows processed
+
+fitted on 77,946,880 elements. weights (rows=feature, cols=u,v):
+[[ 3.850e-03  6.000e-05]
+ [ 3.120e-03  2.250e-03]
+ [ 6.400e-04 -5.600e-04]
+ [ 1.790e-03  2.800e-03]
+ [ 1.860e-03  9.100e-04]
+ [-8.390e-03 -1.508e-02]
+ [-7.000e-05 -0.000e+00]
+ [-4.300e-04  2.000e-05]]
+
+streaming HOLDOUT eval (35 windows, never in train_idx) ...
+C:\Users\Shashwat\Downloads\realpde_t1_starting_kit_v5\realpde_t1_starting_kit_v5\linear_micro_gate.py:112: DeprecationWarning: __array_wrap__ must accept context and return_scalar arguments (positionally) in the future. (Deprecated NumPy 2.0)
+  yb = model((xb - MI) / SI) * ST + MT
+
+HOLDOUT residual norm, before: 0.01285   after linear correction: 0.01281
+reduction: +0.325%
+
+GATE: NO SIGNAL -- do not build the full nonlinear head on this feature set

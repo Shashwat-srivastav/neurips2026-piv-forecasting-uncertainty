@@ -1,0 +1,15 @@
+[
+  {"id": "C01", "what": "Unfrozen full-model FNO fine-tuning (any loss weighting, incl. TRUE_W)", "why": "4 attempts; buy-tke-sell-rel via spectral amplitude rescale"},
+  {"id": "C02", "what": "Post-hoc TinyOperator corrector on FNO output (src/training/boost_operator_kaggle.py, any eta)", "why": "shipped live twice, both lost to eta=0"},
+  {"id": "C03", "what": "--freeze-bn-fc fine-tune starting from sim_real_fno.pth (fc/bn only)", "why": "15.8: tke -0.92 on FINAL, rel/mvpe flat"},
+  {"id": "C04", "what": "WiSE-FT / weight interpolation / model soup between sim_fno-basin and sim_real_fno weights", "why": "different basins, ||dtheta||/||theta||=1.09, -7.5 at alpha 0.95"},
+  {"id": "C05", "what": "AdaBN / test-time BatchNorm statistics adaptation", "why": "-0.81, negative 5/5"},
+  {"id": "C06", "what": "Shrinking SPS bands (x0.85) or fp16 bounds", "why": "live -0.99 sps, -0.27 time"},
+  {"id": "C07", "what": "Shipping without lower/upper bands", "why": "default +-5% collapses sps to 14"},
+  {"id": "C08", "what": "Manual CUDA graphs in submission", "why": "scored 0.000 (RNG capture crash at import)"},
+  {"id": "C09", "what": "log-POD variance denoise / lazy decode in predict()", "why": "local +2.73, live +0.03, time -0.55"},
+  {"id": "C10", "what": "amp_jitter=0.70 with w_tke=0 loss", "why": "13 Aug: worse mvpe, did not survive FINAL"},
+  {"id": "C11", "what": "MWT, Galerkin Transformer, DeepONet architectures", "why": "org benchmark equal-or-worse than FNO"},
+  {"id": "C12", "what": "Any external data or externally pretrained weights", "why": "rule violation"},
+  {"id": "C13", "what": "Using sim_real_fno holdout scores as a clean proxy for live", "why": "memorization artifact: holdout was in organizers' training set"}
+]

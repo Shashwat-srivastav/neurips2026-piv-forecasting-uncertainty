@@ -1,0 +1,3 @@
+{'format': 'fp16_packed', 'n_complex': 16, 'model_type': 'fno', 'missing_keys': [], 'unexpected_keys': []}
+select 83.7072286605835
+final 363.17652320861816

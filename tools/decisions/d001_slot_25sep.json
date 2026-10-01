@@ -1,0 +1,20 @@
+{
+  "question": "What should the team do with today's (25 Sep) single leaderboard submission slot? The board keeps each team's max score, so a worse submission does not lower the standing but wastes the slot. Choose the action with the best expected information and score value given the evidence.",
+  "options": {
+    "hold": "Submit nothing today; save effort for 26/27 Sep when validated band-shape candidates may be ready",
+    "tke_boost": "Build and submit v8 + the mean-preserving fluctuation boost (bands unchanged) today, after preflight",
+    "band_probe": "Submit a quick band-scale probe (v8 bands x1.2 wider) to learn which side of the live optimum the bands sit on"
+  },
+  "evidence": {
+    "deadline": "Dev phase ends 27 Sep 23:59 UTC; 1 submission/day; slots left: 25, 26, 27 Sep",
+    "live_best": "78.14 (v8). Top-10 cutoff 81.77. Gap is mostly SPS band factor T (ours 0.49 vs top teams 0.62, worth ~+2 composite) and tke (-6 points).",
+    "tke_boost": "Not yet built as a zip. Local memorized-holdout FINAL: tke +1.62, rel -0.05, sps +0.39, ~+0.2 composite by low-confidence weights. Similar amplitude boosts (corrector) lost live before, but that loss came mainly from moving the bands, which this candidate does not do. Live rel cost of amplitude changes was ~3x the local estimate historically.",
+    "band_scale_history": "Narrowing bands x0.85 lost 0.99 sps live. Wider bands never tested live on FNO. Near an optimum, scale changes give small gains; shape is what top teams differ on.",
+    "band_shape_search": "Still running; will produce a validated candidate zip only if it shows >= +3 SPS on a proxy that first reproduces live T=0.49.",
+    "tke_boost_and_bands_independent": "The tke boost and a new band shape are independent changes and can be combined into one submission later."
+  },
+  "checks": {
+    "combine_later": "Would combining the tke boost with the new band shape into a single 26 or 27 Sep submission lose any information compared with testing them separately, given only two slots remain after today?",
+    "probe_informative": "Is a band-scale probe likely to change what the team ships on 26/27 Sep?"
+  }
+}

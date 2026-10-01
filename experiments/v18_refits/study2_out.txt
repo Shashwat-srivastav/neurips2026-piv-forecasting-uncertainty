@@ -1,0 +1,70 @@
+prep 5
+[select] v17
+   AT[rel +0.000 tke +0.000 mvpe +0.000 sps +0.000 T +0.0000 comp +0.000]  abs rel 0.1110 tke 0.5753 mvpe 0.0736 sps 37.62 T 0.5196
+   A [rel +0.000 tke +0.000 mvpe +0.000 sps +0.000 T +0.0000 comp +0.000]  abs rel 0.1218 tke 0.6195 mvpe 0.0809 sps 35.39 T 0.4990
+[final] v17
+   AT[rel +0.000 tke +0.000 mvpe +0.000 sps +0.000 T +0.0000 comp +0.000]  abs rel 0.1065 tke 0.5628 mvpe 0.0858 sps 39.39 T 0.5409
+   A [rel +0.000 tke +0.000 mvpe +0.000 sps +0.000 T +0.0000 comp +0.000]  abs rel 0.1221 tke 0.6238 mvpe 0.0986 sps 36.06 T 0.5102
+ridge fit 41
+[select] v17 + ridge-rank width nb10
+   AT[rel +0.000 tke +0.000 mvpe +0.000 sps +0.051 T +0.0007 comp +0.014]  abs rel 0.1110 tke 0.5753 mvpe 0.0736 sps 37.67 T 0.5203
+   A [rel +0.000 tke +0.000 mvpe +0.000 sps +0.063 T +0.0009 comp +0.018]  abs rel 0.1218 tke 0.6195 mvpe 0.0809 sps 35.45 T 0.4999
+[final] v17 + ridge-rank width nb10
+   AT[rel +0.000 tke +0.000 mvpe +0.000 sps +0.005 T +0.0001 comp +0.001]  abs rel 0.1065 tke 0.5628 mvpe 0.0858 sps 39.40 T 0.5409
+   A [rel +0.000 tke +0.000 mvpe +0.000 sps +0.044 T +0.0006 comp +0.012]  abs rel 0.1221 tke 0.6238 mvpe 0.0986 sps 36.10 T 0.5109
+[select] v17 + ridge-rank width nb20
+   AT[rel +0.000 tke +0.000 mvpe +0.000 sps +0.134 T +0.0019 comp +0.038]  abs rel 0.1110 tke 0.5753 mvpe 0.0736 sps 37.75 T 0.5214
+   A [rel +0.000 tke +0.000 mvpe +0.000 sps +0.098 T +0.0014 comp +0.028]  abs rel 0.1218 tke 0.6195 mvpe 0.0809 sps 35.49 T 0.5004
+[final] v17 + ridge-rank width nb20
+   AT[rel +0.000 tke +0.000 mvpe +0.000 sps +0.025 T +0.0003 comp +0.007]  abs rel 0.1065 tke 0.5628 mvpe 0.0858 sps 39.42 T 0.5412
+   A [rel +0.000 tke +0.000 mvpe +0.000 sps +0.013 T +0.0002 comp +0.004]  abs rel 0.1221 tke 0.6238 mvpe 0.0986 sps 36.07 T 0.5104
+[select] v17 + ridge-rank width nb40
+   AT[rel +0.000 tke +0.000 mvpe +0.000 sps +0.155 T +0.0021 comp +0.044]  abs rel 0.1110 tke 0.5753 mvpe 0.0736 sps 37.77 T 0.5217
+   A [rel +0.000 tke +0.000 mvpe +0.000 sps +0.105 T +0.0015 comp +0.030]  abs rel 0.1218 tke 0.6195 mvpe 0.0809 sps 35.49 T 0.5005
+[final] v17 + ridge-rank width nb40
+   AT[rel +0.000 tke +0.000 mvpe +0.000 sps +0.022 T +0.0003 comp +0.006]  abs rel 0.1065 tke 0.5628 mvpe 0.0858 sps 39.41 T 0.5412
+   A [rel +0.000 tke +0.000 mvpe +0.000 sps +0.000 T +0.0000 comp +0.000]  abs rel 0.1221 tke 0.6238 mvpe 0.0986 sps 36.06 T 0.5102
+[select] v17 + p1-rank width nb20 (control)
+   AT[rel +0.000 tke +0.000 mvpe +0.000 sps +0.069 T +0.0010 comp +0.020]  abs rel 0.1110 tke 0.5753 mvpe 0.0736 sps 37.68 T 0.5205
+   A [rel +0.000 tke +0.000 mvpe +0.000 sps +0.022 T +0.0003 comp +0.006]  abs rel 0.1218 tke 0.6195 mvpe 0.0809 sps 35.41 T 0.4994
+[final] v17 + p1-rank width nb20 (control)
+   AT[rel +0.000 tke +0.000 mvpe +0.000 sps +0.005 T +0.0001 comp +0.001]  abs rel 0.1065 tke 0.5628 mvpe 0.0858 sps 39.40 T 0.5409
+   A [rel +0.000 tke +0.000 mvpe +0.000 sps -0.054 T -0.0008 comp -0.015]  abs rel 0.1221 tke 0.6238 mvpe 0.0986 sps 36.01 T 0.5095
+  SELECT v17pred boost g.25c1.6           AT[rel +0.000 tke +0.000 mvpe +0.000 sps +0.000 T +0.0000 comp +0.000]
+  SELECT v17pred boost g.25c2.0           AT[rel +0.000 tke +0.000 mvpe +0.000 sps +0.000 T +0.0000 comp +0.000]
+  SELECT v17pred boost g.35c1.6           AT[rel -0.024 tke +0.517 mvpe +0.000 sps +0.100 T +0.0000 comp +0.062]
+  SELECT v17pred boost g.35c2.0           AT[rel -0.024 tke +0.514 mvpe +0.000 sps +0.099 T +0.0000 comp +0.062]
+  SELECT v17pred boost g.5c2.0            AT[rel -0.106 tke +0.240 mvpe -0.000 sps -0.004 T +0.0000 comp -0.028]
+  SELECT v17pred boost g.5c2.5            AT[rel -0.106 tke +0.236 mvpe -0.000 sps -0.005 T +0.0000 comp -0.029]
+  SELECT v17pred boost perlead g.25c1.6   AT[rel +0.004 tke -0.038 mvpe +0.002 sps -0.005 T +0.0000 comp -0.003]
+  SELECT v17pred boost perlead g.35c2.0   AT[rel -0.023 tke +0.501 mvpe -0.000 sps +0.096 T +0.0000 comp +0.061]
+  SELECT v17pred boost capl1.3-2.0        AT[rel +0.000 tke -0.001 mvpe -0.000 sps -0.000 T +0.0000 comp -0.000]
+  SELECT v17pred boost g.35 capl1.3-2.2   AT[rel -0.020 tke +0.519 mvpe +0.001 sps +0.103 T +0.0000 comp +0.065]
+  SELECT v17pred boost capl1.6-2.2        AT[rel -0.000 tke +0.000 mvpe -0.000 sps +0.000 T +0.0000 comp -0.000]
+  SELECT PElpred boost g.25c1.6           AT[rel +0.025 tke +0.860 mvpe +0.072 sps +0.239 T +0.0000 comp +0.160]
+  SELECT PElpred boost g.25c2.0           AT[rel +0.025 tke +0.860 mvpe +0.072 sps +0.239 T +0.0000 comp +0.160]
+  SELECT PElpred boost g.35c1.6           AT[rel -0.000 tke +0.916 mvpe +0.072 sps +0.235 T +0.0000 comp +0.152]
+  SELECT PElpred boost g.35c2.0           AT[rel -0.000 tke +0.916 mvpe +0.072 sps +0.235 T +0.0000 comp +0.152]
+  SELECT PElpred boost g.5c2.0            AT[rel -0.060 tke +0.411 mvpe +0.072 sps +0.097 T +0.0000 comp +0.042]
+  SELECT PElpred boost g.5c2.5            AT[rel -0.060 tke +0.411 mvpe +0.072 sps +0.097 T +0.0000 comp +0.042]
+  SELECT PElpred boost perlead g.25c1.6   AT[rel +0.022 tke +0.881 mvpe +0.068 sps +0.240 T +0.0000 comp +0.160]
+  SELECT PElpred boost perlead g.35c2.0   AT[rel -0.009 tke +0.950 mvpe +0.065 sps +0.234 T +0.0000 comp +0.150]
+  SELECT PElpred boost capl1.3-2.0        AT[rel +0.025 tke +0.860 mvpe +0.072 sps +0.239 T +0.0000 comp +0.160]
+  SELECT PElpred boost g.35 capl1.3-2.2   AT[rel +0.000 tke +0.924 mvpe +0.072 sps +0.237 T +0.0000 comp +0.154]
+  SELECT PElpred boost capl1.6-2.2        AT[rel +0.025 tke +0.860 mvpe +0.072 sps +0.239 T +0.0000 comp +0.160]
+[final] PElpred boost g.25c1.6
+   AT[rel -0.030 tke +0.908 mvpe +0.038 sps +0.213 T +0.0000 comp +0.129]  abs rel 0.1072 tke 0.5333 mvpe 0.0850 sps 39.61 T 0.5409
+   A [rel -0.017 tke +0.952 mvpe +0.049 sps +0.218 T +0.0000 comp +0.141]  abs rel 0.1225 tke 0.5914 mvpe 0.0975 sps 36.28 T 0.5102
+[final] PElpred boost g.25c2.0
+   AT[rel -0.030 tke +0.908 mvpe +0.038 sps +0.213 T +0.0000 comp +0.129]  abs rel 0.1072 tke 0.5333 mvpe 0.0850 sps 39.61 T 0.5409
+   A [rel -0.017 tke +0.952 mvpe +0.049 sps +0.218 T +0.0000 comp +0.141]  abs rel 0.1225 tke 0.5914 mvpe 0.0975 sps 36.28 T 0.5102
+[final] PElpred boost capl1.3-2.0
+   AT[rel -0.030 tke +0.908 mvpe +0.038 sps +0.213 T +0.0000 comp +0.129]  abs rel 0.1072 tke 0.5333 mvpe 0.0850 sps 39.61 T 0.5409
+   A [rel -0.016 tke +0.951 mvpe +0.049 sps +0.217 T +0.0000 comp +0.141]  abs rel 0.1225 tke 0.5915 mvpe 0.0975 sps 36.28 T 0.5102
+[final] PElpred boost perlead g.25c1.6
+   AT[rel -0.039 tke +0.930 mvpe +0.034 sps +0.210 T +0.0000 comp +0.125]  abs rel 0.1074 tke 0.5326 mvpe 0.0850 sps 39.60 T 0.5409
+   A [rel -0.024 tke +0.980 mvpe +0.046 sps +0.218 T +0.0000 comp +0.140]  abs rel 0.1227 tke 0.5905 mvpe 0.0975 sps 36.28 T 0.5102
+[final] PElpred boost g.25c1.6
+   AT[rel -0.030 tke +0.908 mvpe +0.038 sps +0.213 T +0.0000 comp +0.129]  abs rel 0.1072 tke 0.5333 mvpe 0.0850 sps 39.61 T 0.5409
+   A [rel -0.017 tke +0.952 mvpe +0.049 sps +0.218 T +0.0000 comp +0.141]  abs rel 0.1225 tke 0.5914 mvpe 0.0975 sps 36.28 T 0.5102
+done 383

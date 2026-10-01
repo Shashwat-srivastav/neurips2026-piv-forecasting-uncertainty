@@ -1,0 +1,91 @@
+building cache ...
+[submission] torch=2.7.1+cpu cuda_available=False device=cpu
+[submission] checkpoint=C:\Users\Shashwat\Downloads\realpde_t1_starting_kit_v5\realpde_t1_starting_kit_v5\.dist_v7\sim_real_fno_fp16.pth exists=True bytes=201396349
+[submission] loaded in 5.45s  meta_keys=['format', 'missing_keys', 'model_type', 'n_complex', 'unexpected_keys']
+[submission] warmup n=5: first 8885.1ms  second 3095.1ms (619.02 ms/sample steady)  out_shape=(5, 20, 32, 64, 3)
+[submission] corrector loaded from corrector.pth: 1 stage(s), 668,316 params total, eta=[1.40]
+[submission] fno path: eager (compile unavailable)
+[submission] corrector path: eager, 1 stage(s)
+[submission] CONFIGURED PATH: 618.425 ms/sample end-to-end -> time subscore 52.054  (board last measured 7.866 ms -> 90.590)
+  f: 154 windows
+C:\Users\Shashwat\Downloads\realpde_t1_starting_kit_v5\realpde_t1_starting_kit_v5\combo_symbolic.py:132: DeprecationWarning: __array_wrap__ must accept context and return_scalar arguments (positionally) in the future. (Deprecated NumPy 2.0)
+  q = (m((torch.from_numpy(Xa[i:i + b]) - MI) / SI) * ST + MT).numpy().copy()
+  f: fno done
+  f: cno done
+  f: cached to disk
+  h: 70 windows
+  h: fno done
+  h: cno done
+  h: cached to disk
+[submission] disabled by FNO_ENABLE
+
+FROZEN FNO   FIT w 72.9734    HOLDOUT w 72.7967
+  HOLDOUT rel 96.301 tke 79.886 mvpe 97.430 sps 44.573
+
+=== STAGE 1: DMD VARIABLE SEARCH (standalone, on FIT) ===
+ rank    rho  gain      rel      tke     mvpe      sps         w
+[submission] FNO PREDICT SKIPPED: no viable GPU model -> numpy fallback
+[submission] DMD PREDICT OK: numpy route selected
+    2   0.90   0.0   93.193   68.971   94.120   31.356   66.8524
+    2   0.90   0.4   93.030   70.064   94.120   30.858   66.7476
+    2   0.90   0.8   92.137   74.408   94.120   28.826   66.2023
+    2   0.90   1.2   90.843   65.822   94.120   24.610   63.8237
+    2   0.95   0.0   93.073   70.830   94.037   31.414   66.9612
+    2   0.95   0.4   92.985   71.420   94.037   31.053   66.8825
+    2   0.95   0.8   92.248   74.593   94.037   29.129   66.3367
+    2   0.95   1.2   90.947   65.902   94.037   24.784   63.9144
+    2   1.00   0.0   92.653   71.044   93.881   30.462   66.5333
+    2   1.00   0.4   92.594   71.460   93.881   30.185   66.4741
+    2   1.00   0.8   92.142   73.163   93.881   28.739   66.0540
+    2   1.00   1.2   91.036   65.505   93.881   24.897   63.9353
+    4   0.90   0.0   93.181   70.150   94.140   31.570   67.0019
+    4   0.90   0.4   93.090   70.819   94.140   31.205   66.9275
+    4   0.90   0.8   92.275   74.739   94.140   29.249   66.4012
+    4   0.90   1.2   90.979   66.164   94.140   24.979   64.0092
+    4   0.95   0.0   92.947   72.661   94.033   31.436   67.0639
+    4   0.95   0.4   92.921   72.836   94.033   31.215   67.0125
+    4   0.95   0.8   92.350   74.993   94.033   29.495   66.5085
+    4   0.95   1.2   91.084   66.183   94.033   25.150   64.0924
+    4   1.00   0.0   92.340   71.697   93.859   29.868   66.2944
+    4   1.00   0.4   92.329   71.758   93.859   29.713   66.2564
+    4   1.00   0.8   92.068   72.393   93.859   28.614   65.9199
+    4   1.00   1.2   91.114   65.128   93.859   25.061   63.9777
+    6   0.90   0.0   93.123   70.432   94.165   31.588   67.0053
+    6   0.90   0.4   93.055   70.976   94.165   31.282   66.9454
+    6   0.90   0.8   92.273   74.877   94.165   29.427   66.4579
+    6   0.90   1.2   90.993   66.297   94.165   25.161   64.0739
+    6   0.95   0.0   92.841   73.163   94.061   31.377   67.0448
+    6   0.95   0.4   92.826   73.269   94.061   31.207   67.0055
+    6   0.95   0.8   92.322   75.171   94.061   29.641   66.5486
+    6   0.95   1.2   91.077   66.305   94.061   25.310   64.1410
+    6   1.00   0.0   92.197   72.201   93.903   29.672   66.2264
+    6   1.00   0.4   92.191   72.241   93.903   29.550   66.1969
+    6   1.00   0.8   92.000   72.663   93.903   28.654   65.9246
+    6   1.00   1.2   91.108   65.471   93.903   25.248   64.0539
+    8   0.90   0.0   92.915   70.426   94.110   31.102   66.7826
+    8   0.90   0.4   92.870   70.787   94.110   30.849   66.7304
+    8   0.90   0.8   92.110   74.825   94.110   29.254   66.3284
+    8   0.90   1.2   90.857   66.310   94.110   25.172   64.0080
+    8   0.95   0.0   92.586   73.183   94.044   30.818   66.7877
+    8   0.95   0.4   92.579   73.215   94.044   30.671   66.7513
+    8   0.95   0.8   92.140   74.998   94.044   29.374   66.3804
+    8   0.95   1.2   90.905   66.315   94.044   25.273   64.0495
+    8   1.00   0.0   91.811   71.317   93.968   28.881   65.7803
+    8   1.00   0.4   91.808   71.326   93.968   28.773   65.7535
+    8   1.00   0.8   91.701   71.663   93.968   28.122   65.5730
+    8   1.00   1.2   90.944   65.974   93.968   25.251   64.0262
+
+shipped (6, 0.95, 0.8)  w = 66.5486
+best    (4, 0.95, 0.0)  w = 67.0639   -> DMD variables are worth +0.5152 standalone
+
+=== STAGE 2: PROPORTIONS, sps INCLUDED, time charged ===
+best on FIT (net, incl. time): 73.2618   frozen base 72.9734
+  fno 0.95  cno 0.05  dmd 0.00  eta 0.8  dmd_cfg rank=4 rho=0.95 gain=0.0
+
+==================================================================
+HOLDOUT -- touched once
+                 rel      tke     mvpe      sps         w
+  frozen      96.301   79.886   97.430   44.573   72.7967
+  best        96.282   81.718   97.468   44.951   73.0405
+  accuracy+sps delta +0.2438   (no DMD, no time cost)   NET +0.2438
+  FLOOR +0.10 -> PASS

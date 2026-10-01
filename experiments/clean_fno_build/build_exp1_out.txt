@@ -1,0 +1,13 @@
+packed 50 tensors (16 complex)
+size: 402.8 MB -> 201.4 MB
+round-trip max relative error: 4.64e-04
+checkpoint -> E:\NeurIPS\realpde_t1_starting_kit_v5\lab\build_exp1\sim_real_fno_fp16.pth 201.396349 MB
+select cached (168, 20, 32, 64, 2)
+final cached (420, 20, 32, 64, 2)
+Exp.1 raw + v8 bands         rel 94.155 tke 79.178 mvpe 95.504 sps 31.65
+official raw + v8 bands      rel 96.379 tke 81.039 mvpe 97.064 sps 44.64
+model + post-proc            rel 94.334 tke 75.941 mvpe 95.517 sps 37.10  (FINAL; honest only for a model that never saw SELECT/FINAL)
+official + v17pw (proxy AT)  rel 94.946 tke 78.046 mvpe 95.889 sps 39.40
+GATE: composite(new model + post-proc, honest) - composite(live recipe, proxy AT) = -1.145  -> FAIL (use v19pw)
+wrote E:\NeurIPS\realpde_t1_starting_kit_v5\lab\submission_exp1.zip 186.3 MB
+EXIT 0

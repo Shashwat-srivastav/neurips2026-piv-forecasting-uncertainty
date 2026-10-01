@@ -1,0 +1,12 @@
+rand_pw   SELECT (all)       rel +0.072 tke +1.756 mvpe +0.061 sps +4.105 comp +1.356
+rand_pw   swap pred          rel +0.033 tke +1.333 mvpe -0.051 sps +3.921 comp +1.241
+rand_pw   swap centre        rel +0.072 tke +1.756 mvpe +0.061 sps +3.539 comp +1.195
+rand_pw   swap width         rel +0.072 tke +1.756 mvpe +0.061 sps +2.858 comp +1.002
+rand_pw   swap centre+width  rel +0.072 tke +1.756 mvpe +0.061 sps +2.228 comp +0.823
+rand_pw   random (all)       rel +0.033 tke +1.333 mvpe -0.051 sps +2.052 comp +0.710
+randk_pw  SELECT (all)       rel +0.072 tke +1.756 mvpe +0.061 sps +4.105 comp +1.356
+randk_pw  swap pred          rel +0.020 tke +1.291 mvpe -0.070 sps +3.892 comp +1.221
+randk_pw  swap centre        rel +0.072 tke +1.756 mvpe +0.061 sps +3.511 comp +1.188
+randk_pw  swap width         rel +0.072 tke +1.756 mvpe +0.061 sps +1.418 comp +0.593
+randk_pw  swap centre+width  rel +0.072 tke +1.756 mvpe +0.061 sps +0.686 comp +0.385
+randk_pw  random (all)       rel +0.020 tke +1.291 mvpe -0.070 sps +0.491 comp +0.255

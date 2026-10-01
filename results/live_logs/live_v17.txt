@@ -1,0 +1,3 @@
+LIVE RESULT 25 Sep, submission lab/submission_blend_v17.zip (v17 = v8 + calm-region FNO/last-frame/window-mean blend of prediction and band centre + tke boost + p1 width table)
+rel_l2_score 94.104181 | tke_score 75.367761 | mvpe_score 93.084929 | time_score 91.130409 | sps_score 37.287367 | final_score 79.260788
+vs v8 live (78.140964): rel -0.064, tke +1.342, mvpe +0.249, time -0.278, sps +3.949, final +1.120. Ingestion mean 6.9 ms/sample; stderr truncated 20088 B (harmless).

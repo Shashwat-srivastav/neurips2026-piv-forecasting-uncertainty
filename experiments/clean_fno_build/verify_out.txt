@@ -1,0 +1,2 @@
+BUILD on FINAL: rel 94.155 tke 79.178 mvpe 95.504 sps 37.70  (expect 94.155/79.178/95.504/37.70)
+INDEPENDENCE worst |batched - alone| = 8.94e-08 -> PASS

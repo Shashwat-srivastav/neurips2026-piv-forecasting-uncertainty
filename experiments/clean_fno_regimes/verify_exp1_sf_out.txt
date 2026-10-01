@@ -1,0 +1,7 @@
+BUILD build_exp1_sf select all    (4 traj) rel 93.212 tke 78.515 mvpe 95.008 sps 34.54 cov 0.746 | vs v17 LIVE -0.754
+BUILD build_exp1_sf select AoA15  (4 traj) rel 93.212 tke 78.515 mvpe 95.008 sps 34.54 cov 0.746 | vs v17 LIVE -0.754
+BUILD build_exp1_sf final  all    (10 traj) rel 94.155 tke 79.178 mvpe 95.504 sps 38.15 cov 0.764 | vs v17 LIVE +0.796
+BUILD build_exp1_sf final  AoA10  (4 traj) rel 94.230 tke 78.100 mvpe 95.691 sps 39.09 cov 0.770 | vs v17 LIVE +1.019
+BUILD build_exp1_sf final  AoA15  (3 traj) rel 94.467 tke 79.798 mvpe 96.039 sps 39.79 cov 0.786 | vs v17 LIVE +1.500
+BUILD build_exp1_sf final  AoA20  (3 traj) rel 93.744 tke 80.030 mvpe 94.731 sps 35.37 cov 0.736 | vs v17 LIVE -0.169
+INDEPENDENCE worst |batched - alone| = 8.94e-08 -> PASS

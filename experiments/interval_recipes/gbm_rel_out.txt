@@ -1,0 +1,8 @@
+k select 1.534306585789409 k final 1.6645845770829055
+ch u OOF SELECT: lookup T 0.3176  laplace T 0.3148 (c=3.25)  [109s]
+ch u FINAL: lookup T 0.3521 laplace T 0.3480
+  gain: p1=0.556, p2=0.080, dT=0.069, gP=0.052, aP=0.049, t=0.027, pdev=0.025, xx=0.019, yy=0.017, axm=0.014
+ch v OOF SELECT: lookup T 0.6762  laplace T 0.6735 (c=2.21)  [124s]
+ch v FINAL: lookup T 0.6494 laplace T 0.6467
+  gain: p1=0.524, aP=0.078, p2=0.053, gP=0.051, dT=0.043, yy=0.042, t=0.029, pdev=0.029, xx=0.026, pg=0.024
+{"u": {"lookup": 0.3521225880846264, "laplace": 0.3480122215654114, "n": 15767782}, "v": {"lookup": 0.6493797727700085, "laplace": 0.6466509979893856, "n": 15610681}}

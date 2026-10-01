@@ -1,0 +1,4 @@
+Kaggle Run 2 (26 Sep): Run 1 recipe + residual_last=True (gate init 0, lr 1e-2). Best epoch 8 (SELECT sum 266.820 vs Run 1 266.808).
+FINAL (honest): rel 94.200 tke 79.292 mvpe 95.548 sum 269.041 vs Run 1 94.170/79.289/95.542 (269.001): +0.04 sum.
+Final gate u/v: L1 0.07/0.58, L2 0.04/0.50, L5 0.02/0.19, L10 0.01/0.11, L20 0.01/0.06.
+Checkpoint: /kaggle/working/exp1_67_resid_best.pth

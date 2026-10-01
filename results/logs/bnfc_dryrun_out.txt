@@ -1,0 +1,4 @@
+torch 2.7.1+cpu  device cpu  variant A
+train pool: 11 trajectories  sanity holdout: ['21600_15', '25425_15']
+windows: train 4565  sanity-holdout 830   (cached frames 0.12 GB)
+trainable: 9,667 / 50,357,955 params (0.0192%)  -- fc0, fc1, fc2, BN affine only

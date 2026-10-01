@@ -1,0 +1,24 @@
+v8                                       A[rel +0.000 tke +0.000 mvpe +0.000 sps +0.000 T +0.000 comp +0.000]  B[rel +0.000 tke +0.000 mvpe +0.000 sps +0.000 T +0.000 comp +0.000]
+v8 g=1.1                                 A[rel +0.000 tke +0.000 mvpe +0.000 sps +0.794 T +0.011 comp +0.226]  B[rel +0.000 tke +0.000 mvpe +0.000 sps +0.806 T +0.011 comp +0.229]
+v8 g=1.2                                 A[rel +0.000 tke +0.000 mvpe +0.000 sps +1.322 T +0.019 comp +0.376]  B[rel +0.000 tke +0.000 mvpe +0.000 sps +1.337 T +0.019 comp +0.380]
+v16 g=1.1                                A[rel -0.033 tke +1.430 mvpe +0.000 sps +1.035 T +0.011 comp +0.404]  B[rel -0.121 tke +0.366 mvpe +0.000 sps +0.793 T +0.011 comp +0.202]
+v16 g=1.2                                A[rel -0.033 tke +1.430 mvpe +0.000 sps +1.567 T +0.019 comp +0.555]  B[rel -0.121 tke +0.366 mvpe +0.000 sps +1.325 T +0.019 comp +0.353]
+v16                                      A[rel -0.033 tke +1.430 mvpe +0.000 sps +0.235 T +0.000 comp +0.176]  B[rel -0.121 tke +0.366 mvpe +0.000 sps -0.012 T +0.000 comp -0.027]
+bandA g1                                 A[rel +0.000 tke +0.000 mvpe +0.000 sps +2.562 T +0.037 comp +0.728]  B[rel +0.000 tke +0.000 mvpe +0.000 sps +5.358 T +0.075 comp +1.522]
+bandA g1 +boost                          A[rel -0.033 tke +1.430 mvpe +0.000 sps +2.815 T +0.037 comp +0.909]  B[rel -0.121 tke +0.366 mvpe +0.000 sps +5.342 T +0.075 comp +1.494]
+predA+bandA g1 +boost                    A[rel +0.081 tke +1.553 mvpe +0.065 sps +2.941 T +0.037 comp +1.012]  B[rel +0.073 tke +0.570 mvpe +0.150 sps +5.592 T +0.075 comp +1.683]
+predAB+bandA g1 +boost                   A[rel +0.097 tke +1.399 mvpe +0.039 sps +2.909 T +0.037 comp +0.995]  B[rel +0.228 tke +0.518 mvpe +0.263 sps +5.727 T +0.075 comp +1.796]
+bandB g1                                 A[rel +0.000 tke +0.000 mvpe +0.000 sps +2.336 T +0.034 comp +0.663]  B[rel +0.000 tke +0.000 mvpe +0.000 sps +6.421 T +0.090 comp +1.823]
+Traceback (most recent call last):
+  File "E:\NeurIPS\realpde_t1_starting_kit_v5\lab\blend\controls.py", line 28, in <module>
+    run(f"band{fb} g1 +boost", None, fb, 1.0, True)
+  File "E:\NeurIPS\realpde_t1_starting_kit_v5\lab\blend\controls.py", line 18, in run
+    rows.setdefault(name, {})[pn] = score(out, Yt, centre, g * F["h8"])
+                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\NeurIPS\realpde_t1_starting_kit_v5\lab\blend\base.py", line 63, in score
+    w, cov = sc.aggregate_sps(pred, Yt, 2, lower=lo, upper=up)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\NeurIPS\realpde_t1_starting_kit_v5\realpde_t1_starting_kit_v9\realpde_t1_starting_kit_v9\scoring.py", line 204, in aggregate_sps
+    nil = (upper - lower) / sigma
+          ~~~~~~~~~~~~~~~~^~~~~~~
+numpy._core._exceptions._ArrayMemoryError: Unable to allocate 131. MiB for an array with shape (420, 20, 32, 64, 2) and data type float32

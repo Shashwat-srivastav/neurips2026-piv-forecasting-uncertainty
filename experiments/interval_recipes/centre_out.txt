@@ -1,0 +1,23 @@
+### proxy rel/rel: k_fit 1.534 k_eval 1.665
+   ch 0 none/None coefs (a,b) per lead grp: [[0.0, 0.0], [0.0, 0.0], [0.0, 0.0], [0.0, 0.0]]
+   ch 1 none/None coefs (a,b) per lead grp: [[0.0, 0.0], [0.0, 0.0], [0.0, 0.0], [0.0, 0.0]]
+  width=ridge lookup, centre none coef-fit None:  T 0.4929 (u 0.3428 v 0.6446)
+   ch 0 l2/proxy coefs (a,b) per lead grp: [[-0.078, 0.865], [-0.084, 0.041], [-0.14, 0.003], [-0.181, -0.025]]
+   ch 1 l2/proxy coefs (a,b) per lead grp: [[-0.037, 0.327], [-0.012, 0.011], [-0.008, 0.001], [-0.012, -0.0]]
+  width=ridge lookup, centre l2   coef-fit proxy:  T 0.4914 (u 0.3389 v 0.6454)
+   ch 0 l1/proxy coefs (a,b) per lead grp: [[-0.044, 1.033], [-0.039, 0.082], [-0.048, 0.005], [-0.069, -0.008]]
+   ch 1 l1/proxy coefs (a,b) per lead grp: [[-0.036, 0.427], [-0.007, 0.016], [-0.001, 0.001], [0.003, -0.0]]
+  width=ridge lookup, centre l1   coef-fit proxy:  T 0.4949 (u 0.3456 v 0.6456)
+   ch 0 l1/raw coefs (a,b) per lead grp: [[-0.028, 0.675], [-0.025, 0.054], [-0.03, 0.003], [-0.044, -0.005]]
+   ch 1 l1/raw coefs (a,b) per lead grp: [[-0.024, 0.279], [-0.005, 0.01], [-0.0, 0.001], [0.002, -0.0]]
+  width=ridge lookup, centre l1   coef-fit raw:  T 0.4947 (u 0.3455 v 0.6455)
+### proxy T/T: k_fit 1.394 k_eval 1.447
+  width=ridge lookup, centre none coef-fit None:  T 0.5222 (u 0.3743 v 0.6717)
+  width=ridge lookup, centre l2   coef-fit proxy:  T 0.5203 (u 0.3698 v 0.6724)
+  width=ridge lookup, centre l1   coef-fit proxy:  T 0.5240 (u 0.3769 v 0.6726)
+  width=ridge lookup, centre l1   coef-fit raw:  T 0.5240 (u 0.3770 v 0.6725)
+### proxy fit T, eval 2.0: k_fit 1.394 k_eval 2.000
+  width=ridge lookup, centre none coef-fit None:  T 0.4444 (u 0.2966 v 0.5936)
+  width=ridge lookup, centre l2   coef-fit proxy:  T 0.4435 (u 0.2943 v 0.5941)
+  width=ridge lookup, centre l1   coef-fit proxy:  T 0.4464 (u 0.2998 v 0.5945)
+  width=ridge lookup, centre l1   coef-fit raw:  T 0.4457 (u 0.2988 v 0.5942)

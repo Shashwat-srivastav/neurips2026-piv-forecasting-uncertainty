@@ -1,0 +1,33 @@
+CNO tables fitted on SELECT
+select proxyAT FNO + v17pw (shipped)    all    rel 94.743 tke 77.662 mvpe 96.453 sps 37.62 cov 0.760 | vs v17 LIVE +0.856
+select proxyAT FNO + v17pw (shipped)    AoA15  rel 94.743 tke 77.662 mvpe 96.453 sps 37.62 cov 0.760 | vs v17 LIVE +0.856
+select proxyAT FNO raw + v17pw bands    all    rel 94.660 tke 75.499 mvpe 96.397 sps 37.07 cov 0.760 | vs v17 LIVE +0.469
+select proxyAT FNO raw + v17pw bands    AoA15  rel 94.660 tke 75.499 mvpe 96.397 sps 37.07 cov 0.760 | vs v17 LIVE +0.469
+select proxyAT CNO + v17pw refit        all    rel 92.850 tke 74.054 mvpe 94.567 sps 31.37 cov 0.708 | vs v17 LIVE -2.242
+select proxyAT CNO + v17pw refit        AoA15  rel 92.850 tke 74.054 mvpe 94.567 sps 31.37 cov 0.708 | vs v17 LIVE -2.242
+select proxyAT CNO raw + refit bands    all    rel 92.791 tke 71.899 mvpe 94.477 sps 30.94 cov 0.708 | vs v17 LIVE -2.587
+select proxyAT CNO raw + refit bands    AoA15  rel 92.791 tke 71.899 mvpe 94.477 sps 30.94 cov 0.708 | vs v17 LIVE -2.587
+select raw-Y   FNO + v17pw (shipped)    all    rel 96.122 tke 82.304 mvpe 97.404 sps 44.23 cov 0.846 | vs v17 LIVE +3.839
+select raw-Y   FNO + v17pw (shipped)    AoA15  rel 96.122 tke 82.304 mvpe 97.404 sps 44.23 cov 0.846 | vs v17 LIVE +3.839
+select raw-Y   FNO raw + v17pw bands    all    rel 96.088 tke 79.915 mvpe 97.379 sps 43.52 cov 0.846 | vs v17 LIVE +3.413
+select raw-Y   FNO raw + v17pw bands    AoA15  rel 96.088 tke 79.915 mvpe 97.379 sps 43.52 cov 0.846 | vs v17 LIVE +3.413
+select raw-Y   CNO + v17pw refit        all    rel 94.669 tke 78.126 mvpe 96.010 sps 37.95 cov 0.808 | vs v17 LIVE +0.922
+select raw-Y   CNO + v17pw refit        AoA15  rel 94.669 tke 78.126 mvpe 96.010 sps 37.95 cov 0.808 | vs v17 LIVE +0.922
+select raw-Y   CNO raw + refit bands    all    rel 94.687 tke 75.525 mvpe 95.949 sps 37.37 cov 0.808 | vs v17 LIVE +0.533
+select raw-Y   CNO raw + refit bands    AoA15  rel 94.687 tke 75.525 mvpe 95.949 sps 37.37 cov 0.808 | vs v17 LIVE +0.533
+final  proxyAT FNO + v17pw (shipped)    all    rel 94.946 tke 78.046 mvpe 95.889 sps 39.40 cov 0.799 | vs v17 LIVE +1.441
+final  proxyAT FNO + v17pw (shipped)    AoA15  rel 95.060 tke 76.546 mvpe 96.273 sps 39.94 cov 0.821 | vs v17 LIVE +1.548
+final  proxyAT FNO raw + v17pw bands    all    rel 94.874 tke 76.290 mvpe 95.827 sps 38.92 cov 0.799 | vs v17 LIVE +1.116
+final  proxyAT FNO raw + v17pw bands    AoA15  rel 94.987 tke 74.849 mvpe 96.215 sps 39.49 cov 0.821 | vs v17 LIVE +1.234
+final  proxyAT CNO + v17pw refit        all    rel 93.520 tke 74.406 mvpe 94.138 sps 33.96 cov 0.766 | vs v17 LIVE -1.208
+final  proxyAT CNO + v17pw refit        AoA15  rel 93.785 tke 73.722 mvpe 94.888 sps 35.03 cov 0.790 | vs v17 LIVE -0.783
+final  proxyAT CNO raw + refit bands    all    rel 93.460 tke 72.791 mvpe 94.018 sps 33.58 cov 0.766 | vs v17 LIVE -1.493
+final  proxyAT CNO raw + refit bands    AoA15  rel 93.724 tke 72.093 mvpe 94.820 sps 34.66 cov 0.790 | vs v17 LIVE -1.063
+final  raw-Y   FNO + v17pw (shipped)    all    rel 96.408 tke 82.821 mvpe 97.107 sps 46.35 cov 0.885 | vs v17 LIVE +4.591
+final  raw-Y   FNO + v17pw (shipped)    AoA15  rel 96.493 tke 81.803 mvpe 97.378 sps 46.90 cov 0.906 | vs v17 LIVE +4.719
+final  raw-Y   FNO raw + v17pw bands    all    rel 96.379 tke 81.039 mvpe 97.064 sps 45.81 cov 0.885 | vs v17 LIVE +4.266
+final  raw-Y   FNO raw + v17pw bands    AoA15  rel 96.461 tke 79.887 mvpe 97.342 sps 46.31 cov 0.906 | vs v17 LIVE +4.369
+final  raw-Y   CNO + v17pw refit        all    rel 95.351 tke 78.609 mvpe 95.845 sps 40.71 cov 0.860 | vs v17 LIVE +2.044
+final  raw-Y   CNO + v17pw refit        AoA15  rel 95.548 tke 78.225 mvpe 96.374 sps 41.68 cov 0.883 | vs v17 LIVE +2.416
+final  raw-Y   CNO raw + refit bands    all    rel 95.356 tke 76.964 mvpe 95.749 sps 40.29 cov 0.860 | vs v17 LIVE +1.776
+final  raw-Y   CNO raw + refit bands    AoA15  rel 95.552 tke 76.391 mvpe 96.332 sps 41.22 cov 0.883 | vs v17 LIVE +2.126

@@ -1,0 +1,5 @@
+Kaggle Run 1 (26 Sep): sim_fno -> 67-traj pool, lr 1e-4, 12 epochs, seed 0. Best epoch 8 (SELECT sum 266.808).
+SELECT best: rel 93.219 tke 78.533 mvpe 95.056.
+CONFIRMATION ON FINAL (honest, never seen): finetuned rel 94.170 tke 79.289 mvpe 95.542 sum 269.001;
+stock sim_fno 79.709 66.872 75.199. Reproduces original Exp.1 (94.27/78.78/95.51).
+Checkpoint: /kaggle/working/exp1_67_best.pth

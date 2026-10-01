@@ -1,0 +1,34 @@
+[submission] SPEC_u=[1372.9, 127.1, 29.2, 14.7] SPEC_v=[547.2, 21.2, 5.6, 2.6] SIGHIST_u=[0.234, 0.264, 0.159, 0.143, 0.103, 0.095] MASKCC=[0, 0, 0, 0, 1] AC=[0.686, 0.418, 0.152]
+[submission] ld=0.85 fno=3.25 tf32=REV:5e-03 corr=0 bench=3.268 scored=19.569
+[submission] SPEC_u=[1498.7, 130.5, 30.2, 15.0] SPEC_v=[294.4, 16.0, 4.1, 1.9] SIGHIST_u=[0.255, 0.282, 0.147, 0.111, 0.094, 0.11] MASKCC=[1, 1, 0, 1, 1] AC=[0.69, 0.429, 0.163]
+[submission] ld=1.14 fno=3.20 tf32=REV:5e-03 corr=0 bench=3.299 scored=28.500
+[submission] SPEC_u=[1638.8, 128.6, 30.0, 14.5] SPEC_v=[349.2, 15.8, 3.9, 1.8] SIGHIST_u=[0.246, 0.29, 0.153, 0.118, 0.089, 0.104] MASKCC=[2, 1, 0, 0, 2] AC=[0.691, 0.431, 0.164]
+[submission] ld=1.33 fno=3.19 tf32=REV:4e-03 corr=0 bench=3.279 scored=27.500
+[submission] SPEC_u=[1620.4, 129.0, 29.7, 14.5] SPEC_v=[296.6, 15.5, 3.8, 1.8] SIGHIST_u=[0.246, 0.283, 0.149, 0.109, 0.102, 0.111] MASKCC=[0, 0, 0, 0, 1] AC=[0.686, 0.412, 0.138]
+[submission] ld=1.02 fno=3.21 tf32=REV:4e-03 corr=0 bench=3.390 scored=28.160
+[submission] SPEC_u=[1543.6, 123.5, 29.4, 14.7] SPEC_v=[602.2, 15.9, 3.8, 1.8] SIGHIST_u=[0.249, 0.282, 0.146, 0.118, 0.095, 0.109] MASKCC=[0, 0, 0, 0, 1] AC=[0.689, 0.418, 0.149]
+[submission] ld=0.84 fno=3.20 tf32=REV:5e-03 corr=0 bench=3.221 scored=19.654
+[submission] SPEC_u=[1590.8, 128.9, 29.7, 14.7] SPEC_v=[370.6, 16.4, 4.2, 2.0] SIGHIST_u=[0.257, 0.279, 0.143, 0.128, 0.09, 0.102] MASKCC=[1, 0, 0, 0, 1] AC=[0.685, 0.418, 0.148]
+[submission] ld=0.86 fno=3.19 tf32=REV:4e-03 corr=0 bench=3.258 scored=20.086
+[submission] SPEC_u=[1444.1, 145.7, 31.1, 14.7] SPEC_v=[282.0, 16.8, 3.9, 1.8] SIGHIST_u=[0.265, 0.266, 0.149, 0.119, 0.105, 0.097] MASKCC=[2, 0, 0, 0, 2] AC=[0.687, 0.411, 0.131]
+[submission] ld=1.04 fno=3.26 tf32=REV:5e-03 corr=0 bench=3.362 scored=27.987
+[submission] SPEC_u=[1792.5, 130.9, 29.6, 14.9] SPEC_v=[359.1, 15.2, 3.7, 1.7] SIGHIST_u=[0.248, 0.292, 0.148, 0.114, 0.088, 0.111] MASKCC=[0, 0, 0, 0, 1] AC=[0.691, 0.429, 0.163]
+[submission] ld=1.23 fno=3.20 tf32=REV:3e-03 corr=0 bench=3.328 scored=26.908
+[submission] SPEC_u=[1557.5, 126.0, 30.8, 15.0] SPEC_v=[435.9, 18.9, 4.7, 2.2] SIGHIST_u=[0.25, 0.273, 0.15, 0.113, 0.106, 0.108] MASKCC=[1, 0, 0, 0, 1] AC=[0.693, 0.43, 0.164]
+[submission] ld=1.21 fno=3.19 tf32=REV:3e-03 corr=0 bench=3.304 scored=27.235
+[submission] SPEC_u=[1312.1, 119.0, 29.5, 14.4] SPEC_v=[293.3, 15.4, 4.0, 1.9] SIGHIST_u=[0.244, 0.288, 0.169, 0.126, 0.089, 0.084] MASKCC=[0, 0, 0, 0, 1] AC=[0.679, 0.405, 0.136]
+[submission] ld=0.85 fno=3.26 tf32=REV:5e-03 corr=0 bench=3.271 scored=21.467
+[submission] SPEC_u=[1439.2, 129.5, 31.3, 15.2] SPEC_v=[266.5, 15.8, 4.0, 1.8] SIGHIST_u=[0.243, 0.286, 0.156, 0.127, 0.089, 0.099] MASKCC=[2, 1, 1, 1, 1] AC=[0.685, 0.414, 0.142]
+[submission] ld=1.34 fno=3.19 tf32=REV:4e-03 corr=0 bench=3.313 scored=25.348
+[submission] SPEC_u=[973.0, 119.0, 30.0, 14.5] SPEC_v=[260.2, 14.3, 3.7, 1.8] SIGHIST_u=[0.272, 0.296, 0.149, 0.119, 0.1, 0.064] MASKCC=[2, 0, 0, 1, 1] AC=[0.674, 0.397, 0.122]
+[submission] ld=1.21 fno=3.20 tf32=REV:4e-03 corr=0 bench=3.263 scored=27.959
+[submission] SPEC_u=[1308.0, 129.0, 29.7, 14.6] SPEC_v=[370.5, 19.0, 4.7, 2.3] SIGHIST_u=[0.253, 0.268, 0.167, 0.129, 0.098, 0.085] MASKCC=[0, 0, 0, 0, 1] AC=[0.685, 0.413, 0.135]
+[submission] ld=1.33 fno=3.19 tf32=REV:3e-03 corr=0 bench=3.600 scored=27.384
+[submission] SPEC_u=[1697.3, 126.0, 30.2, 14.4] SPEC_v=[492.3, 19.8, 5.0, 2.2] SIGHIST_u=[0.242, 0.272, 0.15, 0.131, 0.092, 0.112] MASKCC=[0, 0, 0, 0, 1] AC=[0.696, 0.429, 0.151]
+[submission] ld=1.34 fno=3.27 tf32=REV:4e-03 corr=0 bench=3.346 scored=31.230
+[submission] SPEC_u=[1272.9, 127.3, 29.6, 14.8] SPEC_v=[390.4, 16.3, 4.2, 2.1] SIGHIST_u=[0.263, 0.279, 0.151, 0.12, 0.103, 0.084] MASKCC=[0, 0, 0, 0, 1] AC=[0.674, 0.398, 0.123]
+[submission] ld=1.35 fno=3.26 tf32=REV:5e-03 corr=0 bench=3.348 scored=25.581
+[submission] SPEC_u=[1438.0, 130.0, 30.2, 14.5] SPEC_v=[239.0, 14.7, 3.6, 1.8] SIGHIST_u=[0.252, 0.299, 0.137, 0.118, 0.104, 0.091] MASKCC=[3, 0, 1, 0, 2] AC=[0.684, 0.41, 0.132]
+[submission] ld=1.23 fno=3.23 tf32=REV:5e-03 corr=0 bench=3.520 scored=27.872
+[submission] SPEC_u=[1617.1, 148.6, 30.5, 14.7] SPEC_v=[404.7, 17.6, 4.4, 2.1] SIGHIST_u=[0.258, 0.275, 0.141, 0.114, 0.106, 0.107] MASKCC=[0, 0, 0, 0, 1] AC=[0.69, 0.429, 0.164]
+[submission] ld=1.46 fno=3.27 tf32=REV:5e-03 corr=0 bench=3.403 scored=29.737

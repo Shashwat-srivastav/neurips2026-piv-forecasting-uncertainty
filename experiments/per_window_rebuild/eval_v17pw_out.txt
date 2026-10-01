@@ -1,0 +1,15 @@
+a
+   AT [rel +0.000 tke +0.000 mvpe +0.000 sps +0.000 T +0.0000 comp +0.000]  abs sps 39.39 T 0.5409 rel 0.10651
+   BT [rel +0.000 tke +0.000 mvpe +0.000 sps +0.000 T +0.0000 comp +0.000]  abs sps 41.66 T 0.5639 rel 0.10785
+   A  [rel +0.000 tke +0.000 mvpe +0.000 sps +0.000 T +0.0000 comp +0.000]  abs sps 36.06 T 0.5102 rel 0.12214
+   B  [rel +0.000 tke +0.000 mvpe +0.000 sps +0.000 T +0.0000 comp +0.000]  abs sps 39.84 T 0.5509 rel 0.12229
+b
+   AT [rel +0.002 tke +0.006 mvpe +0.001 sps +0.006 T +0.0000 comp +0.003]  abs sps 39.40 T 0.5409 rel 0.10646
+   BT [rel +0.001 tke +0.002 mvpe +0.001 sps +0.012 T +0.0001 comp +0.004]  abs sps 41.67 T 0.5640 rel 0.10782
+   A  [rel +0.002 tke +0.005 mvpe +0.001 sps +0.003 T +0.0000 comp +0.002]  abs sps 36.06 T 0.5102 rel 0.12209
+   B  [rel +0.001 tke +0.002 mvpe +0.001 sps +0.011 T +0.0001 comp +0.004]  abs sps 39.85 T 0.5510 rel 0.12226
+c
+   AT [rel +0.003 tke +0.007 mvpe +0.001 sps +0.005 T +0.0000 comp +0.003]  abs sps 39.40 T 0.5409 rel 0.10646
+   BT [rel +0.002 tke +0.002 mvpe +0.001 sps +0.016 T +0.0002 comp +0.006]  abs sps 41.67 T 0.5640 rel 0.10781
+   A  [rel +0.003 tke +0.006 mvpe +0.001 sps +0.003 T -0.0000 comp +0.003]  abs sps 36.06 T 0.5102 rel 0.12208
+   B  [rel +0.002 tke +0.002 mvpe +0.002 sps +0.017 T +0.0002 comp +0.006]  abs sps 39.86 T 0.5511 rel 0.12224

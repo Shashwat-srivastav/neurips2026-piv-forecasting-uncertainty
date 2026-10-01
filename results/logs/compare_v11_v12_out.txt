@@ -1,0 +1,135 @@
+building the AoA-15 pool (17 trajectories) ...
+total windows: 238
+
+=== v11 flat-band (C:\Users\Shashwat\Downloads\realpde_t1_starting_kit_v5\realpde_t1_starting_kit_v5\.dist_flatband) ===
+[submission] torch=2.7.1+cpu cuda_available=False device=cpu
+[submission] checkpoint=C:\Users\Shashwat\Downloads\realpde_t1_starting_kit_v5\realpde_t1_starting_kit_v5\.dist_flatband\sim_real_fno_fp16.pth exists=True bytes=201396349
+[submission] loaded in 1.88s  meta_keys=['format', 'missing_keys', 'model_type', 'n_complex', 'unexpected_keys']
+[submission] warmup n=5: first 4119.6ms  second 3169.6ms (633.92 ms/sample steady)  out_shape=(5, 20, 32, 64, 3)
+[submission] CORRECTOR UNAVAILABLE (none of ['corrector.pth', 'boost_stages.pth'] present) -> bare FNO
+[submission] fno path: eager (compile unavailable)
+[submission] CONFIGURED PATH: 547.377 ms/sample end-to-end -> time subscore 53.575  (board last measured 7.866 ms -> 90.590)
+  windows: 238
+  rel 96.042  tke 79.446  mvpe 96.686  sps 44.618  coverage 0.7429
+
+=== v12 hetero-no-modifier (C:\Users\Shashwat\Downloads\realpde_t1_starting_kit_v5\realpde_t1_starting_kit_v5\.dist_hetero_nomod) ===
+[submission] torch=2.7.1+cpu cuda_available=False device=cpu
+[submission] checkpoint=C:\Users\Shashwat\Downloads\realpde_t1_starting_kit_v5\realpde_t1_starting_kit_v5\.dist_hetero_nomod\sim_real_fno_fp16.pth exists=True bytes=201396349
+[submission] loaded in 1.53s  meta_keys=['format', 'missing_keys', 'model_type', 'n_complex', 'unexpected_keys']
+[submission] warmup n=5: first 3331.5ms  second 2752.2ms (550.43 ms/sample steady)  out_shape=(5, 20, 32, 64, 3)
+[submission] CORRECTOR UNAVAILABLE (none of ['corrector.pth', 'boost_stages.pth'] present) -> bare FNO
+[submission] fno path: eager (compile unavailable)
+[submission] CONFIGURED PATH: 539.880 ms/sample end-to-end -> time subscore 53.746  (board last measured 7.866 ms -> 90.590)
+  windows: 238
+  rel 96.042  tke 79.446  mvpe 96.686  sps 41.973  coverage 0.9273
+
+============================================================
+                rel      tke     mvpe      sps  coverage
+v11          96.042   79.446   96.686   44.618    0.7429
+v12          96.042   79.446   96.686   41.973    0.9273
+delta        +0.000   +0.000   +0.000   +2.646   -0.1844
+
+rel/tke/mvpe should be ~0 delta (neither build touches the model) --
+any nonzero delta there would indicate a bug in one of the builds.
+[submission] PER-CALL TIMING (atexit, untimed):
+[submission]   call 0  n=5   2673.31 ms  534.663 ms/sample   <- synthetic warmup
+[submission]   call 1  n=5   3392.60 ms  678.520 ms/sample
+[submission]   call 2  n=5   3061.86 ms  612.371 ms/sample
+[submission]   call 3  n=5   2635.46 ms  527.091 ms/sample
+[submission]   call 4  n=5   2721.66 ms  544.333 ms/sample
+[submission]   call 5  n=5   2605.49 ms  521.099 ms/sample
+[submission]   call 6  n=5   2784.13 ms  556.827 ms/sample
+[submission]   call 7  n=5   2861.21 ms  572.243 ms/sample
+[submission]   call 8  n=5   3270.90 ms  654.179 ms/sample
+[submission]   call 9  n=5   2576.33 ms  515.267 ms/sample
+[submission]   call 10  n=5   2792.89 ms  558.579 ms/sample
+[submission]   call 11  n=5   2595.29 ms  519.058 ms/sample
+[submission]   call 12  n=5   3422.33 ms  684.466 ms/sample
+[submission]   call 13  n=5   2568.52 ms  513.703 ms/sample
+[submission]   call 14  n=5   2595.27 ms  519.055 ms/sample
+[submission]   call 15  n=5   3907.05 ms  781.410 ms/sample
+[submission]   call 16  n=5   2976.72 ms  595.345 ms/sample
+[submission]   call 17  n=5   2640.15 ms  528.030 ms/sample
+[submission]   call 18  n=5   3530.34 ms  706.068 ms/sample
+[submission]   call 19  n=5   2568.70 ms  513.741 ms/sample
+[submission]   call 20  n=5   3268.66 ms  653.733 ms/sample
+[submission]   call 21  n=5   2599.68 ms  519.937 ms/sample
+[submission]   call 22  n=5   2647.38 ms  529.476 ms/sample
+[submission]   call 23  n=5   2705.38 ms  541.077 ms/sample
+[submission]   call 24  n=5   2681.17 ms  536.233 ms/sample
+[submission]   call 25  n=5   3588.28 ms  717.656 ms/sample
+[submission]   call 26  n=5   4256.01 ms  851.201 ms/sample
+[submission]   call 27  n=5   3023.59 ms  604.718 ms/sample
+[submission]   call 28  n=5   2668.86 ms  533.773 ms/sample
+[submission]   call 29  n=5   2828.85 ms  565.770 ms/sample
+[submission]   call 30  n=5   2829.60 ms  565.920 ms/sample
+[submission]   call 31  n=5   2819.79 ms  563.958 ms/sample
+[submission]   call 32  n=5   2914.89 ms  582.979 ms/sample
+[submission]   call 33  n=5   2673.89 ms  534.777 ms/sample
+[submission]   call 34  n=5   2700.27 ms  540.053 ms/sample
+[submission]   call 35  n=5   2557.74 ms  511.547 ms/sample
+[submission]   call 36  n=5   2609.33 ms  521.866 ms/sample
+[submission]   call 37  n=5   2642.36 ms  528.472 ms/sample
+[submission]   call 38  n=5   2607.72 ms  521.544 ms/sample
+[submission]   call 39  n=5   2600.83 ms  520.166 ms/sample
+[submission]   call 40  n=5   2603.18 ms  520.637 ms/sample
+[submission]   call 41  n=5   2542.71 ms  508.541 ms/sample
+[submission]   call 42  n=5   2600.19 ms  520.039 ms/sample
+[submission]   call 43  n=5   2570.04 ms  514.007 ms/sample
+[submission]   call 44  n=5   2612.05 ms  522.411 ms/sample
+[submission]   call 45  n=5   2595.45 ms  519.091 ms/sample
+[submission]   call 46  n=5   2538.47 ms  507.693 ms/sample
+[submission]   call 47  n=3   2602.53 ms  867.508 ms/sample
+[submission]   all calls: 238 samples, 136069.14 ms, 571.719 ms/sample
+[submission]   SCORED call = 678.520 ms/sample vs import benchmark 539.880 -- ratio 1.26x (>1.5x means contention, not host overhead)
+[submission] PER-CALL TIMING (atexit, untimed):
+[submission]   call 0  n=5   2569.27 ms  513.853 ms/sample   <- synthetic warmup
+[submission]   call 1  n=5   2418.46 ms  483.693 ms/sample
+[submission]   call 2  n=5   2512.58 ms  502.516 ms/sample
+[submission]   call 3  n=5   2793.27 ms  558.655 ms/sample
+[submission]   call 4  n=5   2581.34 ms  516.267 ms/sample
+[submission]   call 5  n=5   2586.54 ms  517.309 ms/sample
+[submission]   call 6  n=5   4661.43 ms  932.286 ms/sample
+[submission]   call 7  n=5   2837.32 ms  567.464 ms/sample
+[submission]   call 8  n=5   3827.96 ms  765.593 ms/sample
+[submission]   call 9  n=5   2901.30 ms  580.259 ms/sample
+[submission]   call 10  n=5   2889.39 ms  577.878 ms/sample
+[submission]   call 11  n=5   2656.14 ms  531.229 ms/sample
+[submission]   call 12  n=5   2720.38 ms  544.075 ms/sample
+[submission]   call 13  n=5   3800.58 ms  760.115 ms/sample
+[submission]   call 14  n=5   3083.35 ms  616.671 ms/sample
+[submission]   call 15  n=5   3488.45 ms  697.690 ms/sample
+[submission]   call 16  n=5   2702.27 ms  540.454 ms/sample
+[submission]   call 17  n=5   3125.68 ms  625.136 ms/sample
+[submission]   call 18  n=5   2676.62 ms  535.323 ms/sample
+[submission]   call 19  n=5   2598.89 ms  519.779 ms/sample
+[submission]   call 20  n=5   2576.86 ms  515.371 ms/sample
+[submission]   call 21  n=5   2571.01 ms  514.202 ms/sample
+[submission]   call 22  n=5   2686.55 ms  537.310 ms/sample
+[submission]   call 23  n=5   2714.66 ms  542.933 ms/sample
+[submission]   call 24  n=5   2668.14 ms  533.628 ms/sample
+[submission]   call 25  n=5   2594.22 ms  518.843 ms/sample
+[submission]   call 26  n=5   2511.46 ms  502.292 ms/sample
+[submission]   call 27  n=5   3034.92 ms  606.985 ms/sample
+[submission]   call 28  n=5   2569.94 ms  513.989 ms/sample
+[submission]   call 29  n=5   2525.69 ms  505.139 ms/sample
+[submission]   call 30  n=5   2860.69 ms  572.138 ms/sample
+[submission]   call 31  n=5   3407.38 ms  681.477 ms/sample
+[submission]   call 32  n=5   3489.66 ms  697.933 ms/sample
+[submission]   call 33  n=5   2577.66 ms  515.532 ms/sample
+[submission]   call 34  n=5   2580.39 ms  516.078 ms/sample
+[submission]   call 35  n=5   2652.63 ms  530.525 ms/sample
+[submission]   call 36  n=5   2666.60 ms  533.321 ms/sample
+[submission]   call 37  n=5   2529.18 ms  505.836 ms/sample
+[submission]   call 38  n=5   2537.77 ms  507.553 ms/sample
+[submission]   call 39  n=5   2594.93 ms  518.986 ms/sample
+[submission]   call 40  n=5   2623.72 ms  524.743 ms/sample
+[submission]   call 41  n=5   2508.21 ms  501.642 ms/sample
+[submission]   call 42  n=5   2557.81 ms  511.562 ms/sample
+[submission]   call 43  n=5   2519.35 ms  503.870 ms/sample
+[submission]   call 44  n=5   2811.17 ms  562.233 ms/sample
+[submission]   call 45  n=5   2888.54 ms  577.708 ms/sample
+[submission]   call 46  n=5   2845.17 ms  569.034 ms/sample
+[submission]   call 47  n=3   2587.23 ms  862.412 ms/sample
+[submission]   all calls: 238 samples, 135122.77 ms, 567.743 ms/sample
+[submission]   SCORED call = 483.693 ms/sample vs import benchmark 547.377 -- ratio 0.88x (>1.5x means contention, not host overhead)

@@ -1,0 +1,73 @@
+k_rel {'select': 1.534306585789409, 'final': 1.6645845770829055} k_T(v8 live T=0.4914) {'select': 1.3940662741651977, 'final': 1.447430551051184}
+ch 0 ridge FINAL spearman 0.529  p1 0.463  sl 0.455
+ch 1 ridge FINAL spearman 0.432  p1 0.412  sl 0.390
+
+### proxy rel/rel: k_fit 1.534 k_eval 1.665
+  v8                                       T 0.4540 (u 0.3047 v 0.6049)  dT +0.0000  ~dSPS@W0.678 +0.00
+  v8 x s_c (global rescale/ch)             T 0.4753 (u 0.3243 v 0.6279)  dT +0.0213  ~dSPS@W0.678 +1.44
+  flat h_c                                 T 0.4762 (u 0.3314 v 0.6224)  dT +0.0222  ~dSPS@W0.678 +1.50
+  1D lookup sl (abs,40)                    T 0.4878 (u 0.3374 v 0.6398)  dT +0.0338  ~dSPS@W0.678 +2.29
+  1D lookup p1 (abs,40)                    T 0.4888 (u 0.3375 v 0.6415)  dT +0.0347  ~dSPS@W0.678 +2.35
+  ridge-logfeat lookup (abs,40)            T 0.4929 (u 0.3428 v 0.6446)  dT +0.0389  ~dSPS@W0.678 +2.64
+  p1 lookup x lead4                        T 0.4888 (u 0.3372 v 0.6419)  dT +0.0347  ~dSPS@W0.678 +2.36
+  ridge lookup x lead4                     T 0.4926 (u 0.3423 v 0.6444)  dT +0.0385  ~dSPS@W0.678 +2.61
+  rank-in-call p1 10bin x lead4 (abs h)    T 0.4880 (u 0.3365 v 0.6411)  dT +0.0340  ~dSPS@W0.678 +2.30
+  rank-in-call sl 6bin x lead4 (abs h)     T 0.4864 (u 0.3362 v 0.6381)  dT +0.0324  ~dSPS@W0.678 +2.19
+  v8 x mult[lead20 x slrank6] (lit#2)      T 0.4764 (u 0.3244 v 0.6300)  dT +0.0224  ~dSPS@W0.678 +1.52
+  ridge b + Laplace h=b ln(1+s/2b)         T 0.4914 (u 0.3418 v 0.6425)  dT +0.0373  ~dSPS@W0.678 +2.53
+
+### proxy T/T: k_fit 1.394 k_eval 1.447
+  v8                                       T 0.4914 (u 0.3405 v 0.6438)  dT +0.0000  ~dSPS@W0.678 +0.00
+  v8 x s_c (global rescale/ch)             T 0.5051 (u 0.3557 v 0.6560)  dT +0.0137  ~dSPS@W0.678 +0.93
+  flat h_c                                 T 0.5033 (u 0.3595 v 0.6485)  dT +0.0119  ~dSPS@W0.678 +0.81
+  1D lookup sl (abs,40)                    T 0.5165 (u 0.3677 v 0.6667)  dT +0.0251  ~dSPS@W0.678 +1.70
+  1D lookup p1 (abs,40)                    T 0.5178 (u 0.3680 v 0.6691)  dT +0.0264  ~dSPS@W0.678 +1.79
+  ridge-logfeat lookup (abs,40)            T 0.5222 (u 0.3743 v 0.6717)  dT +0.0308  ~dSPS@W0.678 +2.09
+  p1 lookup x lead4                        T 0.5180 (u 0.3679 v 0.6696)  dT +0.0266  ~dSPS@W0.678 +1.80
+  ridge lookup x lead4                     T 0.5219 (u 0.3737 v 0.6716)  dT +0.0305  ~dSPS@W0.678 +2.07
+  rank-in-call p1 10bin x lead4 (abs h)    T 0.5162 (u 0.3658 v 0.6680)  dT +0.0248  ~dSPS@W0.678 +1.68
+  rank-in-call sl 6bin x lead4 (abs h)     T 0.5145 (u 0.3655 v 0.6651)  dT +0.0231  ~dSPS@W0.678 +1.57
+  v8 x mult[lead20 x slrank6] (lit#2)      T 0.5057 (u 0.3556 v 0.6572)  dT +0.0143  ~dSPS@W0.678 +0.97
+  ridge b + Laplace h=b ln(1+s/2b)         T 0.5203 (u 0.3727 v 0.6693)  dT +0.0289  ~dSPS@W0.678 +1.96
+
+### proxy fit rel, eval T: k_fit 1.534 k_eval 1.447
+  v8                                       T 0.4914 (u 0.3405 v 0.6438)  dT +0.0000  ~dSPS@W0.678 +0.00
+  v8 x s_c (global rescale/ch)             T 0.5063 (u 0.3583 v 0.6559)  dT +0.0149  ~dSPS@W0.678 +1.01
+  flat h_c                                 T 0.5016 (u 0.3576 v 0.6471)  dT +0.0102  ~dSPS@W0.678 +0.69
+  1D lookup sl (abs,40)                    T 0.5158 (u 0.3671 v 0.6660)  dT +0.0244  ~dSPS@W0.678 +1.65
+  1D lookup p1 (abs,40)                    T 0.5177 (u 0.3676 v 0.6692)  dT +0.0263  ~dSPS@W0.678 +1.78
+  ridge-logfeat lookup (abs,40)            T 0.5219 (u 0.3745 v 0.6708)  dT +0.0305  ~dSPS@W0.678 +2.07
+  p1 lookup x lead4                        T 0.5180 (u 0.3678 v 0.6697)  dT +0.0266  ~dSPS@W0.678 +1.80
+  ridge lookup x lead4                     T 0.5216 (u 0.3740 v 0.6707)  dT +0.0302  ~dSPS@W0.678 +2.05
+  rank-in-call p1 10bin x lead4 (abs h)    T 0.5148 (u 0.3638 v 0.6672)  dT +0.0234  ~dSPS@W0.678 +1.58
+  rank-in-call sl 6bin x lead4 (abs h)     T 0.5132 (u 0.3636 v 0.6643)  dT +0.0218  ~dSPS@W0.678 +1.48
+  v8 x mult[lead20 x slrank6] (lit#2)      T 0.5069 (u 0.3583 v 0.6570)  dT +0.0155  ~dSPS@W0.678 +1.05
+  ridge b + Laplace h=b ln(1+s/2b)         T 0.5194 (u 0.3721 v 0.6681)  dT +0.0280  ~dSPS@W0.678 +1.90
+
+### proxy fit T, eval rel: k_fit 1.394 k_eval 1.665
+  v8                                       T 0.4540 (u 0.3047 v 0.6049)  dT +0.0000  ~dSPS@W0.678 +0.00
+  v8 x s_c (global rescale/ch)             T 0.4729 (u 0.3212 v 0.6261)  dT +0.0188  ~dSPS@W0.678 +1.28
+  flat h_c                                 T 0.4761 (u 0.3321 v 0.6214)  dT +0.0220  ~dSPS@W0.678 +1.49
+  1D lookup sl (abs,40)                    T 0.4861 (u 0.3368 v 0.6370)  dT +0.0321  ~dSPS@W0.678 +2.18
+  1D lookup p1 (abs,40)                    T 0.4865 (u 0.3365 v 0.6380)  dT +0.0324  ~dSPS@W0.678 +2.20
+  ridge-logfeat lookup (abs,40)            T 0.4906 (u 0.3410 v 0.6418)  dT +0.0366  ~dSPS@W0.678 +2.48
+  p1 lookup x lead4                        T 0.4867 (u 0.3364 v 0.6384)  dT +0.0326  ~dSPS@W0.678 +2.21
+  ridge lookup x lead4                     T 0.4903 (u 0.3404 v 0.6417)  dT +0.0363  ~dSPS@W0.678 +2.46
+  rank-in-call p1 10bin x lead4 (abs h)    T 0.4871 (u 0.3371 v 0.6387)  dT +0.0331  ~dSPS@W0.678 +2.24
+  rank-in-call sl 6bin x lead4 (abs h)     T 0.4856 (u 0.3368 v 0.6360)  dT +0.0316  ~dSPS@W0.678 +2.14
+  v8 x mult[lead20 x slrank6] (lit#2)      T 0.4734 (u 0.3211 v 0.6272)  dT +0.0193  ~dSPS@W0.678 +1.31
+  ridge b + Laplace h=b ln(1+s/2b)         T 0.4896 (u 0.3409 v 0.6398)  dT +0.0356  ~dSPS@W0.678 +2.41
+
+### proxy fit T, eval 2.0: k_fit 1.394 k_eval 2.000
+  v8                                       T 0.4037 (u 0.2610 v 0.5479)  dT +0.0000  ~dSPS@W0.678 +0.00
+  v8 x s_c (global rescale/ch)             T 0.4277 (u 0.2777 v 0.5791)  dT +0.0239  ~dSPS@W0.678 +1.62
+  flat h_c                                 T 0.4368 (u 0.2949 v 0.5801)  dT +0.0331  ~dSPS@W0.678 +2.24
+  1D lookup sl (abs,40)                    T 0.4421 (u 0.2958 v 0.5899)  dT +0.0384  ~dSPS@W0.678 +2.60
+  1D lookup p1 (abs,40)                    T 0.4411 (u 0.2950 v 0.5887)  dT +0.0374  ~dSPS@W0.678 +2.53
+  ridge-logfeat lookup (abs,40)            T 0.4444 (u 0.2966 v 0.5936)  dT +0.0406  ~dSPS@W0.678 +2.75
+  p1 lookup x lead4                        T 0.4412 (u 0.2948 v 0.5891)  dT +0.0375  ~dSPS@W0.678 +2.54
+  ridge lookup x lead4                     T 0.4441 (u 0.2961 v 0.5936)  dT +0.0404  ~dSPS@W0.678 +2.74
+  rank-in-call p1 10bin x lead4 (abs h)    T 0.4441 (u 0.2982 v 0.5915)  dT +0.0403  ~dSPS@W0.678 +2.73
+  rank-in-call sl 6bin x lead4 (abs h)     T 0.4431 (u 0.2978 v 0.5897)  dT +0.0393  ~dSPS@W0.678 +2.67
+  v8 x mult[lead20 x slrank6] (lit#2)      T 0.4282 (u 0.2776 v 0.5802)  dT +0.0244  ~dSPS@W0.678 +1.66
+  ridge b + Laplace h=b ln(1+s/2b)         T 0.4449 (u 0.2985 v 0.5929)  dT +0.0412  ~dSPS@W0.678 +2.79

@@ -1,0 +1,4 @@
+LIVE 26 Sep: lab/submission_exp1_sf.zip (clean sim->real FNO Run 1 + honest interval tables, sqrt widths, no blend/boost)
+rel 93.728284 | tke 77.347587 | mvpe 92.378454 | time 91.701498 | sps 37.159782 | final 79.237924
+vs v17 live: rel -0.376 tke +1.980 mvpe -0.707 time +0.571 sps -0.127 final -0.023. Mean 6.0 ms/sample.
+SELECT(honest)->live shift: rel +0.52, tke -1.17, mvpe -2.63 (DMD earlier: +0.55, -1.04, -1.86).

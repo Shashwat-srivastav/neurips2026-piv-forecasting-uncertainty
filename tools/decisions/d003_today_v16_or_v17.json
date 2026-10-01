@@ -1,0 +1,19 @@
+{
+  "question": "Which build should use today's (25 Sep) leaderboard slot? The board keeps the team's best score, so a losing submission costs only the slot and the information.",
+  "options": {
+    "v17": "v17: FNO prediction and band centre blended toward last-frame / window-mean in calm regions by (lead, channel, sigma sextile), plus tke boost, plus p1 band-width table",
+    "v17_no_width_table": "v17 rebuilt without the absolute p1 width table (blend + boost only)",
+    "v16": "v16: v8 + tke boost only"
+  },
+  "evidence": {
+    "v17_proxy": "Delta composite vs v8 on FINAL under four live proxies: +1.40 / +2.08 / +1.33 / +1.70 (SPS +4.0 to +7.0, tke +0.6 to +1.8, rel +0.04 to +0.08, mvpe +0.06 to +0.15). Positive under all four, including the pessimistic proxy A.",
+    "v17_no_width_proxy": "Delta composite +1.0 to +1.9 under the same proxies.",
+    "v16_proxy": "Delta composite +0.18 / -0.03 / +0.21 / +0.03 under the same proxies; +0.33 on the raw memorized pool.",
+    "caveats": "Proxies overstate band effects by 1.5-1.9x (measured against live #9). On the unmodified memorized pool v17 slightly loses to v8 (SPS 44.08 vs 44.77, rel 96.10 vs 96.38), as expected because the FNO is memorized there. p1 widths are absolute (0.007-0.025), calibrated at live error scale. Preflight passed; bounds finite and ordered; torch matches numpy to 2e-7.",
+    "information_value": "Two slots remain after today. Learning live whether the blend mechanism works determines what to stack on 26/27 Sep; v16's small effect can be re-included later in any build."
+  },
+  "checks": {
+    "v17_expected_positive_live": "Is v17 more likely than not to score above v8's live 78.14?",
+    "memorized_pool_loss_is_disqualifying": "Should v17's small loss on the memorized local pool be treated as evidence it will lose live?"
+  }
+}

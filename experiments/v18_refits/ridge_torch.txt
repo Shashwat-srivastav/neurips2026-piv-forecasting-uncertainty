@@ -1,0 +1,64 @@
+# --------------------------------------------------------------------------
+# v18 (lab/v18/ridge18.py): band half-width from a ridge score of log|error|
+# (24 input-window + raw-FNO features, fitted on SELECT to the band-centre
+# residual), used ONLY through its within-call rank per (lead group of 5,
+# channel): half-width = RWIDTH_TAB[lead group, channel, rank bin].
+_RIDGE_EPS = 1e-4
+_ridge_dev = {}
+def _grad_mag(a):
+    gy, gx = torch.gradient(a, dim=(-2, -1))
+    return torch.sqrt(gx * gx + gy * gy)
+def _ridge_feats(xc, p, c):
+    b, t, h, w, _ = xc.shape
+    x = xc[..., c]; pc = p[..., c]
+    valid = (xc != 0.0).any(dim=1).any(dim=-1)                     # (b,H,W)
+    xm = x.mean(dim=1); sl = ((x - xm.unsqueeze(1)) ** 2).mean(dim=1).sqrt()
+    xo = xc[..., 1 - c]; oth = ((xo - xo.mean(dim=1, keepdim=True)) ** 2).mean(dim=1).sqrt()
+    per = {k: ((x[:, k:] - x[:, :-k]) ** 2).mean(dim=1).sqrt() for k in (1, 2, 5)}
+    pm = pc.mean(dim=1)
+    vf = valid.to(x.dtype)
+    nb5 = torch.nn.functional.avg_pool2d(vf.unsqueeze(1), 5, 1, 2, count_include_pad=False)[:, 0]
+    slw = (sl * vf).sum(dim=(1, 2)) / vf.sum(dim=(1, 2)).clamp_min(1.0)
+    dev = x.device
+    yy = (torch.arange(h, device=dev, dtype=x.dtype) / h).view(1, 1, h, 1).expand(1, 1, h, w)
+    xx = (torch.arange(w, device=dev, dtype=x.dtype) / w).view(1, 1, 1, w).expand(1, 1, h, w)
+    tt = torch.arange(t, device=dev, dtype=x.dtype).view(1, t, 1, 1)
+    L = lambda v: torch.log(v + _RIDGE_EPS)
+    pix = dict(sl=sl, sl5=x[:, -5:].std(dim=1, unbiased=False), p1=per[1], p2=per[2], p5=per[5],
+               d1=(x[:, -1] - x[:, -2]).abs(), gx=_grad_mag(x[:, -1]), axm=xm.abs(), oth=oth,
+               ps=((pc - pm.unsqueeze(1)) ** 2).mean(dim=1).sqrt(), pg=_grad_mag(pm))
+    elm = dict(aP=pc.abs(), dT=(pc - x[:, -1:]).abs(), gP=_grad_mag(pc), pdev=(pc - pm.unsqueeze(1)).abs())
+    cols = []
+    for k in ("p1", "p2", "p5", "sl", "sl5", "d1", "dT", "gP", "aP", "ps", "oth", "pg", "gx", "axm", "pdev"):
+        cols.append(L(pix[k]).unsqueeze(1) if k in pix else L(elm[k]))
+    cols += [tt, yy, xx, nb5.unsqueeze(1), slw.view(b, 1, 1, 1), tt * tt / 400.0, yy * yy, xx * xx]
+    return cols
+def _ridge_width(xc, p):
+    """(b,T,H,W,2) half-width. xc: input u,v; p: RAW FNO u,v (before the blend)."""
+    dev = xc.device
+    if dev not in _ridge_dev:
+        _ridge_dev[dev] = (torch.tensor(_RIDGE_W_L, dtype=torch.float32, device=dev),
+                           torch.tensor(_RWIDTH_TAB_L, dtype=torch.float32, device=dev))
+    W, tab = _ridge_dev[dev]                                   # (2,NF), (4,2,NB)
+    nb = tab.shape[-1]
+    b, t, h, w, _ = xc.shape
+    valid = (xc != 0.0).sum(dim=1) > 0                         # (b,H,W,2) per channel
+    qs = torch.linspace(1.0 / nb, 1.0 - 1.0 / nb, nb - 1, device=dev, dtype=torch.float32)
+    out = torch.empty((b, t, h, w, 2), dtype=torch.float32, device=dev)
+    for c in (0, 1):
+        cols = _ridge_feats(xc, p, c)
+        s = W[c, -1]
+        for j, f in enumerate(cols):
+            s = s + W[c, j] * f
+        s = s.expand(b, t, h, w)
+        v = valid[..., c]
+        for lg in range(t // 5):
+            sg = s[:, lg * 5:(lg + 1) * 5]
+            pool = sg[v.unsqueeze(1).expand_as(sg)]
+            if pool.numel() < nb:
+                out[:, lg * 5:(lg + 1) * 5, ..., c] = tab[lg, c, nb // 2]
+                continue
+            edges = torch.quantile(pool.float(), qs)
+            idx = torch.bucketize(sg.contiguous(), edges.contiguous()).clamp_(0, nb - 1)
+            out[:, lg * 5:(lg + 1) * 5, ..., c] = tab[lg, c][idx]
+    return out

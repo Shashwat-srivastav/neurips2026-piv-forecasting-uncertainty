@@ -1,0 +1,48 @@
+SELECT scales med s_p1 [0.00845542 0.00250741] s_sl [0.01262508 0.00417304]
+fitted on SELECT
+FINAL scales med s_p1 [0.00477512 0.00209335] s_sl [0.00804203 0.00390196]
+fitted on FINAL
+== FINAL, tables fitted on SELECT (honest cross-fit) ==
+  fitS->evalF                shipped_abs  all    (10 traj) rel 94.155 tke 79.178 mvpe 95.504 sps 37.70 cov 0.799 | vs v17 LIVE +0.666
+  fitS->evalF                shipped_abs  AoA10  (4 traj) rel 94.230 tke 78.100 mvpe 95.691 sps 38.57 cov 0.818 | vs v17 LIVE +0.871
+  fitS->evalF                shipped_abs  AoA15  (3 traj) rel 94.467 tke 79.798 mvpe 96.039 sps 39.38 cov 0.830 | vs v17 LIVE +1.382
+  fitS->evalF                shipped_abs  AoA20  (3 traj) rel 93.744 tke 80.030 mvpe 94.731 sps 34.95 cov 0.744 | vs v17 LIVE -0.287
+  fitS->evalF                abs          all    (10 traj) rel 94.155 tke 79.178 mvpe 95.504 sps 37.70 cov 0.799 | vs v17 LIVE +0.668
+  fitS->evalF                abs          AoA10  (4 traj) rel 94.230 tke 78.100 mvpe 95.691 sps 38.58 cov 0.818 | vs v17 LIVE +0.874
+  fitS->evalF                abs          AoA15  (3 traj) rel 94.467 tke 79.798 mvpe 96.039 sps 39.38 cov 0.830 | vs v17 LIVE +1.383
+  fitS->evalF                abs          AoA20  (3 traj) rel 93.744 tke 80.030 mvpe 94.731 sps 34.95 cov 0.744 | vs v17 LIVE -0.287
+  fitS->evalF                s_p1         all    (10 traj) rel 94.155 tke 79.178 mvpe 95.504 sps 36.89 cov 0.679 | vs v17 LIVE +0.438
+  fitS->evalF                s_p1         AoA10  (4 traj) rel 94.230 tke 78.100 mvpe 95.691 sps 37.81 cov 0.687 | vs v17 LIVE +0.654
+  fitS->evalF                s_p1         AoA15  (3 traj) rel 94.467 tke 79.798 mvpe 96.039 sps 38.84 cov 0.714 | vs v17 LIVE +1.231
+  fitS->evalF                s_p1         AoA20  (3 traj) rel 93.744 tke 80.030 mvpe 94.731 sps 33.83 cov 0.635 | vs v17 LIVE -0.605
+  fitS->evalF                s_sl         all    (10 traj) rel 94.155 tke 79.178 mvpe 95.504 sps 37.41 cov 0.721 | vs v17 LIVE +0.586
+  fitS->evalF                s_sl         AoA10  (4 traj) rel 94.230 tke 78.100 mvpe 95.691 sps 38.08 cov 0.710 | vs v17 LIVE +0.730
+  fitS->evalF                s_sl         AoA15  (3 traj) rel 94.467 tke 79.798 mvpe 96.039 sps 39.14 cov 0.734 | vs v17 LIVE +1.314
+  fitS->evalF                s_sl         AoA20  (3 traj) rel 93.744 tke 80.030 mvpe 94.731 sps 34.90 cov 0.722 | vs v17 LIVE -0.301
+== FINAL, tables fitted on FINAL (in-sample, optimistic) ==
+  fitF->evalF                abs          all    (10 traj) rel 94.155 tke 79.178 mvpe 95.504 sps 38.39 cov 0.773 | vs v17 LIVE +0.863
+  fitF->evalF                abs          AoA10  (4 traj) rel 94.230 tke 78.100 mvpe 95.691 sps 39.14 cov 0.788 | vs v17 LIVE +1.033
+  fitF->evalF                abs          AoA15  (3 traj) rel 94.467 tke 79.798 mvpe 96.039 sps 40.04 cov 0.803 | vs v17 LIVE +1.571
+  fitF->evalF                abs          AoA20  (3 traj) rel 93.744 tke 80.030 mvpe 94.731 sps 35.83 cov 0.725 | vs v17 LIVE -0.037
+  fitF->evalF                s_p1         all    (10 traj) rel 94.155 tke 79.178 mvpe 95.504 sps 38.33 cov 0.777 | vs v17 LIVE +0.846
+  fitF->evalF                s_p1         AoA10  (4 traj) rel 94.230 tke 78.100 mvpe 95.691 sps 39.00 cov 0.775 | vs v17 LIVE +0.992
+  fitF->evalF                s_p1         AoA15  (3 traj) rel 94.467 tke 79.798 mvpe 96.039 sps 39.98 cov 0.814 | vs v17 LIVE +1.555
+  fitF->evalF                s_p1         AoA20  (3 traj) rel 93.744 tke 80.030 mvpe 94.731 sps 35.87 cov 0.742 | vs v17 LIVE -0.027
+  fitF->evalF                s_sl         all    (10 traj) rel 94.155 tke 79.178 mvpe 95.504 sps 38.10 cov 0.776 | vs v17 LIVE +0.780
+  fitF->evalF                s_sl         AoA10  (4 traj) rel 94.230 tke 78.100 mvpe 95.691 sps 38.71 cov 0.756 | vs v17 LIVE +0.911
+  fitF->evalF                s_sl         AoA15  (3 traj) rel 94.467 tke 79.798 mvpe 96.039 sps 39.94 cov 0.792 | vs v17 LIVE +1.543
+  fitF->evalF                s_sl         AoA20  (3 traj) rel 93.744 tke 80.030 mvpe 94.731 sps 35.53 cov 0.786 | vs v17 LIVE -0.123
+== SELECT, tables fitted on FINAL (honest cross-fit, live-like) ==
+  fitF->evalS                abs          all    (4 traj) rel 93.212 tke 78.515 mvpe 95.008 sps 33.91 cov 0.695 | vs v17 LIVE -0.933
+  fitF->evalS                abs          AoA15  (4 traj) rel 93.212 tke 78.515 mvpe 95.008 sps 33.91 cov 0.695 | vs v17 LIVE -0.933
+  fitF->evalS                s_p1         all    (4 traj) rel 93.212 tke 78.515 mvpe 95.008 sps 33.08 cov 0.832 | vs v17 LIVE -1.169
+  fitF->evalS                s_p1         AoA15  (4 traj) rel 93.212 tke 78.515 mvpe 95.008 sps 33.08 cov 0.832 | vs v17 LIVE -1.169
+  fitF->evalS                s_sl         all    (4 traj) rel 93.212 tke 78.515 mvpe 95.008 sps 33.75 cov 0.791 | vs v17 LIVE -0.978
+  fitF->evalS                s_sl         AoA15  (4 traj) rel 93.212 tke 78.515 mvpe 95.008 sps 33.75 cov 0.791 | vs v17 LIVE -0.978
+== SELECT, tables fitted on SELECT (in-sample, optimistic) ==
+  fitS->evalS                abs          all    (4 traj) rel 93.212 tke 78.515 mvpe 95.008 sps 34.52 cov 0.744 | vs v17 LIVE -0.760
+  fitS->evalS                abs          AoA15  (4 traj) rel 93.212 tke 78.515 mvpe 95.008 sps 34.52 cov 0.744 | vs v17 LIVE -0.760
+  fitS->evalS                s_p1         all    (4 traj) rel 93.212 tke 78.515 mvpe 95.008 sps 34.41 cov 0.747 | vs v17 LIVE -0.792
+  fitS->evalS                s_p1         AoA15  (4 traj) rel 93.212 tke 78.515 mvpe 95.008 sps 34.41 cov 0.747 | vs v17 LIVE -0.792
+  fitS->evalS                s_sl         all    (4 traj) rel 93.212 tke 78.515 mvpe 95.008 sps 34.38 cov 0.745 | vs v17 LIVE -0.799
+  fitS->evalS                s_sl         AoA15  (4 traj) rel 93.212 tke 78.515 mvpe 95.008 sps 34.38 cov 0.745 | vs v17 LIVE -0.799

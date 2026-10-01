@@ -1,0 +1,18 @@
+{
+  "question": "Two leaderboard slots remain (26 Sep and 27 Sep). The board keeps each team's best score, so a losing submission costs only the slot. Current best 79.26 (rank 87); top-10 needs 81.775. How should the two slots be used to maximise the final best score and the (small) chance of a large jump?",
+  "options": {
+    "ft_then_v18": "26 Sep: v18ft (fine-tuned FNO checkpoint + v17 post-processing, high variance). 27 Sep: if v18ft beat v17 live, submit a refinement on the fine-tuned model; otherwise submit v18.",
+    "v18_then_ft": "26 Sep: v18 (small expected gain ~+0.1). 27 Sep: v18ft.",
+    "v18_only": "Submit v18 on 26 Sep and nothing risky; use 27 Sep only if a better proxy-validated candidate appears."
+  },
+  "evidence": {
+    "v18": "Proxy-validated method; composite vs v17 +0.13/+0.14 under proxy but -0.055 on the real memorized pool; realistic live about +0.1 at best.",
+    "v18ft": "Fine-tuned from sim_real_fno on non-holdout data. Raw local FINAL vs stock: rel 95.90 vs 96.38, tke 83.14 vs 81.04, mvpe 96.67 vs 97.06. Whole build locally -0.82 vs v17, but every local comparison is biased toward the stock model because the stock model memorized the local holdout; the fine-tuned model partly unlearned it. 93 teams beat the stock checkpoint on all accuracy metrics live, so better models exist. Live outcome genuinely unknown; could be clearly worse or better.",
+    "ordering": "Submitting the high-variance option first leaves a slot to react to its live result; submitting it last leaves no reaction time.",
+    "stakes": "A +0.1 gain does not change the top-10 outcome; only a large jump could."
+  },
+  "checks": {
+    "high_variance_rational": "Given the board keeps the best score and only a large jump matters for top-10, is spending a slot on the high-variance fine-tuned build rational?",
+    "ft_first_better": "Is it better to submit the high-variance build first (26 Sep) rather than last?"
+  }
+}

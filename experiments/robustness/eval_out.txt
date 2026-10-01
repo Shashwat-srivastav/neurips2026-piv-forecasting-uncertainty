@@ -1,0 +1,28 @@
+== select_pw: pooled FINAL AT vs v8: rel +0.072 tke +1.756 mvpe +0.061 sps +4.105 T +0.051 comp +1.356
+   20325_15  n= 42  comp +1.226  sps +3.585  rel +0.066 tke +1.980 mvpe +0.064
+   22875_10  n= 42  comp +1.410  sps +4.089  rel +0.073 tke +2.451 mvpe +0.032
+   24150_10  n= 42  comp +1.432  sps +4.309  rel +0.040 tke +2.167 mvpe +0.019
+   19050_15  n= 42  comp +1.096  sps +3.229  rel +0.080 tke +1.593 mvpe +0.051
+   21600_10  n= 42  comp +1.475  sps +4.409  rel +0.070 tke +2.167 mvpe +0.029
+   25425_10  n= 42  comp +1.555  sps +4.589  rel +0.070 tke +2.509 mvpe +0.016
+   20325_20  n= 42  comp +1.443  sps +4.625  rel +0.008 tke +1.323 mvpe +0.139
+   21600_20  n= 42  comp +1.359  sps +4.315  rel +0.124 tke +0.818 mvpe +0.077
+   19050_20  n= 42  comp +1.384  sps +4.407  rel +0.120 tke +0.782 mvpe +0.122
+   17775_15  n= 42  comp +1.144  sps +3.429  rel +0.073 tke +1.514 mvpe +0.059
+   per-traj comp: mean +1.352 SD 0.149 min +1.096 max +1.555 positive 10/10
+   per-traj sps : mean +4.099 SD 0.502 min +3.229 max +4.625 positive 10/10
+== rand_pw: pooled FINAL AT vs v8: rel +0.033 tke +1.333 mvpe -0.051 sps +2.052 T +0.025 comp +0.710
+   20325_15  n= 42  comp +0.478  sps +1.189  rel -0.002 tke +1.670 mvpe -0.047
+   22875_10  n= 42  comp +0.838  sps +2.457  rel -0.028 tke +1.839 mvpe -0.089
+   24150_10  n= 42  comp +0.789  sps +2.454  rel -0.051 tke +1.470 mvpe -0.158
+   19050_15  n= 42  comp +0.428  sps +1.036  rel +0.043 tke +1.389 mvpe -0.082
+   21600_10  n= 42  comp +1.114  sps +3.339  rel +0.034 tke +1.756 mvpe -0.030
+   25425_10  n= 42  comp +0.863  sps +2.571  rel -0.030 tke +1.860 mvpe -0.196
+   20325_20  n= 42  comp +0.886  sps +2.489  rel +0.120 tke +1.209 mvpe +0.245
+   21600_20  n= 42  comp +0.448  sps +1.388  rel +0.095 tke +0.222 mvpe -0.103
+   19050_20  n= 42  comp +0.651  sps +2.063  rel +0.106 tke +0.244 mvpe -0.050
+   17775_15  n= 42  comp +0.561  sps +1.501  rel +0.043 tke +1.338 mvpe -0.013
+   per-traj comp: mean +0.706 SD 0.228 min +0.428 max +1.114 positive 10/10
+   per-traj sps : mean +2.049 SD 0.742 min +1.036 max +3.339 positive 10/10
+== rand_pw minus select_pw (pooled FINAL AT): rel -0.039 tke -0.423 mvpe -0.112 sps -2.054 T -0.026 comp -0.647
+   per-traj: mean -0.647 SD 0.145 min -0.911 max -0.361 positive 0/10

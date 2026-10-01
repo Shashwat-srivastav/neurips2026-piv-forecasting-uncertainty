@@ -1,0 +1,11 @@
+I0.5 per-window gain: median 1.112 p10 1.000 p90 1.275
+17775_15  vr 0.808 | G1.15 drel -0.060 dtke +1.353 | I0.5 drel -0.046 dtke +1.451
+19050_15  vr 0.796 | G1.15 drel -0.046 dtke +1.578 | I0.5 drel -0.034 dtke +1.556
+19050_20  vr 0.922 | G1.15 drel -0.163 dtke -1.621 | I0.5 drel -0.067 dtke -0.228
+20325_15  vr 0.759 | G1.15 drel -0.029 dtke +2.176 | I0.5 drel -0.047 dtke +2.072
+20325_20  vr 0.809 | G1.15 drel -0.176 dtke +0.760 | I0.5 drel -0.149 dtke +0.871
+21600_10  vr 0.785 | G1.15 drel -0.023 dtke +2.492 | I0.5 drel -0.035 dtke +2.553
+21600_20  vr 0.922 | G1.15 drel -0.159 dtke -1.810 | I0.5 drel -0.049 dtke +0.030
+22875_10  vr 0.767 | G1.15 drel +0.002 dtke +2.910 | I0.5 drel -0.016 dtke +2.896
+24150_10  vr 0.796 | G1.15 drel -0.023 dtke +2.359 | I0.5 drel -0.054 dtke +1.875
+25425_10  vr 0.769 | G1.15 drel -0.008 dtke +2.836 | I0.5 drel -0.030 dtke +2.665

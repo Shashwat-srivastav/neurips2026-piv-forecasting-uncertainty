@@ -1,0 +1,62 @@
+[submission] torch=2.14.0+cpu cuda_available=False device=cpu
+[submission] checkpoint=E:\NeurIPS\realpde_t1_starting_kit_v5\lab\build_v17pw\sim_real_fno_fp16.pth exists=True bytes=201396349
+[submission] loaded in 2.12s  meta_keys=['format', 'missing_keys', 'model_type', 'n_complex', 'unexpected_keys']
+[submission] warmup n=5: first 3396.0ms  second 2706.0ms (541.21 ms/sample steady)  out_shape=(5, 20, 32, 64, 3)
+[submission] CORRECTOR UNAVAILABLE (none of ['corrector.pth', 'boost_stages.pth'] present) -> bare FNO
+[submission] fno path: eager (compile unavailable)
+[submission] CONFIGURED PATH: 534.763 ms/sample end-to-end -> time subscore 53.865  (board last measured 7.866 ms -> 90.590)
+INDEPENDENCE (prediction/lower/upper vs each window predicted alone):
+  batch5 [0:5]         rows [np.int64(0), np.int64(1), np.int64(2), np.int64(3), np.int64(4)]  max|batched - alone| = 8.941e-08
+  batch5 [5:10]        rows [np.int64(5), np.int64(6), np.int64(7), np.int64(8), np.int64(9)]  max|batched - alone| = 8.941e-08
+  batch5 [10:15]       rows [np.int64(10), np.int64(11), np.int64(12), np.int64(13), np.int64(14)]  max|batched - alone| = 1.043e-07
+  batch5 [15:20]       rows [np.int64(15), np.int64(16), np.int64(17), np.int64(18), np.int64(19)]  max|batched - alone| = 1.043e-07
+  shuffled5            rows [np.int64(4), np.int64(19), np.int64(6), np.int64(2), np.int64(13)]  max|batched - alone| = 1.192e-07
+  mixed5               rows [np.int64(0), np.int64(19), np.int64(7), np.int64(12), np.int64(3)]  max|batched - alone| = 8.941e-08
+  short3 (padded)      rows [np.int64(4), np.int64(9), np.int64(14)]  max|batched - alone| = 0.000e+00
+  batch10 (2 chunks)   rows [np.int64(0), np.int64(1), np.int64(2), np.int64(3), np.int64(4), np.int64(5), np.int64(6), np.int64(7), np.int64(8), np.int64(9)]  max|batched - alone| = 8.941e-08
+  dup5                 rows [np.int64(6), np.int64(6), np.int64(1), np.int64(6), np.int64(2)]  max|batched - alone| = 1.192e-07
+  worst 1.192e-07  -> PASS (tol 1e-06)
+TORCH vs NUMPY (n=40): sextile bin mismatches 34 of 163840
+  p1 decile bin mismatches 27 of 163840
+  [numpy bins] prediction max|torch-numpy| 1.094e-02  elements>1e-5: 523 of 3276800
+  [numpy bins] lower      max|torch-numpy| 5.182e-02  elements>1e-5: 1064 of 3276800
+  [numpy bins] upper      max|torch-numpy| 5.182e-02  elements>1e-5: 1064 of 3276800
+Traceback (most recent call last):
+  File "E:\NeurIPS\realpde_t1_starting_kit_v5\lab\build_v17pw\test_independence.py", line 75, in <module>
+    D["L"] = predict_L(X[:n], feat_index(int(rw["m"]), int(rw["k"])), Wp.astype(np.float64), bins=torch.from_numpy(tb))
+             ^^^^^^^^^
+NameError: name 'predict_L' is not defined
+[submission] PER-CALL TIMING (atexit, untimed):
+[submission]   call 0  n=1  12437.37 ms  12437.369 ms/sample   <- synthetic warmup
+[submission]   call 1  n=1   3760.31 ms  3760.310 ms/sample
+[submission]   call 2  n=1   3209.54 ms  3209.538 ms/sample
+[submission]   call 3  n=1   5632.03 ms  5632.030 ms/sample
+[submission]   call 4  n=1   6857.81 ms  6857.813 ms/sample
+[submission]   call 5  n=1   9675.52 ms  9675.515 ms/sample
+[submission]   call 6  n=1   3770.00 ms  3770.002 ms/sample
+[submission]   call 7  n=1  11734.65 ms  11734.649 ms/sample
+[submission]   call 8  n=1  14332.77 ms  14332.773 ms/sample
+[submission]   call 9  n=1   6819.20 ms  6819.196 ms/sample
+[submission]   call 10  n=1   3763.60 ms  3763.596 ms/sample
+[submission]   call 11  n=1   5366.22 ms  5366.220 ms/sample
+[submission]   call 12  n=1   3304.00 ms  3304.005 ms/sample
+[submission]   call 13  n=1   2876.47 ms  2876.466 ms/sample
+[submission]   call 14  n=1   3645.18 ms  3645.185 ms/sample
+[submission]   call 15  n=1   3321.91 ms  3321.910 ms/sample
+[submission]   call 16  n=1   3042.51 ms  3042.508 ms/sample
+[submission]   call 17  n=1   3741.55 ms  3741.553 ms/sample
+[submission]   call 18  n=1   5640.54 ms  5640.538 ms/sample
+[submission]   call 19  n=1   5266.61 ms  5266.607 ms/sample
+[submission]   call 20  n=5   3705.68 ms  741.137 ms/sample
+[submission]   call 21  n=5   3599.28 ms  719.856 ms/sample
+[submission]   call 22  n=5   3008.92 ms  601.784 ms/sample
+[submission]   call 23  n=5   3903.40 ms  780.681 ms/sample
+[submission]   call 24  n=5   4298.11 ms  859.622 ms/sample
+[submission]   call 25  n=5   4787.72 ms  957.545 ms/sample
+[submission]   call 26  n=3   4109.25 ms  1369.749 ms/sample
+[submission]   call 27  n=10   5994.68 ms  599.468 ms/sample
+[submission]   call 28  n=5   2938.83 ms  587.767 ms/sample
+[submission]   call 29  n=40  23032.19 ms  575.805 ms/sample
+[submission]   all calls: 108 samples, 177575.85 ms, 1644.221 ms/sample
+[submission]   SCORED call = 3760.310 ms/sample vs import benchmark 534.763 -- ratio 7.03x (>1.5x means contention, not host overhead)
+EXIT 1

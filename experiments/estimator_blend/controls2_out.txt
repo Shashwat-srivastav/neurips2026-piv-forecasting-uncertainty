@@ -1,0 +1,67 @@
+v8
+   A [rel +0.000 tke +0.000 mvpe +0.000 sps +0.000 T +0.0000 comp +0.000]  abs sps 31.75 T 0.4540
+   B [rel +0.000 tke +0.000 mvpe +0.000 sps +0.000 T +0.0000 comp +0.000]  abs sps 32.86 T 0.4565
+   AT[rel +0.000 tke +0.000 mvpe +0.000 sps +0.000 T +0.0000 comp +0.000]  abs sps 35.39 T 0.4915
+   BT[rel +0.000 tke +0.000 mvpe +0.000 sps +0.000 T +0.0000 comp +0.000]  abs sps 36.07 T 0.4915
+v16
+   A [rel -0.033 tke +1.430 mvpe +0.000 sps +0.235 T +0.0000 comp +0.176]  abs sps 31.99 T 0.4540
+   B [rel -0.121 tke +0.366 mvpe +0.000 sps -0.012 T +0.0000 comp -0.027]  abs sps 32.84 T 0.4565
+   AT[rel -0.037 tke +1.607 mvpe +0.000 sps +0.298 T +0.0000 comp +0.207]  abs sps 35.68 T 0.4915
+   BT[rel -0.125 tke +0.750 mvpe +0.000 sps +0.065 T +0.0000 comp +0.027]  abs sps 36.14 T 0.4915
+v8 g=1.2 (width only)
+   A [rel +0.000 tke +0.000 mvpe +0.000 sps +1.322 T +0.0191 comp +0.376]  abs sps 33.07 T 0.4731
+   B [rel +0.000 tke +0.000 mvpe +0.000 sps +1.337 T +0.0188 comp +0.380]  abs sps 34.19 T 0.4754
+   AT[rel +0.000 tke +0.000 mvpe +0.000 sps +1.010 T +0.0143 comp +0.287]  abs sps 36.40 T 0.5057
+   BT[rel +0.000 tke +0.000 mvpe +0.000 sps +1.028 T +0.0143 comp +0.292]  abs sps 37.10 T 0.5057
+bandA@g1 (centre only)
+   A [rel +0.000 tke +0.000 mvpe +0.000 sps +2.562 T +0.0368 comp +0.728]  abs sps 34.31 T 0.4908
+   B [rel +0.000 tke +0.000 mvpe +0.000 sps +5.358 T +0.0750 comp +1.522]  abs sps 38.21 T 0.5315
+   AT[rel +0.000 tke +0.000 mvpe +0.000 sps +2.584 T +0.0361 comp +0.734]  abs sps 37.97 T 0.5276
+   BT[rel +0.000 tke +0.000 mvpe +0.000 sps +4.396 T +0.0603 comp +1.249]  abs sps 40.47 T 0.5517
+bandB@g1 (centre only)
+   A [rel +0.000 tke +0.000 mvpe +0.000 sps +2.336 T +0.0337 comp +0.663]  abs sps 34.09 T 0.4877
+   B [rel +0.000 tke +0.000 mvpe +0.000 sps +6.421 T +0.0900 comp +1.823]  abs sps 39.28 T 0.5466
+   AT[rel +0.000 tke +0.000 mvpe +0.000 sps +2.224 T +0.0312 comp +0.632]  abs sps 37.61 T 0.5227
+   BT[rel +0.000 tke +0.000 mvpe +0.000 sps +4.924 T +0.0677 comp +1.399]  abs sps 41.00 T 0.5592
+bandAB@g1 (centre only)
+   A [rel +0.000 tke +0.000 mvpe +0.000 sps +2.570 T +0.0370 comp +0.730]  abs sps 34.32 T 0.4910
+   B [rel +0.000 tke +0.000 mvpe +0.000 sps +6.201 T +0.0868 comp +1.761]  abs sps 39.06 T 0.5434
+   AT[rel +0.000 tke +0.000 mvpe +0.000 sps +2.530 T +0.0354 comp +0.719]  abs sps 37.92 T 0.5269
+   BT[rel +0.000 tke +0.000 mvpe +0.000 sps +4.912 T +0.0674 comp +1.395]  abs sps 40.98 T 0.5589
+predA+boost
+   A [rel +0.081 tke +1.553 mvpe +0.065 sps +0.351 T +0.0000 comp +0.277]  abs sps 32.10 T 0.4540
+   B [rel +0.073 tke +0.570 mvpe +0.150 sps +0.201 T +0.0000 comp +0.152]  abs sps 33.06 T 0.4565
+   AT[rel +0.070 tke +1.749 mvpe +0.060 sps +0.426 T +0.0000 comp +0.310]  abs sps 35.81 T 0.4915
+   BT[rel +0.039 tke +0.943 mvpe +0.119 sps +0.269 T +0.0000 comp +0.186]  abs sps 36.34 T 0.4915
+predA+bandAB@g1+boost
+   A [rel +0.081 tke +1.553 mvpe +0.065 sps +2.950 T +0.0370 comp +1.015]  abs sps 34.70 T 0.4910
+   B [rel +0.073 tke +0.570 mvpe +0.150 sps +6.439 T +0.0868 comp +1.923]  abs sps 39.29 T 0.5434
+   AT[rel +0.070 tke +1.749 mvpe +0.060 sps +2.987 T +0.0354 comp +1.037]  abs sps 38.37 T 0.5269
+   BT[rel +0.039 tke +0.943 mvpe +0.119 sps +5.215 T +0.0674 comp +1.591]  abs sps 41.29 T 0.5589
+predAB+bandAB@g1+boost
+   A [rel +0.097 tke +1.399 mvpe +0.039 sps +2.918 T +0.0370 comp +0.997]  abs sps 34.67 T 0.4910
+   B [rel +0.228 tke +0.518 mvpe +0.263 sps +6.578 T +0.0868 comp +2.038]  abs sps 39.43 T 0.5434
+   AT[rel +0.080 tke +1.560 mvpe +0.028 sps +2.936 T +0.0354 comp +1.008]  abs sps 38.32 T 0.5269
+   BT[rel +0.150 tke +0.821 mvpe +0.182 sps +5.293 T +0.0674 comp +1.657]  abs sps 41.36 T 0.5589
+predA+bandA@g1+boost
+   A [rel +0.081 tke +1.553 mvpe +0.065 sps +2.941 T +0.0368 comp +1.012]  abs sps 34.69 T 0.4908
+   B [rel +0.073 tke +0.570 mvpe +0.150 sps +5.592 T +0.0750 comp +1.683]  abs sps 38.45 T 0.5315
+   AT[rel +0.070 tke +1.749 mvpe +0.060 sps +3.041 T +0.0361 comp +1.052]  abs sps 38.43 T 0.5276
+   BT[rel +0.039 tke +0.943 mvpe +0.119 sps +4.696 T +0.0603 comp +1.443]  abs sps 40.77 T 0.5517
+p1 width table fit ('A', 'B') lead0 u [0.0075 0.0106 0.0122 0.0137 0.0151 0.0171 0.0198 0.0218 0.0231 0.0232] lead3 u [0.0083 0.0122 0.0139 0.0156 0.0172 0.0197 0.0234 0.0256 0.0257 0.0256]
+predA+bandAB@g1+boost+p1width('A', 'B')
+   A [rel +0.081 tke +1.553 mvpe +0.065 sps +4.425 T +0.0579 comp +1.434]  abs sps 36.17 T 0.5119
+   B [rel +0.073 tke +0.570 mvpe +0.150 sps +6.883 T +0.0930 comp +2.050]  abs sps 39.74 T 0.5495
+   AT[rel +0.070 tke +1.749 mvpe +0.060 sps +3.977 T +0.0490 comp +1.318]  abs sps 39.36 T 0.5405
+   BT[rel +0.039 tke +0.943 mvpe +0.119 sps +5.419 T +0.0702 comp +1.649]  abs sps 41.49 T 0.5616
+p1 width table fit ('AT', 'BT') lead0 u [0.0069 0.0103 0.0119 0.0133 0.0144 0.0169 0.0193 0.0209 0.0223 0.0227] lead3 u [0.0078 0.0117 0.0135 0.0152 0.0171 0.0193 0.0227 0.0241 0.025  0.0252]
+predA+bandAB@g1+boost+p1width('AT', 'BT')
+   A [rel +0.081 tke +1.553 mvpe +0.065 sps +4.311 T +0.0563 comp +1.401]  abs sps 36.06 T 0.5102
+   B [rel +0.073 tke +0.570 mvpe +0.150 sps +6.984 T +0.0943 comp +2.078]  abs sps 39.84 T 0.5509
+   AT[rel +0.070 tke +1.749 mvpe +0.060 sps +4.006 T +0.0494 comp +1.326]  abs sps 39.39 T 0.5409
+   BT[rel +0.039 tke +0.943 mvpe +0.119 sps +5.586 T +0.0724 comp +1.696]  abs sps 41.66 T 0.5639
+v8 centre + p1width(AT,BT) (width-only control)
+   A [rel +0.000 tke +0.000 mvpe +0.000 sps +2.310 T +0.0331 comp +0.656]  abs sps 34.06 T 0.4871
+   B [rel +0.000 tke +0.000 mvpe +0.000 sps +2.340 T +0.0326 comp +0.664]  abs sps 35.20 T 0.4892
+   AT[rel +0.000 tke +0.000 mvpe +0.000 sps +1.778 T +0.0247 comp +0.505]  abs sps 37.16 T 0.5162
+   BT[rel +0.000 tke +0.000 mvpe +0.000 sps +1.811 T +0.0247 comp +0.514]  abs sps 37.88 T 0.5162

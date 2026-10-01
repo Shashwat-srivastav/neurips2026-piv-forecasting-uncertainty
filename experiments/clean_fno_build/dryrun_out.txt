@@ -1,0 +1,11 @@
+packed 50 tensors (16 complex)
+size: 402.8 MB -> 201.4 MB
+round-trip max relative error: 4.52e-04
+checkpoint -> E:\NeurIPS\realpde_t1_starting_kit_v5\lab\build_exp1\sim_real_fno_fp16.pth 201.396349 MB
+select cached (168, 20, 32, 64, 2)
+final cached (420, 20, 32, 64, 2)
+Exp.1 raw + v8 bands         rel 0.086 tke 0.406 mvpe 0.069 sps 42.37
+official raw + v8 bands      rel 0.075 tke 0.468 mvpe 0.060 sps 44.64
+Exp.1 + honest post-proc     rel 0.085 tke 0.415 mvpe 0.069 sps 45.18  (FINAL, honest)
+wrote E:\NeurIPS\realpde_t1_starting_kit_v5\lab\submission_exp1.zip 186.3 MB
+EXIT 0
